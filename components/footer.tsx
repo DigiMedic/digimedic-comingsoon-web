@@ -34,13 +34,19 @@ export default function Footer() {
         <div className="mt-6 flex flex-col justify-between gap-6 border-t border-fountain-blue/30 pt-6 md:flex-row md:items-center md:gap-2">
           <div className="flex gap-2">
             <Button variant="outline" size="icon" className="text-blumine hover:text-fountain-blue border border-blumine hover:border-fountain-blue">
-              <Github className="h-5 w-5" />
+              <a href="https://github.com/DigiMedic" target="_blank" rel="noopener noreferrer">
+                <Github className="h-5 w-5" />
+              </a>
             </Button>
             <Button variant="outline" size="icon" className="text-blumine hover:text-fountain-blue border border-blumine hover:border-fountain-blue">
-              <Linkedin className="h-5 w-5" />
+              <a href="https://www.linkedin.com/company/digimedi-cz/?viewAsMember=true" target="_blank" rel="noopener noreferrer">
+                <Linkedin className="h-5 w-5" />
+              </a>
             </Button>
             <Button variant="outline" size="icon" className="text-blumine hover:text-fountain-blue border border-blumine hover:border-fountain-blue">
-              <Facebook className="h-5 w-5" />
+              <a href="https://www.facebook.com/profile.php?id=61556880800899" target="_blank" rel="noopener noreferrer">
+                <Facebook className="h-5 w-5" />
+              </a>
             </Button>
           </div>
           <p className="text-astral">
