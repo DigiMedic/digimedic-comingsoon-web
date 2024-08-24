@@ -3,8 +3,8 @@ import Image from "next/image"
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 w-full bg-transparent">
-      <div className="container flex h-20 items-center justify-between">
+    <header className="w-full pt-8">
+      <div className="container flex h-12 items-center justify-between">
         <Link href="/" className="flex items-center pl-4">
           <Image 
             src="/brand/svg/DigiMedic-logo-long.svg"

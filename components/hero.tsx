@@ -28,7 +28,7 @@ const Hero = () => {
             Digitální páteř pro české zdravotnictví
           </h1>
           <p className="mt-3 text-lg sm:text-xl text-astral font-raleway mb-6">
-            Transformujeme zdravotnictví pomocí inovativních digitálních řešení. Připojte se k nám na cestě k efektivnější a dostupnější zdravotní péči.
+          Naše webové stránky jsou právě ve vývoji. Pracujeme na tom, abychom vám brzy mohli představit kompletní online prezentaci. Připojte se k nám na cestě k efektivnější a dostupnější zdravotní péči.
           </p>
         </div>
         <div className="mt-7 sm:mt-12 w-full max-w-lg">

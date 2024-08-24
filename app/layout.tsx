@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 import DotPattern from "@/components/magicui/dot-pattern"
 import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
+import Footer from '@/components/footer';
 
 export const metadata: Metadata = {
   title: {
@@ -39,7 +40,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         )}
       >
         <SiteHeader />
-        <main className="relative flex min-h-screen flex-col py-20 lg:py-0 md:py-0 sm:py-20">
+        <main className="relative flex min-h-screen flex-col pt-20">{/* Přidáno padding-top pro zabránění překrytí */}
           <div className="flex-1">{children}</div>
           <DotPattern
             width={20}
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             )}
           />
         </main>
+        <Footer />
         <TailwindIndicator />
       </body>
     </html>  
