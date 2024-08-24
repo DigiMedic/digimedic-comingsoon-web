@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Raleway:wght@400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --blumine: #1B4D6A;
+  --astral: #5B8A9A;
+  --fountain-blue: #5BA2C2;
+  --powder-blue: #A8D4E1;
+  --polar: #E7F5F8;
+}
+
+@layer base {
+  body {
+    @apply text-blumine;
+    font-family: 'Raleway', sans-serif;
+    background-color: white;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: 
+      linear-gradient(to right, #f0f0f0 1px, transparent 1px),
+      linear-gradient(to bottom, #f0f0f0 1px, transparent 1px);
+    background-size: 6rem 4rem;
+    z-index: -2;
+  }
+
+  body::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: radial-gradient(circle 500px at 50% 200px, #C9EBFF, transparent);
+    z-index: -1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Mono', monospace;
+  }
+}
+
+.content-container {
+  position: relative;
+  z-index: 1;
+}
+
+.background-gradient-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -3;
+}
+
+@keyframes gradient-x {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-x {
+  animation: gradient-x 15s ease infinite;
+}
