@@ -12,6 +12,9 @@ export const metadata: Metadata = {
 export default function IndexPage() {
   return (
     <>
+      {/* Přidaný Umami Analytics skript */}
+      <script defer src="https://cloud.umami.is/script.js" data-website-id="b28c9a28-7158-474b-aa3f-b51ccbbc6dde"></script>
+
       <Hero />
       <TextRevealByWord />
       <DockLive />
