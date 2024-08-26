@@ -1,36 +1,22 @@
+"use client";
+
 import "@/styles/globals.css"
-import { Metadata, Viewport } from "next"
+import { Metadata } from "next"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import DotPattern from "@/components/magicui/dot-pattern"
 import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import Footer from '@/components/footer';
+import { Menu } from "@/components/navbar-menu";
+import { useState } from "react";
+import { DigiMedicNavigation } from "@/components/navbar-menu";
 
-export const metadata: Metadata = {
-  title: {
-    default: siteConfig.name,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
-    apple: "/apple-touch-icon.png",
-  },
-}
+// Odstraň tento řádek: export const metadata: Metadata = { ... }
 
-export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#E7F5F8" }, // Polar color from DigiMedic palette
-  ],
-}
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const [activeItem, setActiveItem] = useState<string | null>(null);
 
-interface RootLayoutProps {
-  children: React.ReactNode
-}
-
-export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="cs" suppressHydrationWarning>
       <head />
@@ -40,7 +26,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
         )}
       >
         <SiteHeader />
-        <main className="relative flex min-h-screen flex-col pt-20">{/* Přidáno padding-top pro zabránění překrytí */}
+        <DigiMedicNavigation />
+        <main className="relative flex min-h-screen flex-col pt-20">
           <div className="flex-1">{children}</div>
           <DotPattern
             width={20}
@@ -56,6 +43,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <Footer />
         <TailwindIndicator />
       </body>
-    </html>  
+    </html>
   )
 }
