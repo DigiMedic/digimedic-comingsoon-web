@@ -26,32 +26,33 @@ export default function Footer() {
               </Balancer>
             </p>
           </div>
-          <nav className="mb-4 flex flex-col gap-4 md:mb-0 md:flex-row">
-            <Link href="/privacy-policy" className="text-blumine hover:text-fountain-blue">Zásady ochrany soukromí</Link>
-            <Link href="/cookie-policy" className="text-blumine hover:text-fountain-blue">Zásady používání cookies</Link>
-          </nav>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+            <nav className="mb-4 flex flex-col gap-4 md:mb-0">
+              <Link href="/privacy-policy" className="text-blumine hover:text-fountain-blue">Zásady ochrany soukromí</Link>
+              <Link href="/cookie-policy" className="text-blumine hover:text-fountain-blue">Zásady používání cookies</Link>
+            </nav>
+            <div className="flex gap-2">
+              <Button variant="outline" size="icon" className="text-blumine hover:text-fountain-blue border border-blumine hover:border-fountain-blue">
+                <a href="https://github.com/DigiMedic" target="_blank" rel="noopener noreferrer">
+                  <Github className="h-5 w-5" />
+                </a>
+              </Button>
+              <Button variant="outline" size="icon" className="text-blumine hover:text-fountain-blue border border-blumine hover:border-fountain-blue">
+                <a href="https://www.linkedin.com/company/digimedi-cz/?viewAsMember=true" target="_blank" rel="noopener noreferrer">
+                  <Linkedin className="h-5 w-5" />
+                </a>
+              </Button>
+              <Button variant="outline" size="icon" className="text-blumine hover:text-fountain-blue border border-blumine hover:border-fountain-blue">
+                <a href="https://www.facebook.com/profile.php?id=61556880800899" target="_blank" rel="noopener noreferrer">
+                  <Facebook className="h-5 w-5" />
+                </a>
+              </Button>
+            </div>
+          </div>
         </div>
         <div className="mt-6 flex flex-col justify-between gap-6 border-t border-fountain-blue/30 pt-6 md:flex-row md:items-center md:gap-2">
-          <div className="flex gap-2">
-            <Button variant="outline" size="icon" className="text-blumine hover:text-fountain-blue border border-blumine hover:border-fountain-blue">
-              <a href="https://github.com/DigiMedic" target="_blank" rel="noopener noreferrer">
-                <Github className="h-5 w-5" />
-              </a>
-            </Button>
-            <Button variant="outline" size="icon" className="text-blumine hover:text-fountain-blue border border-blumine hover:border-fountain-blue">
-              <a href="https://www.linkedin.com/company/digimedi-cz/?viewAsMember=true" target="_blank" rel="noopener noreferrer">
-                <Linkedin className="h-5 w-5" />
-              </a>
-            </Button>
-            <Button variant="outline" size="icon" className="text-blumine hover:text-fountain-blue border border-blumine hover:border-fountain-blue">
-              <a href="https://www.facebook.com/profile.php?id=61556880800899" target="_blank" rel="noopener noreferrer">
-                <Facebook className="h-5 w-5" />
-              </a>
-            </Button>
-          </div>
-          <p className="text-astral">
-            © <a href="https://digimedic.cz" className="text-blumine hover:text-fountain-blue">DigiMedic</a>.
-            Všechna práva vyhrazena. 2024-současnost.
+          <p className="text-astral text-center mx-auto">
+            © DigiMedic. Všechna práva vyhrazena. 2024-současnost.
           </p>
         </div>
       </div>

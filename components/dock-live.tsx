@@ -47,7 +47,7 @@ const Icons = {
 const socialLinks: SocialLink[] = [
   {
     name: "LinkedIn",
-    url: "https://www.linkedin.com/company/digimedi-cz/?viewAsMember=true",
+    url: "https://www.linkedin.com/company/digimedic-cz/?viewAsMember=true",
     icon: Icons.linkedin
   },
   {

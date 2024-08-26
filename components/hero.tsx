@@ -22,7 +22,7 @@ const Hero = () => {
 
   return (
     <div className="relative overflow-hidden">
-      <div className="container mx-auto py-16 lg:py-20 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-20 flex flex-col items-center">
         <div className="text-center max-w-3xl">
           <h1 className="scroll-m-20 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-blumine mb-4">
             Digitální páteř pro české zdravotnictví
@@ -61,7 +61,7 @@ const Hero = () => {
         <Marquee className="flex items-center space-x-4" speed={30}>
           {buttons.map((button, index) => (
             <Button key={index} variant="outline" className="bg-white">
-              <button.icon className="flex-shrink-0 w-3 h-auto mr-2" />{button.text}
+              <button.icon className="shrink-0 w-3 h-auto mr-2" />{button.text}
             </Button>
           ))}
         </Marquee>
