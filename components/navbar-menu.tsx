@@ -129,7 +129,7 @@ export const DigiMedicNavigation = () => {
   return (
     <Menu>
       <MenuItem href="/">Domů</MenuItem>
-      <MenuItem href="https://digimedic-blog.ghost.io/">Blog</MenuItem>
+      <MenuItem href="/blog">Blog</MenuItem>
     </Menu>
   );
 };

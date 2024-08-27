@@ -79,3 +79,24 @@
 .animate-gradient-x {
   animation: gradient-x 15s ease infinite;
 }
+
+@layer components {
+  .prose {
+    @apply max-w-none;
+  }
+  .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+    @apply text-blumine font-bold my-4;
+  }
+  .prose p {
+    @apply my-4;
+  }
+  .prose a {
+    @apply text-fountain-blue hover:underline;
+  }
+  .prose ul, .prose ol {
+    @apply my-4 pl-6;
+  }
+  .prose li {
+    @apply mb-2;
+  }
+}
