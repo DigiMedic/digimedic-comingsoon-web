@@ -16,6 +16,7 @@
   "dependencies": {
     "@kinfe123/farm-ui": "^1.0.12",
     "@radix-ui/react-slot": "^1.1.0",
+    "@tryghost/content-api": "^1.11.21",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",
