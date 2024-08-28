@@ -16,6 +16,7 @@ export function SiteHeader() {
               priority
             />
           </Link>
+          <Link href="/blog" className="text-blumine hover:text-fountain-blue mr-4">Blog</Link>
           <Link 
             href="/contact" 
             className="relative inline-flex h-12 overflow-hidden rounded-full p-px focus:outline-none focus:ring-2 focus:ring-blumine focus:ring-offset-2 focus:ring-offset-white"
