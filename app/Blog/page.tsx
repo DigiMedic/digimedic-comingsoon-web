@@ -1,14 +1,21 @@
 "use client"
 import React, { useEffect, useState, useMemo } from 'react';
-import * as api from '../../lib/ghost';
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Calendar, Clock, Tag, Search } from "lucide-react";
 import Image from 'next/image';
 import { Input } from "@/components/ui/input";
-import { GhostPost } from '@/lib/ghost';
 
-const FeaturedPost: React.FC<{ post: GhostPost }> = React.memo(({ post }) => (
+interface BlogPost {
+  slug: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  tags: string[];
+  coverImage?: string;
+}
+
+const FeaturedPost: React.FC<{ post: BlogPost }> = React.memo(({ post }) => (
   post ? (
     <motion.div 
       initial={{ opacity: 0, y: 50 }}
@@ -16,14 +23,13 @@ const FeaturedPost: React.FC<{ post: GhostPost }> = React.memo(({ post }) => (
       transition={{ duration: 0.5 }}
       className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out"
     >
-      {post.feature_image && (
+      {post.coverImage && (
         <Image
-          src={post.feature_image}
+          src={post.coverImage}
           alt={post.title}
           layout="fill"
           objectFit="cover"
           className="absolute inset-0"
-          loading="lazy"
         />
       )}
       <div className="absolute inset-0 bg-gradient-to-br from-blumine to-fountain-blue opacity-75"></div>
@@ -39,7 +45,7 @@ const FeaturedPost: React.FC<{ post: GhostPost }> = React.memo(({ post }) => (
   ) : null
 ));
 
-const PostCard: React.FC<{ post: GhostPost }> = React.memo(({ post }) => (
+const PostCard: React.FC<{ post: BlogPost }> = React.memo(({ post }) => (
   post ? (
     <motion.article 
       initial={{ opacity: 0, scale: 0.9 }}
@@ -50,14 +56,13 @@ const PostCard: React.FC<{ post: GhostPost }> = React.memo(({ post }) => (
     >
       <Link href={`/blog/${post.slug}`} className="block flex-grow">
         <div className="relative aspect-[16/9] w-full overflow-hidden">
-          {post.feature_image ? (
+          {post.coverImage ? (
             <Image
-              src={post.feature_image}
+              src={post.coverImage}
               alt={post.title}
               layout="fill"
               objectFit="cover"
               className="transition-transform duration-300 ease-in-out transform hover:scale-110"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-blumine to-fountain-blue flex items-center justify-center">
@@ -67,7 +72,7 @@ const PostCard: React.FC<{ post: GhostPost }> = React.memo(({ post }) => (
           <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
           <div className="absolute bottom-0 left-0 p-4">
             <span className="bg-blumine text-white text-xs font-semibold px-2.5 py-1 rounded-full">
-              {post.tags && post.tags.length > 0 ? post.tags[0].name : 'Blog'}
+              Blog
             </span>
           </div>
         </div>
@@ -84,29 +89,12 @@ const PostCard: React.FC<{ post: GhostPost }> = React.memo(({ post }) => (
           </div>
           <div className="flex items-center text-sm text-fountain-blue mt-4">
             <Calendar className="mr-2 h-4 w-4" />
-            <span className="mr-4">{post.published_at ? new Date(post.published_at).toLocaleDateString() : 'Bez data'}</span>
+            <span className="mr-4">{post.date ? new Date(post.date).toLocaleDateString() : 'Bez data'}</span>
             <Clock className="mr-2 h-4 w-4" />
-            <span>{post.reading_time || '2'} min čtení</span>
+            <span>2 min čtení</span>
           </div>
         </div>
       </Link>
-      {post.tags && post.tags.length > 0 && (
-        <div className="px-6 py-4 bg-polar border-t border-gray-200">
-          <div className="flex flex-wrap gap-2">
-            {post.tags.slice(0, 3).map((tag: any) => (
-              <span key={tag.id} className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-fountain-blue text-white hover:bg-blumine transition-colors duration-200">
-                <Tag className="mr-1 h-3 w-3" />
-                {tag.name}
-              </span>
-            ))}
-            {post.tags.length > 3 && (
-              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-700">
-                +{post.tags.length - 3}
-              </span>
-            )}
-          </div>
-        </div>
-      )}
     </motion.article>
   ) : null
 ));
@@ -130,11 +118,10 @@ const Pagination: React.FC<{ currentPage: number; totalPages: number; onPageChan
 });
 
 export default function BlogHome() {
-  const [posts, setPosts] = useState<GhostPost[]>([]);
+  const [posts, setPosts] = useState<BlogPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -142,13 +129,13 @@ export default function BlogHome() {
     const fetchPosts = async () => {
       try {
         setIsLoading(true);
-        const result = await api.getPaginatedPosts(currentPage, 10);
-        if (Array.isArray(result)) {
-          setPosts(result);
-          setTotalPages(Math.ceil(result.length / 10)); // Předpokládáme, že celkový počet příspěvků je v result
-        } else {
-          setError('Neočekávaná struktura dat');
+        const response = await fetch('/api/posts');
+        if (!response.ok) {
+          throw new Error('Nepodařilo se načíst články');
         }
+        const result = await response.json();
+        setPosts(result);
+        setTotalPages(Math.ceil(result.length / 10));
       } catch (error) {
         setError((error as Error).message);
       } finally {
@@ -157,14 +144,15 @@ export default function BlogHome() {
     };
 
     fetchPosts();
-  }, [currentPage]);
+  }, []);
 
   const filteredPosts = useMemo(() => {
+    if (!Array.isArray(posts)) return [];
     return posts.filter(post => 
-      post.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (!selectedTag || post.tags?.some(tag => tag.name === selectedTag))
+      post && post.title && typeof post.title === 'string' &&
+      post.title.toLowerCase().includes((searchTerm || '').toLowerCase())
     );
-  }, [posts, searchTerm, selectedTag]);
+  }, [posts, searchTerm]);
 
   const featuredPost = filteredPosts[0];
   const remainingPosts = filteredPosts.slice(1);
@@ -194,7 +182,7 @@ export default function BlogHome() {
     return (
       <div className="text-center py-10">
         <h2 className="text-2xl font-bold text-blumine mb-4">Žádné články k zobrazení</h2>
-        <p className="text-lg text-gray-600">Zkontrolujte, zda jsou v Ghost CMS publikované nějaké články.</p>
+        <p className="text-lg text-gray-600">Zkontrolujte, zda jsou publikované nějaké články.</p>
       </div>
     );
   }

@@ -1,15 +1,13 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import { remark } from 'remark'
-import html from 'remark-html'
 
-const postsDirectory = path.join(process.cwd(), 'content/blog')
+const postsDirectory = path.join(process.cwd(), 'content/posts')
 
-export async function getBlogPosts() {
+export function getBlogPosts() {
   const fileNames = fs.readdirSync(postsDirectory)
   const allPostsData = fileNames.map((fileName) => {
-    const slug = fileName.replace(/\.md$/, '')
+    const slug = fileName.replace(/\.mdx?$/, '')
     const fullPath = path.join(postsDirectory, fileName)
     const fileContents = fs.readFileSync(fullPath, 'utf8')
     const matterResult = matter(fileContents)
@@ -18,32 +16,46 @@ export async function getBlogPosts() {
       slug,
       title: matterResult.data.title,
       date: matterResult.data.date,
-      excerpt: matterResult.data.excerpt,
+      excerpt: matterResult.data.description,
       tags: matterResult.data.tags || [],
+      coverImage: matterResult.data.coverImage || null,
     }
   })
-
-  console.log('Načtené příspěvky:', allPostsData) // Pro debugování
 
   return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1))
 }
 
 export async function getBlogPost(slug: string) {
-  const fullPath = path.join(postsDirectory, `${slug}.md`)
-  const fileContents = fs.readFileSync(fullPath, 'utf8')
-  const matterResult = matter(fileContents)
+  console.log(`Attempting to get blog post with slug: ${slug}`)
+  
+  // Decode the URL-encoded slug
+  const decodedSlug = decodeURIComponent(slug)
+  console.log(`Decoded slug: ${decodedSlug}`)
 
-  const processedContent = await remark()
-    .use(html)
-    .process(matterResult.content)
-  const contentHtml = processedContent.toString()
+  let fullPath = path.join(postsDirectory, `${decodedSlug}.mdx`)
+  console.log(`Trying path with .mdx: ${fullPath}`)
+  
+  if (!fs.existsSync(fullPath)) {
+    console.log(`File not found with .mdx extension, trying without extension`)
+    fullPath = path.join(postsDirectory, decodedSlug)
+    console.log(`Trying path without extension: ${fullPath}`)
+    if (!fs.existsSync(fullPath)) {
+      console.log(`File not found without extension`)
+      throw new Error(`Post not found: ${decodedSlug}`)
+    }
+  }
+
+  console.log(`File found at: ${fullPath}`)
+  const fileContents = fs.readFileSync(fullPath, 'utf8')
+  const { data, content } = matter(fileContents)
 
   return {
-    slug,
-    title: matterResult.data.title,
-    date: matterResult.data.date,
-    excerpt: matterResult.data.excerpt,
-    tags: matterResult.data.tags || [],
-    content: contentHtml,
+    slug: decodedSlug,
+    title: data.title,
+    date: data.date,
+    excerpt: data.description,
+    tags: data.tags || [],
+    content: content,
+    coverImage: data.coverImage || null,
   }
 }

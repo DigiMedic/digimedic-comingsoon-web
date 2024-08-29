@@ -1,8 +1,14 @@
 export interface BlogPost {
   slug: string;
   title: string;
+  excerpt?: string;
+  coverImage?: string;
   date: string;
-  excerpt: string;
-  tags: string[];
-  content?: string;
+  readingTime: number;
+  content: string;
+  author?: {
+    name: string;
+    image?: string;
+  };
+  tags?: string[];
 }

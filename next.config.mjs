@@ -12,31 +12,29 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true, // Dočasně ignorujeme ESLint chyby během buildu
   },
-  // Odstraňte 'experimental' objekt
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback.fs = false;
     }
     config.module.rules.push({
-      test: /\.md$/,
-      use: 'raw-loader',
+      test: /\.mdx?$/,
+      use: [
+        {
+          loader: '@mdx-js/loader',
+          options: {
+            jsx: true,
+            providerImportSource: '@mdx-js/react',
+          },
+        },
+      ],
     });
     config.resolve.alias['@'] = path.join(__dirname, './');
     return config;
   },
   images: {
-    domains: ['digimedic-blog.ghost.io', 'www.gravatar.com'],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**.ghost.io',
-      },
-    ],
+    domains: ['www.gravatar.com'],
   },
-  env: {
-    GHOST_API_URL: process.env.GHOST_API_URL,
-    GHOST_CONTENT_API_KEY: process.env.GHOST_CONTENT_API_KEY,
-  },
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
 }
 
 export default nextConfig;
