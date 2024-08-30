@@ -32,7 +32,16 @@ module.exports = {
           to: { transform: "translateY(calc(-100% - var(--gap)))" },
         },
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: '100ch',
+          },
+        },
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 }

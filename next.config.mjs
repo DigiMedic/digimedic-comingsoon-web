@@ -35,6 +35,7 @@ const nextConfig = {
     domains: ['www.gravatar.com'],
   },
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+  transpilePackages: ['novel'],
 }
 
 export default nextConfig;

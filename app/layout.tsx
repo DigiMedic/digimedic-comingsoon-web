@@ -1,4 +1,5 @@
 import "@/styles/globals.css"
+import "@/app/styles/novel-editor.css"
 import { Metadata } from "next"
 import { cn } from "@/lib/utils"
 import DotPattern from "@/components/magicui/dot-pattern"

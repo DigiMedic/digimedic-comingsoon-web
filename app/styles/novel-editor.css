@@ -1,0 +1,232 @@
+/* Novel Editor Styles */
+
+.novel-prose-lg {
+  font-size: 1.125rem;
+  line-height: 1.7777778;
+}
+
+.novel-prose-lg p {
+  margin-top: 1.3333333em;
+  margin-bottom: 1.3333333em;
+}
+
+.novel-prose-lg [class~="lead"] {
+  font-size: 1.2222222em;
+  line-height: 1.4545455;
+  margin-top: 1.0909091em;
+  margin-bottom: 1.0909091em;
+}
+
+.novel-prose-lg blockquote {
+  margin-top: 1.6666667em;
+  margin-bottom: 1.6666667em;
+  padding-left: 1em;
+}
+
+.novel-prose-lg h1 {
+  font-size: 2.6666667em;
+  margin-top: 0;
+  margin-bottom: 0.8333333em;
+  line-height: 1;
+}
+
+.novel-prose-lg h2 {
+  font-size: 1.6666667em;
+  margin-top: 1.8666667em;
+  margin-bottom: 1.0666667em;
+  line-height: 1.3333333;
+}
+
+.novel-prose-lg h3 {
+  font-size: 1.3333333em;
+  margin-top: 1.6666667em;
+  margin-bottom: 0.6666667em;
+  line-height: 1.5;
+}
+
+.novel-prose-lg h4 {
+  margin-top: 1.7777778em;
+  margin-bottom: 0.4444444em;
+  line-height: 1.5555556;
+}
+
+.novel-prose-lg img {
+  margin-top: 1.7777778em;
+  margin-bottom: 1.7777778em;
+}
+
+.novel-prose-lg video {
+  margin-top: 1.7777778em;
+  margin-bottom: 1.7777778em;
+}
+
+.novel-prose-lg figure {
+  margin-top: 1.7777778em;
+  margin-bottom: 1.7777778em;
+}
+
+.novel-prose-lg figure > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.novel-prose-lg figure figcaption {
+  font-size: 0.8888889em;
+  line-height: 1.5;
+  margin-top: 1em;
+}
+
+.novel-prose-lg code {
+  font-size: 0.8888889em;
+}
+
+.novel-prose-lg h2 code {
+  font-size: 0.8666667em;
+}
+
+.novel-prose-lg h3 code {
+  font-size: 0.875em;
+}
+
+.novel-prose-lg pre {
+  font-size: 0.8888889em;
+  line-height: 1.75;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  border-radius: 0.375rem;
+  padding-top: 1em;
+  padding-right: 1.5em;
+  padding-bottom: 1em;
+  padding-left: 1.5em;
+}
+
+.novel-prose-lg ol {
+  margin-top: 1.3333333em;
+  margin-bottom: 1.3333333em;
+  padding-left: 1.5555556em;
+}
+
+.novel-prose-lg ul {
+  margin-top: 1.3333333em;
+  margin-bottom: 1.3333333em;
+  padding-left: 1.5555556em;
+}
+
+.novel-prose-lg li {
+  margin-top: 0.6666667em;
+  margin-bottom: 0.6666667em;
+}
+
+.novel-prose-lg ol > li {
+  padding-left: 0.4444444em;
+}
+
+.novel-prose-lg ul > li {
+  padding-left: 0.4444444em;
+}
+
+.novel-prose-lg > ul > li p {
+  margin-top: 0.8888889em;
+  margin-bottom: 0.8888889em;
+}
+
+.novel-prose-lg > ul > li > *:first-child {
+  margin-top: 1.3333333em;
+}
+
+.novel-prose-lg > ul > li > *:last-child {
+  margin-bottom: 1.3333333em;
+}
+
+.novel-prose-lg > ol > li > *:first-child {
+  margin-top: 1.3333333em;
+}
+
+.novel-prose-lg > ol > li > *:last-child {
+  margin-bottom: 1.3333333em;
+}
+
+.novel-prose-lg ul ul, .novel-prose-lg ul ol, .novel-prose-lg ol ul, .novel-prose-lg ol ol {
+  margin-top: 0.8888889em;
+  margin-bottom: 0.8888889em;
+}
+
+.novel-prose-lg hr {
+  margin-top: 3.1111111em;
+  margin-bottom: 3.1111111em;
+}
+
+.novel-prose-lg hr + * {
+  margin-top: 0;
+}
+
+.novel-prose-lg h2 + * {
+  margin-top: 0;
+}
+
+.novel-prose-lg h3 + * {
+  margin-top: 0;
+}
+
+.novel-prose-lg h4 + * {
+  margin-top: 0;
+}
+
+.novel-prose-lg table {
+  font-size: 0.8888889em;
+  line-height: 1.5;
+}
+
+.novel-prose-lg thead th {
+  padding-right: 0.75em;
+  padding-bottom: 0.75em;
+  padding-left: 0.75em;
+}
+
+.novel-prose-lg thead th:first-child {
+  padding-left: 0;
+}
+
+.novel-prose-lg thead th:last-child {
+  padding-right: 0;
+}
+
+.novel-prose-lg tbody td {
+  padding-top: 0.75em;
+  padding-right: 0.75em;
+  padding-bottom: 0.75em;
+  padding-left: 0.75em;
+}
+
+.novel-prose-lg tbody td:first-child {
+  padding-left: 0;
+}
+
+.novel-prose-lg tbody td:last-child {
+  padding-right: 0;
+}
+
+.novel-prose-lg > :first-child {
+  margin-top: 0;
+}
+
+.novel-prose-lg > :last-child {
+  margin-bottom: 0;
+}
+
+/* Додаткові стилі для Novel Editor */
+.novel-menu-button {
+  @apply rounded bg-white px-2 py-1 text-sm text-slate-800 shadow-md hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700;
+}
+
+.novel-floating-menu {
+  @apply flex overflow-hidden rounded-lg border border-slate-200 bg-white shadow-xl dark:border-slate-800 dark:bg-slate-900;
+}
+
+.novel-floating-menu button {
+  @apply p-2 text-slate-800 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800;
+}
+
+.novel-highlight {
+  @apply rounded-md bg-yellow-100 px-1 py-0.5 dark:bg-yellow-900;
+}
