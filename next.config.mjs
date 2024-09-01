@@ -32,9 +32,25 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ['www.gravatar.com'],
+    domains: ['ghost-dso8k808400okgkc80wss8s0.digimedic.cz'],
   },
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+  async rewrites() {
+    return [
+      {
+        source: '/blog',
+        destination: '/blog?page=1',
+      },
+      {
+        source: '/blog/page/:page',
+        destination: '/blog?page=:page',
+      },
+    ];
+  },
+  env: {
+    CMS_GHOST_API_URL: process.env.CMS_GHOST_API_URL,
+    CMS_GHOST_API_KEY: process.env.CMS_GHOST_API_KEY,
+  },
 }
 
 export default nextConfig;
