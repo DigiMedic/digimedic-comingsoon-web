@@ -22,6 +22,113 @@ Projekt je postaven na následujících technologiích:
 - axios pro HTTP požadavky
 - date-fns pro manipulaci s daty
 
+## Struktura projektu
+
+```
+.
+├── .editorconfig
+├── .eslintignore
+├── .eslintrc.json
+├── .gitignore
+├── .prettierignore
+├── components.json
+├── next-env.d.ts
+├── next.config.mjs
+├── package.json
+├── postcss.config.js
+├── prettier.config.js
+├── README.md
+├── tailwind.config.js
+├── tsconfig.json
+├── app/
+│   ├── ClientLayout.tsx
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── blog/
+│       ├── layout.tsx
+│       ├── page.tsx
+│       ├── api/
+│       │   └── hello/
+│       │       └── route.ts
+│       └── posts/
+│           └── [...slug]/
+│               └── page.tsx
+├── components/
+│   ├── AnimatedLabels.jsx
+│   ├── card-hover-effect.tsx
+│   ├── Comments.tsx
+│   ├── craft.tsx
+│   ├── DigiMedicCoverTitle.tsx
+│   ├── DigiMedicTimeline.tsx
+│   ├── dock-live.tsx
+│   ├── ErrorBoundary.tsx
+│   ├── footer.tsx
+│   ├── fui-feature-section-with-cards.tsx
+│   ├── FullArticle.tsx
+│   ├── hero.tsx
+│   ├── icons.tsx
+│   ├── main-nav.tsx
+│   ├── MDXContent.tsx
+│   ├── navbar-menu.tsx
+│   ├── NewsletterForm.tsx
+│   ├── PostCard.tsx
+│   ├── RelatedArticles.tsx
+│   ├── SEO.tsx
+│   ├── ShareButtons.tsx
+│   ├── site-header.tsx
+│   ├── TableOfContents.tsx
+│   ├── tailwind-indicator.tsx
+│   ├── TextRevealByWord.tsx
+│   ├── blog/
+│   ├── magicui/
+│   │   ├── dock.tsx
+│   │   ├── dot-pattern.tsx
+│   │   ├── hyper-text.tsx
+│   │   ├── marquee.tsx
+│   │   └── word-rotate.tsx
+│   ├── mdx/
+│   │   ├── Callout.tsx
+│   │   ├── Chart.tsx
+│   │   ├── ProjectCard.tsx
+│   │   └── Tabs.tsx
+│   └── ui/
+│       ├── button.tsx
+│       ├── card-hover-effect.tsx
+│       ├── cover.tsx
+│       ├── input.tsx
+│       ├── label.tsx
+│       ├── SkeletonLoader.tsx
+│       ├── sparkles.tsx
+│       ├── subtle-background-animation.tsx
+│       ├── text-reveal-card.tsx
+│       └── timeline.tsx
+├── config/
+│   └── site.ts
+├── hooks/
+│   └── useInfiniteScroll.ts
+├── lib/
+│   ├── fonts.ts
+│   ├── ghost.ts
+│   └── utils.ts
+├── public/
+│   ├── favicon.ico
+│   ├── favicon.svg
+│   ├── next.svg
+│   ├── thirteen.svg
+│   ├── vercel.svg
+│   └── brand/
+│       ├── wdd
+│       └── svg/
+│           ├── various image files
+│           └── png/
+│               └── various image files
+├── styles/
+│   └── globals.css
+└── types/
+    ├── blog.ts
+    └── nav.ts
+```
+
 ## Hlavní komponenty
 
 - Hero sekce s formulářem pro odběr novinek
@@ -33,25 +140,19 @@ Projekt je postaven na následujících technologiích:
 - Vlastní UI komponenty (tlačítka, karty, timeline)
 - SEO komponenta pro optimalizaci pro vyhledávače
 - ErrorBoundary pro zachycení a zpracování chyb
+- FullArticle pro zobrazení celého článku
+- RelatedArticles pro zobrazení souvisejících článků
+- TableOfContents pro navigaci v dlouhých článcích
+- Comments pro systém komentářů
+- ShareButtons pro sdílení obsahu na sociálních sítích
 
 ## Styly a design
 
-- Vlastní barevná paleta (blumine, astral, fountain-blue, powder-blue, polar)
-- Vlastní fonty (Space Mono, Raleway)
-- Vlastní animace a interaktivní prvky
+- Vlastní barevná paleta (definována v Tailwind konfiguraci)
+- Vlastní fonty (definovány v lib/fonts.ts)
+- Vlastní animace a interaktivní prvky (components/magicui/)
 - Responzivní design s využitím Tailwind CSS
-- Vlastní ikony a SVG ilustrace
-
-## Struktura projektu
-
-- `app/`: Hlavní aplikační složka s Next.js 14 app router strukturou
-- `components/`: Opakovaně použitelné React komponenty
-- `config/`: Konfigurační soubory projektu
-- `hooks/`: Vlastní React hooks
-- `lib/`: Utility a pomocné funkce
-- `public/`: Statické soubory (obrázky, fonty)
-- `styles/`: Globální CSS styly
-- `types/`: TypeScript definice typů
+- Vlastní ikony a SVG ilustrace (public/brand/)
 
 ## Instalace a spuštění
 
@@ -100,43 +201,6 @@ Projekt je postaven na následujících technologiích:
 - Implementována je SEO komponenta pro optimalizaci meta tagů
 - Využití next/image a sharp pro optimalizaci obrázků
 - Lazy loading komponent pro zlepšení výkonu
-
-## Roadmapa
-
-### Fáze 1: Dokončení základní funkcionality (2-3 týdny)
-- Implementace funkčního formuláře pro sběr emailů
-- Optimalizace animací a interaktivních prvků
-- Zajištění responzivity pro všechny komponenty
-
-### Fáze 2: Rozšíření obsahu (3-4 týdny)
-- Vytvoření základních stránek (O nás, Služby, Kontakt)
-- Implementace blog sekce s několika úvodními články
-- Integrace MDX pro dynamický obsah
-
-### Fáze 3: Vylepšení UX/UI (2-3 týdny)
-- Implementace tmavého režimu pomocí next-themes
-- Vylepšení accessibility
-- Přidání dalších interaktivních prvků a mikroanimací
-
-### Fáze 4: Optimalizace výkonu (1-2 týdny)
-- Optimalizace načítání fontů a obrázků
-- Implementace lazy loadingu pro komponenty
-- Analýza a vylepšení Core Web Vitals
-
-### Fáze 5: Integrace backend funkcionalit (3-4 týdny)
-- Implementace API pro správu newsletteru
-- Vytvoření admin rozhraní pro správu obsahu
-- Integrace CMS (např. Strapi nebo Contentful) pro snadnou správu obsahu
-
-### Fáze 6: Testování a dokumentace (2-3 týdny)
-- Implementace unit testů pro klíčové komponenty
-- Vytvoření end-to-end testů pomocí Cypress nebo Playwright
-- Sepsání dokumentace pro vývojáře a uživatele admin rozhraní
-
-### Fáze 7: Příprava pro produkci a launch (1-2 týdny)
-- Finální kontrola SEO
-- Nastavení monitoringu a analytics
-- Příprava marketingových materiálů pro launch
 
 ## Přispívání
 

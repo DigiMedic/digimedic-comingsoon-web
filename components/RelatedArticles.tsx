@@ -1,13 +1,18 @@
-// components/RelatedArticles.tsx
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { BlogPost } from '@/types/blog';
 
 interface RelatedArticlesProps {
-  posts: BlogPost[];
+  posts?: BlogPost[];
 }
 
-const RelatedArticles: React.FC<RelatedArticlesProps> = ({ posts }) => {
+const RelatedArticles: React.FC<RelatedArticlesProps> = ({ posts = [] }) => {
+  if (posts.length === 0) {
+    return null; // Pokud nejsou žádné související články, komponenta se nezobrazí
+  }
+
   return (
     <section className="mt-16 border-t border-gray-200 pt-10">
       <h2 className="text-2xl font-bold mb-6">Související články</h2>
