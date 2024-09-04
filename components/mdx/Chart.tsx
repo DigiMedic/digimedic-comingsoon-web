@@ -1,29 +1,31 @@
-import React from 'react';
+import React from "react"
 
 interface ChartProps {
-  type: string;
+  type: string
   data: {
-    labels: string[];
+    labels: string[]
     datasets: Array<{
-      label: string;
-      data: number[];
-    }>;
-  };
+      label: string
+      data: number[]
+    }>
+  }
 }
 
 const Chart: React.FC<ChartProps> = ({ type, data }) => {
   return (
-    <div className="bg-gray-100 p-4 rounded-lg">
+    <div className="rounded-lg bg-gray-100 p-4">
       <p>Chart: {type}</p>
-      <p>Labels: {data.labels.join(', ')}</p>
+      <p>Labels: {data.labels.join(", ")}</p>
       {data.datasets.map((dataset, index) => (
         <div key={index}>
-          <p>Dataset {index + 1}: {dataset.label}</p>
-          <p>Data: {dataset.data.join(', ')}</p>
+          <p>
+            Dataset {index + 1}: {dataset.label}
+          </p>
+          <p>Data: {dataset.data.join(", ")}</p>
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default Chart;
+export default Chart

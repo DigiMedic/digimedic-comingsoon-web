@@ -1,11 +1,12 @@
-'use client'
+"use client"
 
-import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
-import NextImage from 'next/image'
-import Callout from '@/components/mdx/Callout'
-import { Tabs, Tab } from '@/components/mdx/Tabs'
-import Chart from '@/components/mdx/Chart'
-import ProjectCard from '@/components/mdx/ProjectCard'
+import NextImage from "next/image"
+import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote"
+
+import Callout from "@/components/mdx/Callout"
+import Chart from "@/components/mdx/Chart"
+import ProjectCard from "@/components/mdx/ProjectCard"
+import { Tab, Tabs } from "@/components/mdx/Tabs"
 
 const Image = (props: any) => {
   return <NextImage {...props} />
@@ -20,6 +21,10 @@ const components = {
   Image,
 }
 
-export default function MDXContent({ source }: { source: MDXRemoteSerializeResult }) {
+export default function MDXContent({
+  source,
+}: {
+  source: MDXRemoteSerializeResult
+}) {
   return <MDXRemote {...source} components={components} />
 }

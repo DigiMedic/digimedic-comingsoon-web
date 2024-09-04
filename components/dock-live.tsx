@@ -1,13 +1,14 @@
-import { Dock, DockIcon } from "@/components/magicui/dock";
-import React from "react";
+import React from "react"
 
-export type IconProps = React.HTMLAttributes<SVGElement>;
+import { Dock, DockIcon } from "@/components/magicui/dock"
+
+export type IconProps = React.HTMLAttributes<SVGElement>
 
 export type SocialLink = {
-  name: string;
-  url: string;
-  icon: (props: IconProps) => JSX.Element;
-};
+  name: string
+  url: string
+  icon: (props: IconProps) => JSX.Element
+}
 
 const Icons = {
   linkedin: (props: IconProps) => (
@@ -42,42 +43,54 @@ const Icons = {
       />
     </svg>
   ),
-};
+}
 
 const socialLinks: SocialLink[] = [
   {
     name: "LinkedIn",
     url: "https://www.linkedin.com/company/digimedic-cz/?viewAsMember=true",
-    icon: Icons.linkedin
+    icon: Icons.linkedin,
   },
   {
     name: "Facebook",
     url: "https://www.facebook.com/profile.php?id=61556880800899",
-    icon: Icons.facebook
+    icon: Icons.facebook,
   },
   {
     name: "GitHub",
     url: "https://github.com/DigiMedic",
-    icon: Icons.github
+    icon: Icons.github,
   },
   {
     name: "RSS",
     url: "#", // Prozatímní odkaz, který později aktualizujeme
-    icon: Icons.rss
-  }
-];
+    icon: Icons.rss,
+  },
+]
 
 export default function DockLive() {
   return (
-    <div className="w-full max-w-[40rem] mx-auto py-8 flex flex-col items-center">
-      <h2 className="text-2xl font-bold text-blumine mb-2 text-center font-space">Zůstaňte v obraze</h2>
-      <p className="text-astral text-center mb-4 font-raleway">Sledujte naše aktivity a čtěte nejnovější články</p>
+    <div className="mx-auto flex w-full max-w-[40rem] flex-col items-center py-8">
+      <h2 className="mb-2 text-center font-space text-2xl font-bold text-blumine">
+        Zůstaňte v obraze
+      </h2>
+      <p className="mb-4 text-center font-raleway text-astral">
+        Sledujte naše aktivity a čtěte nejnovější články
+      </p>
       <div className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-blumine focus:ring-offset-2 focus:ring-offset-white">
         <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E7F5F8_0%,#1B4D6A_50%,#E7F5F8_100%)]" />
         <Dock className="relative inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-white px-3 py-1 text-sm font-medium text-blumine">
           {socialLinks.map((link) => (
-            <DockIcon key={link.name} className="text-blumine hover:text-fountain-blue transition-colors mx-2">
-              <a href={link.url} target="_blank" rel="noopener noreferrer" aria-label={link.name}>
+            <DockIcon
+              key={link.name}
+              className="mx-2 text-blumine transition-colors hover:text-fountain-blue"
+            >
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={link.name}
+              >
                 <link.icon className="h-6 w-6" />
               </a>
             </DockIcon>
@@ -85,5 +98,5 @@ export default function DockLive() {
         </Dock>
       </div>
     </div>
-  );
+  )
 }
