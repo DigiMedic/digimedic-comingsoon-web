@@ -3,7 +3,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { getPosts } from '@/lib/ghost';
 import { PostCard } from '@/components/PostCard';
 import { PostCardList } from '@/components/PostCardList';
-import { FeaturedPost } from '@/components/FeaturedPost'; // Importujeme vaši existující komponentu
+import { FeaturedPost } from '@/components/FeaturedPost';
+import BlogHero from '@/components/BlogHero';  // Importujeme BlogHero
 import { motion } from "framer-motion";
 import { Search, Tag } from "lucide-react";
 import SEO from '@/components/SEO';
@@ -80,19 +81,10 @@ export default function BlogHome() {
         description="Objevte nejnovější trendy a inovace v digitalizaci zdravotnictví"
       />
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.header 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          <h1 className="text-4xl font-space-bold-regular sm:text-5xl md:text-6xl mb-4">
-            Blog <span className="text-transparent bg-clip-text bg-gradient-to-r from-blumine to-fountain-blue">DigiMedic</span>
-          </h1>
-          <p className="text-xl text-astral font-raleway-regular max-w-2xl mx-auto">
-            Objevte nejnovější trendy a inovace v digitalizaci zdravotnictví
-          </p>
-        </motion.header>
+        <BlogHero 
+          title="Blog DigiMedic"
+          subtitle="Objevte nejnovější trendy a inovace v digitalizaci zdravotnictví"
+        />
 
         {isLoading ? (
           <div className="text-center py-10">
