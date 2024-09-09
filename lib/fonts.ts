@@ -22,7 +22,7 @@ export const fontSpaceBoldRegular = Space_Mono({
 })
 
 export const fontSpaceBoldSemibold = Space_Mono({
-  weight: "600",
+  weight: "700",
   subsets: ["latin"],
   variable: "--font-space-bold-semibold",
 })

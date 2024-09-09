@@ -17,10 +17,17 @@ Projekt je postaven na následujících technologiích:
 - Radix UI komponenty
 - MDX pro zpracování obsahu
 - Framer Motion pro animace
-- @tsparticles pro interaktivní částicové efekty
+- @tsparticles/react pro interaktivní částicové efekty
 - next-themes pro podporu tmavého režimu
 - axios pro HTTP požadavky
 - date-fns pro manipulaci s daty
+- @tryghost/content-api pro integraci s Ghost CMS
+- react-fast-marquee pro běžící text
+- react-virtualized-auto-sizer a react-window pro virtualizaci dlouhých seznamů
+- react-wrap-balancer pro lepší zalamování textu
+- sharp pro optimalizaci obrázků
+- remark a remark-html pro zpracování Markdown
+- schema-dts a react-schemaorg pro strukturovaná data
 
 ## Struktura projektu
 
@@ -104,8 +111,6 @@ Projekt je postaven na následujících technologiích:
 │       └── timeline.tsx
 ├── config/
 │   └── site.ts
-├── hooks/
-│   └── useInfiniteScroll.ts
 ├── lib/
 │   ├── fonts.ts
 │   ├── ghost.ts
@@ -154,6 +159,18 @@ Projekt je postaven na následujících technologiích:
 - Responzivní design s využitím Tailwind CSS
 - Vlastní ikony a SVG ilustrace (public/brand/)
 
+## Konfigurace projektu
+
+Projekt využívá několik konfiguračních souborů pro nastavení různých aspektů vývoje:
+
+- `.editorconfig`: Zajišťuje konzistentní formátování kódu napříč různými editory
+- `.eslintrc.json`: Konfigurace ESLint pro kontrolu kvality kódu
+- `.prettierignore` a `prettier.config.js`: Konfigurace Prettier pro formátování kódu
+- `next.config.mjs`: Konfigurace Next.js
+- `postcss.config.js`: Konfigurace PostCSS pro zpracování CSS
+- `tailwind.config.js`: Konfigurace Tailwind CSS
+- `tsconfig.json`: Konfigurace TypeScript
+
 ## Instalace a spuštění
 
 1. Naklonujte repozitář:
@@ -196,11 +213,14 @@ Projekt je postaven na následujících technologiích:
 ### Práce s obsahem
 - Projekt využívá MDX pro dynamický obsah, který lze snadno upravovat a rozšiřovat
 - Komponenty jako `FullArticle`, `PostCard` a `MDXContent` usnadňují práci s blogem a články
+- Integrace s Ghost CMS pomocí `@tryghost/content-api` pro správu obsahu
 
 ### SEO a výkon
 - Implementována je SEO komponenta pro optimalizaci meta tagů
 - Využití next/image a sharp pro optimalizaci obrázků
 - Lazy loading komponent pro zlepšení výkonu
+- Virtualizace dlouhých seznamů pomocí react-virtualized-auto-sizer a react-window
+- Strukturovaná data implementována pomocí schema-dts a react-schemaorg
 
 ## Přispívání
 

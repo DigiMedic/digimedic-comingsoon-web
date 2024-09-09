@@ -1,10 +1,11 @@
-"use client"
+"use client";
 import React, { useState, useEffect, useMemo } from 'react';
 import { getPosts } from '@/lib/ghost';
 import { PostCard } from '@/components/PostCard';
-import Link from "next/link";
+import { PostCardList } from '@/components/PostCardList';
+import { FeaturedPost } from '@/components/FeaturedPost'; // Importujeme vaši existující komponentu
 import { motion } from "framer-motion";
-import { ArrowRight, Search, Tag } from "lucide-react";
+import { Search, Tag } from "lucide-react";
 import SEO from '@/components/SEO';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
@@ -15,26 +16,9 @@ interface Post {
   slug: string;
   tags: { name: string }[];
   feature_image?: string;
+  reading_time?: number;
+  published_at: string;
 }
-
-const FeaturedPost: React.FC<{ post: Post }> = ({ post }) => (
-  <motion.div 
-    initial={{ opacity: 0, y: 50 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
-    className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out mb-8"
-  >
-    <div className="absolute inset-0 bg-gradient-to-br from-blumine to-fountain-blue opacity-75"></div>
-    <div className="relative p-8">
-      <span className="bg-white text-blumine text-xs font-semibold px-2.5 py-0.5 rounded">Hlavní článek</span>
-      <h2 className="text-2xl lg:text-3xl font-bold text-white mb-4">{post.title}</h2>
-      <p className="text-white text-opacity-90 mb-6">{post.excerpt}</p>
-      <Link href={`/blog/posts/${post.slug}`} className="inline-block mt-4 px-6 py-2 bg-white text-blumine rounded-full hover:bg-blumine hover:text-white transition-colors duration-300">
-        Číst dále <ArrowRight className="inline-block ml-2" size={16} />
-      </Link>
-    </div>
-  </motion.div>
-);
 
 export default function BlogHome() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -84,7 +68,10 @@ export default function BlogHome() {
   }
 
   const featuredPost = posts[0];
-  const remainingPosts = filteredPosts.slice(1);
+  const topPosts = posts.slice(1, 3);
+  const remainingPosts = filteredPosts.slice(3);
+
+  const sectionTitle = selectedTag ? `Články kategorie: ${selectedTag}` : 'Všechny články';
 
   return (
     <ErrorBoundary>
@@ -92,17 +79,17 @@ export default function BlogHome() {
         title="DigiMedic Blog"
         description="Objevte nejnovější trendy a inovace v digitalizaci zdravotnictví"
       />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <motion.header 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <h1 className="text-4xl font-space-bold-regular sm:text-5xl md:text-6xl">
+          <h1 className="text-4xl font-space-bold-regular sm:text-5xl md:text-6xl mb-4">
             Blog <span className="text-transparent bg-clip-text bg-gradient-to-r from-blumine to-fountain-blue">DigiMedic</span>
           </h1>
-          <p className="mt-3 max-w-md mx-auto text-base text-astral font-raleway-regular sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+          <p className="text-xl text-astral font-raleway-regular max-w-2xl mx-auto">
             Objevte nejnovější trendy a inovace v digitalizaci zdravotnictví
           </p>
         </motion.header>
@@ -115,24 +102,33 @@ export default function BlogHome() {
           <>
             {featuredPost && <FeaturedPost post={featuredPost} />}
 
-            <div className="mb-8 flex flex-col md:flex-row items-center justify-between">
-              <div className="relative mb-4 md:mb-0">
+            <div className="mb-16">
+              <h2 className="text-2xl font-bold text-blumine mb-8">Nové články</h2>
+              <div className="grid gap-8 md:grid-cols-2">
+                {topPosts.map((post) => (
+                  <PostCard key={post.id} post={post} />
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-12 flex flex-col md:flex-row items-center justify-between bg-polar p-6 rounded-lg">
+              <div className="relative mb-4 md:mb-0 w-full md:w-auto">
                 <input
                   type="text"
                   placeholder="Hledat články..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blumine font-raleway-regular"
+                  className="w-full md:w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blumine font-raleway-regular"
                   aria-label="Vyhledávání článků"
                 />
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 w-full md:w-auto">
                 <Tag className="text-blumine" size={20} />
                 <select
                   value={selectedTag}
                   onChange={(e) => setSelectedTag(e.target.value)}
-                  className="border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blumine font-raleway-regular"
+                  className="w-full md:w-auto border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blumine font-raleway-regular"
                   aria-label="Filtrovat podle tagu"
                 >
                   <option value="">Všechny tagy</option>
@@ -143,10 +139,13 @@ export default function BlogHome() {
               </div>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {remainingPosts.map((post) => (
-                <PostCard key={post.id} post={post} />
-              ))}
+            <div className="mb-16">
+              <h2 className="text-2xl font-bold text-blumine mb-8">{sectionTitle}</h2>
+              <div className="space-y-8">
+                {remainingPosts.map((post) => (
+                  <PostCardList key={post.id} post={post} />
+                ))}
+              </div>
             </div>
           </>
         )}

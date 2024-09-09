@@ -16,12 +16,15 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ content }) => {
   });
 
   return (
-    <nav className="toc mb-8 p-4 bg-gray-100 rounded-lg">
-      <h2 className="text-xl font-bold mb-2">Obsah</h2>
-      <ul>
+    <nav className="mb-8 p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-space font-bold mb-4 text-blumine">Obsah</h2>
+      <ul className="space-y-2">
         {toc.map((item, index) => (
-          <li key={index} className={`ml-${(item.level - 2) * 4} my-1`}>
-            <a href={`#${item.text.toLowerCase().replace(/\s+/g, '-')}`} className="text-blue-600 hover:underline">
+          <li key={index} className={`${item.level === 2 ? 'ml-0' : 'ml-4'}`}>
+            <a 
+              href={`#${item.text.toLowerCase().replace(/\s+/g, '-')}`} 
+              className="text-fountain-blue hover:text-blumine transition-colors duration-200"
+            >
               {item.text}
             </a>
           </li>

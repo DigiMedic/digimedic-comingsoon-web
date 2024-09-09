@@ -4,10 +4,8 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { BlogPost } from "@/types/blog";
-import ShareButton from "./ShareButton";
 import TableOfContents from "./TableOfContents";
 import RelatedArticles from "./RelatedArticles";
-import Comments from "./Comments";
 
 const ShareButtons = dynamic(() => import("./ShareButtons"), { ssr: false });
 
@@ -43,8 +41,23 @@ export const FullArticle: React.FC<FullArticleProps> = ({ post, relatedPosts }) 
     day: 'numeric'
   }).format(new Date(post.published_at || ""));
 
+  const processContent = (content: string) => {
+    content = content.replace(/<h2>(.*?)<\/h2>/g, '<h2 class="text-3xl font-bold mt-12 mb-6 font-space">$1</h2>');
+    content = content.replace(/<h3>(.*?)<\/h3>/g, '<h3 class="text-2xl font-semibold mt-10 mb-4 font-space">$1</h3>');
+    content = content.replace(/<h4>(.*?)<\/h4>/g, '<h4 class="text-xl font-semibold mt-8 mb-3 font-space">$1</h4>');
+    content = content.replace(/<p>(.*?)<\/p>/g, '<p class="mb-6 text-lg leading-relaxed font-raleway">$1</p>');
+    content = content.replace(/<ul>[\s\S]*?<\/ul>/g, (match) => `<ul class="list-disc pl-8 mb-6 space-y-2 font-raleway">${match.slice(4, -5)}</ul>`);
+    content = content.replace(/<ol>[\s\S]*?<\/ol>/g, (match) => `<ol class="list-decimal pl-8 mb-6 space-y-2 font-raleway">${match.slice(4, -5)}</ol>`);
+    content = content.replace(/<li>(.*?)<\/li>/g, '<li class="text-lg mb-2">$1</li>');
+    content = content.replace(
+      /<blockquote>[\s\S]*?<\/blockquote>/g,
+      (match) => `<blockquote class="border-l-4 border-blue-500 pl-6 py-4 italic text-gray-600 my-8 font-raleway bg-blue-50 rounded-r-lg">${match.slice(12, -13)}</blockquote>`
+    );
+    return content;
+  };
+
   return (
-    <article className={`mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 font-raleway relative overflow-hidden ${isDarkMode ? 'dark bg-gray-900 text-gray-100' : 'bg-white text-gray-900'}`}>
+    <article className={`mx-auto max-w-4xl px-6 py-12 font-raleway ${isDarkMode ? 'dark bg-gray-900 text-gray-100' : 'bg-white text-gray-900'}`}>
       <button
         onClick={toggleDarkMode}
         className="fixed top-4 right-4 z-50 bg-blue-500 text-white p-2 rounded-full transition-colors duration-300 hover:bg-blue-600"
@@ -56,31 +69,33 @@ export const FullArticle: React.FC<FullArticleProps> = ({ post, relatedPosts }) 
         className="fixed top-0 left-0 h-1 bg-blue-500 transition-all duration-300"
         style={{ width: `${readProgress}%` }}
       />
-      <header className="mb-16 text-center relative z-10">
-        <h1 className="mb-6 text-4xl sm:text-5xl md:text-6xl font-bold leading-tight text-blumine font-space">
+      <header className="mb-12">
+        <h1 className="text-4xl sm:text-5xl font-bold mb-8 text-center font-space leading-tight">
           {post.title}
         </h1>
-        <div className="mb-8 flex flex-wrap items-center justify-center gap-4">
-          <time dateTime={post.published_at || ""} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-            {formattedDate}
-          </time>
+        <div className="flex flex-wrap justify-center items-center gap-4 mb-8">
+          <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+            📅 {formattedDate}
+          </span>
           {post.primary_author && (
-            <div className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-              Autor: {post.primary_author.name}
-            </div>
+            <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+              👤 Autor: {post.primary_author.name}
+            </span>
           )}
-          <div className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
-            {readingTime} min čtení
-          </div>
+          <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
+            ⏱️ {readingTime} min čtení
+          </span>
         </div>
         {post.feature_image && (
-          <div className="relative mb-16 h-72 sm:h-96 rounded-lg overflow-hidden shadow-lg transition-transform duration-500 hover:scale-105">
+          <div className="mb-12 rounded-xl overflow-hidden shadow-lg">
             <Image
               src={post.feature_image}
               alt={post.title || ""}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover"
+              width={1000}
+              height={500}
+              layout="responsive"
+              objectFit="cover"
+              className="transition-transform duration-500 hover:scale-105"
             />
           </div>
         )}
@@ -89,44 +104,26 @@ export const FullArticle: React.FC<FullArticleProps> = ({ post, relatedPosts }) 
       <TableOfContents content={post.html || ""} />
       
       <div
-        className={`prose prose-lg sm:prose-xl mx-auto max-w-none leading-relaxed relative z-10 ${
-          isDarkMode ? 'prose-invert' : ''
-        } 
-        prose-headings:font-space prose-headings:font-bold prose-headings:mb-4 prose-headings:mt-8
-        prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl
-        prose-p:mb-6 prose-p:text-justify
-        prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
-        prose-strong:font-semibold
-        prose-ul:list-disc prose-ol:list-decimal
-        prose-li:ml-4 prose-li:mb-2
-        prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:pl-4 prose-blockquote:italic
-        prose-img:rounded-lg prose-img:shadow-md
-        prose-pre:bg-gray-100 prose-pre:p-4 prose-pre:rounded-md
-        prose-code:text-sm prose-code:bg-gray-200 prose-code:px-1 prose-code:py-0.5 prose-code:rounded`}
-        dangerouslySetInnerHTML={{ __html: post.html || "" }}
+        className="prose prose-lg max-w-none"
+        dangerouslySetInnerHTML={{ __html: processContent(post.html || "") }}
       />
       
       <RelatedArticles posts={relatedPosts} />
       
-      <Comments postId={post.id} />
-      
-      <footer className="mt-20 border-t border-gray-200 pt-10 relative z-10">
+      <footer className="mt-16 pt-8 border-t border-gray-200">
         {post.tags && post.tags.length > 0 && (
-          <div className="mb-8 flex flex-wrap justify-center gap-3">
+          <div className="flex flex-wrap gap-3 mb-8">
             {post.tags.map((tag) => (
               <span
                 key={tag.id}
-                className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm cursor-pointer hover:bg-blue-600 transition-colors duration-300"
+                className="bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm font-space transition-colors duration-300 hover:bg-gray-300 cursor-pointer"
               >
                 {tag.name}
               </span>
             ))}
           </div>
         )}
-        <ShareButtons
-          url={`https://yourdomain.com/blog/${post.slug}`}
-          title={post.title}
-        />
+        <ShareButtons url={`https://yourdomain.com/blog/${post.slug}`} title={post.title || ''} />
       </footer>
     </article>
   );
