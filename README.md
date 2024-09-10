@@ -4,7 +4,7 @@ Vítejte v repozitáři projektu DigiMedic-comingsoon-web, digitální páteře 
 
 ## O projektu
 
-DigiMedic je webová prezentace zaměřená na digitalizaci a inovaci v českém zdravotnictví. Náš cíl je vytvořit efektivnější a dostupnější zdravotní péči prostřednictvím moderních technologií. Projekt je momentálně ve fázi "coming soon" a zaměřuje se na sběr emailů pro budoucí komunikaci.
+DigiMedic je webová prezentace zaměřená na digitalizaci a inovaci v českém zdravotnictví. Náš cíl je vytvořit efektivnější a dostupnější zdravotní péči prostřednictvím moderních technologií. Projekt je momentálně ve fázi "coming soon" a zaměřuje se na sběr emailů pro budoucí komunikaci a prezentaci informací prostřednictvím blogu.
 
 ## Technologie
 
@@ -28,6 +28,7 @@ Projekt je postaven na následujících technologiích:
 - sharp pro optimalizaci obrázků
 - remark a remark-html pro zpracování Markdown
 - schema-dts a react-schemaorg pro strukturovaná data
+- Formbricks pro sledování uživatelského chování a sběr zpětné vazby
 
 ## Struktura projektu
 
@@ -51,6 +52,7 @@ Projekt je postaven na následujících technologiích:
 │   ├── ClientLayout.tsx
 │   ├── layout.tsx
 │   ├── page.tsx
+│   ├── formbricks.tsx
 │   └── blog/
 │       ├── layout.tsx
 │       ├── page.tsx
@@ -61,7 +63,9 @@ Projekt je postaven na následujících technologiích:
 │           └── [...slug]/
 │               └── page.tsx
 ├── components/
+│   ├── AnimatedCard.tsx
 │   ├── AnimatedLabels.jsx
+│   ├── BlogHero.tsx
 │   ├── card-hover-effect.tsx
 │   ├── Comments.tsx
 │   ├── craft.tsx
@@ -69,6 +73,7 @@ Projekt je postaven na následujících technologiích:
 │   ├── DigiMedicTimeline.tsx
 │   ├── dock-live.tsx
 │   ├── ErrorBoundary.tsx
+│   ├── FeaturedPost.tsx
 │   ├── footer.tsx
 │   ├── fui-feature-section-with-cards.tsx
 │   ├── FullArticle.tsx
@@ -79,6 +84,7 @@ Projekt je postaven na následujících technologiích:
 │   ├── navbar-menu.tsx
 │   ├── NewsletterForm.tsx
 │   ├── PostCard.tsx
+│   ├── PostCardList.tsx
 │   ├── RelatedArticles.tsx
 │   ├── SEO.tsx
 │   ├── ShareButtons.tsx
@@ -137,10 +143,13 @@ Projekt je postaven na následujících technologiích:
 ## Hlavní komponenty
 
 - Hero sekce s formulářem pro odběr novinek
-- AnimatedLabels
-- TextRevealByWord
-- DockLive
-- FUIFeatureSectionWithCards
+- AnimatedLabels a AnimatedCard pro vizuální efekty
+- TextRevealByWord pro efektní odhalování textu
+- DockLive pro interaktivní prvky
+- FUIFeatureSectionWithCards pro prezentaci funkcí
+- BlogHero pro hlavičku blogu
+- PostCard a PostCardList pro zobrazení příspěvků na blogu
+- FeaturedPost pro zvýrazněný příspěvek
 - Komponenty pro blog a MDX obsah
 - Vlastní UI komponenty (tlačítka, karty, timeline)
 - SEO komponenta pro optimalizaci pro vyhledávače
@@ -150,6 +159,7 @@ Projekt je postaven na následujících technologiích:
 - TableOfContents pro navigaci v dlouhých článcích
 - Comments pro systém komentářů
 - ShareButtons pro sdílení obsahu na sociálních sítích
+- NewsletterForm pro sběr emailů
 
 ## Styly a design
 
@@ -158,6 +168,7 @@ Projekt je postaven na následujících technologiích:
 - Vlastní animace a interaktivní prvky (components/magicui/)
 - Responzivní design s využitím Tailwind CSS
 - Vlastní ikony a SVG ilustrace (public/brand/)
+- Různé vizuální efekty a animace pro zlepšení uživatelského zážitku
 
 ## Konfigurace projektu
 
@@ -212,8 +223,8 @@ Projekt využívá několik konfiguračních souborů pro nastavení různých a
 
 ### Práce s obsahem
 - Projekt využívá MDX pro dynamický obsah, který lze snadno upravovat a rozšiřovat
-- Komponenty jako `FullArticle`, `PostCard` a `MDXContent` usnadňují práci s blogem a články
-- Integrace s Ghost CMS pomocí `@tryghost/content-api` pro správu obsahu
+- Komponenty jako `FullArticle`, `PostCard`, `PostCardList` a `MDXContent` usnadňují práci s blogem a články
+- Integrace s Ghost CMS pomocí `@tryghost/content-api` pro správu obsahu blogu
 
 ### SEO a výkon
 - Implementována je SEO komponenta pro optimalizaci meta tagů
@@ -221,6 +232,18 @@ Projekt využívá několik konfiguračních souborů pro nastavení různých a
 - Lazy loading komponent pro zlepšení výkonu
 - Virtualizace dlouhých seznamů pomocí react-virtualized-auto-sizer a react-window
 - Strukturovaná data implementována pomocí schema-dts a react-schemaorg
+
+### Uživatelské chování a zpětná vazba
+- Integrace s Formbricks pro sledování uživatelského chování a sběr zpětné vazby
+- Implementace FormbricksProvider v `app/formbricks.tsx` pro inicializaci a sledování změn cest
+- Použití Formbricks pro webové stránky (`@formbricks/js/website`)
+- Inicializace Formbricks s vlastním `environmentId` a `apiHost`
+- Poznámka: Při integraci Formbricks s Next.js mohou nastat problémy s importem. V takovém případě zkontrolujte kompatibilitu verzí a použijte správný import (`import formbricks from "@formbricks/js/website";`)
+
+### Animace a vizuální efekty
+- Využití Framer Motion pro plynulé animace
+- Vlastní komponenty jako AnimatedCard, TextRevealByWord a další pro interaktivní a poutavé uživatelské rozhraní
+- Implementace různých vizuálních efektů pro zlepšení celkového uživatelského zážitku
 
 ## Přispívání
 

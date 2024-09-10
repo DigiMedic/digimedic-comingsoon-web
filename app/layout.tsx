@@ -9,6 +9,8 @@ import { TailwindIndicator } from "@/components/tailwind-indicator"
 import DotPattern from "@/components/magicui/dot-pattern"
 
 import ClientLayout from "./ClientLayout"
+import FormbricksProvider from "./formbricks"; // Ujistěte se, že cesta je správná
+import ThemeEditor from "shadcn-theme-editor"; // New import added
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -18,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function RootLayout({
+function RootLayout({
   children,
 }: {
   children: React.ReactNode
@@ -46,8 +48,12 @@ export default function RootLayout({
           </ClientLayout>
           <Footer />
           <TailwindIndicator />
+          <FormbricksProvider /> {/* Zde je komponenta zahrnuta */}
+          <ThemeEditor /> {/* New component added */}
         </div>
       </body>
     </html>
   )
 }
+
+export default RootLayout;
