@@ -1,7 +1,35 @@
 "use client"
-import { cn } from "@/lib/utils";
-import Marquee from "@/components/magicui/marquee";
-import { GlobeIcon, CalendarIcon, UserIcon, FileTextIcon, MessageSquareIcon, VideoIcon, BarChartIcon, ClipboardListIcon, ActivityIcon, SmartphoneIcon, BrainIcon, UserPlusIcon, PhoneCallIcon, ZapIcon, TrendingUpIcon, ShieldIcon, LineChartIcon, BellIcon, ClipboardCheckIcon, CodeIcon, PuzzleIcon, DatabaseIcon, BookOpenIcon, ServerIcon, NetworkIcon } from "lucide-react"
+
+import {
+  ActivityIcon,
+  BarChartIcon,
+  BellIcon,
+  BookOpenIcon,
+  BrainIcon,
+  CalendarIcon,
+  ClipboardCheckIcon,
+  ClipboardListIcon,
+  CodeIcon,
+  DatabaseIcon,
+  FileTextIcon,
+  GlobeIcon,
+  LineChartIcon,
+  MessageSquareIcon,
+  NetworkIcon,
+  PhoneCallIcon,
+  PuzzleIcon,
+  ServerIcon,
+  ShieldIcon,
+  SmartphoneIcon,
+  TrendingUpIcon,
+  UserIcon,
+  UserPlusIcon,
+  VideoIcon,
+  ZapIcon,
+} from "lucide-react"
+
+import { cn } from "@/lib/utils"
+import Marquee from "@/components/magicui/marquee"
 
 const labels = [
   { icon: GlobeIcon, text: "Webové stránky pro lékaře" },
@@ -33,25 +61,27 @@ const labels = [
   { icon: ShieldIcon, text: "Soulad s GDPR" },
   { icon: FileTextIcon, text: "Podpora eReceptů" },
   { icon: UserIcon, text: "Napojení na ISIN" },
-  { icon: DatabaseIcon, text: "Integrace s NZIS" }
-];
+  { icon: DatabaseIcon, text: "Integrace s NZIS" },
+]
 
-const firstRow = labels.slice(0, labels.length / 2);
-const secondRow = labels.slice(labels.length / 2);
+const firstRow = labels.slice(0, labels.length / 2)
+const secondRow = labels.slice(labels.length / 2)
 
 const LabelCard = ({ icon: Icon, text }) => {
   return (
-    <div className="flex items-center space-x-2 px-3 py-2 bg-white border border-gray-200 rounded-md mx-2 shadow-sm hover:shadow-md transition-shadow duration-200">
-      <Icon className="w-4 h-4 text-blumine" />
-      <p className="text-xs font-medium text-gray-700 whitespace-nowrap">{text}</p>
+    <div className="mx-2 flex items-center space-x-2 rounded-md border border-gray-200 bg-white px-3 py-2 shadow-sm transition-shadow duration-200 hover:shadow-md">
+      <Icon className="h-4 w-4 text-blumine" />
+      <p className="whitespace-nowrap text-xs font-medium text-gray-700">
+        {text}
+      </p>
     </div>
-  );
-};
+  )
+}
 
 export function AnimatedLabels() {
   return (
     <div className="relative w-full overflow-hidden py-4">
-      <Marquee pauseOnHover className="[--duration:90s] mb-2">
+      <Marquee pauseOnHover className="mb-2 [--duration:90s]">
         {firstRow.map((label, index) => (
           <LabelCard key={index} {...label} />
         ))}
@@ -64,7 +94,7 @@ export function AnimatedLabels() {
       <div className="pointer-events-none absolute inset-y-0 left-0 w-1/6 bg-gradient-to-r from-white"></div>
       <div className="pointer-events-none absolute inset-y-0 right-0 w-1/6 bg-gradient-to-l from-white"></div>
     </div>
-  );
+  )
 }
 
-export default AnimatedLabels;
+export default AnimatedLabels

@@ -1,102 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Raleway:wght@400;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;600;700&family=Raleway:wght@400&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --blumine: #1B4D6A;
-  --astral: #5B8A9A;
-  --fountain-blue: #5BA2C2;
-  --powder-blue: #A8D4E1;
-  --polar: #E7F5F8;
+  --blumine: #1b4d6a;
+  --astral: #5b8a9a;
+  --fountain-blue: #5ba2c2;
+  --powder-blue: #a8d4e1;
+  --polar: #ffffff; /* Změněno na bílou */
+  --font-space-bold-regular: "Space Mono", monospace;
+  --font-space-bold-semibold: "Space Mono", monospace;
+  --font-raleway-regular: "Raleway", sans-serif;
 }
 
 @layer base {
   body {
-    @apply text-blumine;
-    font-family: 'Raleway', sans-serif;
-    background-color: white;
-    position: relative;
+    @apply font-raleway-regular bg-white text-blumine;
   }
-
-  body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-image: 
-      linear-gradient(to right, #f0f0f0 1px, transparent 1px),
-      linear-gradient(to bottom, #f0f0f0 1px, transparent 1px);
-    background-size: 6rem 4rem;
-    z-index: -2;
-  }
-
-  body::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: radial-gradient(circle 500px at 50% 200px, #C9EBFF, transparent);
-    z-index: -1;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Mono', monospace;
-  }
-}
-
-.content-container {
-  position: relative;
-  z-index: 1;
-}
-
-.background-gradient-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -3;
-}
-
-@keyframes gradient-x {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.animate-gradient-x {
-  animation: gradient-x 15s ease infinite;
 }
 
 @layer components {
-  .prose {
-    @apply max-w-none;
+  .font-space-bold-regular {
+    font-family: var(--font-space-bold-regular);
+    font-weight: 700;
   }
-  .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-    @apply text-blumine font-bold my-4;
+  .font-space-bold-semibold {
+    font-family: var(--font-space-bold-semibold);
+    font-weight: 600;
   }
-  .prose p {
-    @apply my-4;
-  }
-  .prose a {
-    @apply text-fountain-blue hover:underline;
-  }
-  .prose ul, .prose ol {
-    @apply my-4 pl-6;
-  }
-  .prose li {
-    @apply mb-2;
+  .font-raleway-regular {
+    font-family: var(--font-raleway-regular);
+    font-weight: 400;
   }
 }
+/* styles/globals.css nebo jiný relevantní soubor CSS */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap');
+
+.font-space-mono-bold {
+  font-family: 'Space Mono', monospace;
+  font-weight: 700; /* Bold */
+}
+

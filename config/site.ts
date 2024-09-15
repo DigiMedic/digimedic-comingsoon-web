@@ -4,9 +4,7 @@ export const siteConfig = {
   name: "Waitlist",
   description:
     "Beautifully designed components built with Radix UI and Tailwind CSS.",
-  mainNav: [
- 
-  ],
+  mainNav: [],
   links: {
     twitter: "https://twitter.com/kathanmehtaa",
     github: "https://github.com/shadcn/ui",
