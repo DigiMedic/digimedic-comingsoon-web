@@ -42,19 +42,21 @@ export const PostCard: React.FC<{ post: Post }> = ({ post }) => {
     <AnimatedCard link={`/blog/posts/${post.slug}`} className="w-full h-full">
       <div className={cn(
         "overflow-hidden rounded-lg shadow-md group bg-white",
-        "flex flex-col h-full"
+        "flex flex-col h-full transition-standard hover:shadow-lg"
       )}>
-        <div className="relative w-full h-48">
+        <div className="relative w-full h-48 overflow-hidden">
           <Image
             src={post.feature_image || '/default-image.jpg'}
             alt={post.title}
             layout="fill"
             objectFit="cover"
-            className="transition-transform duration-300 group-hover:scale-105"
+            className="transition-standard group-hover:scale-105"
           />
         </div>
         <div className="p-4 flex flex-col flex-grow">
-          <h2 className="text-lg font-space-bold-regular mb-2 line-clamp-2 text-blumine">{post.title}</h2>
+          <h2 className="text-lg font-space-bold-regular mb-2 line-clamp-2 text-blumine transition-standard group-hover:text-fountain-blue">
+            {post.title}
+          </h2>
           <div className="flex items-center justify-between text-xs font-raleway-regular text-astral mb-2">
             <span>{formatDate(post.published_at)}</span>
             <span className="flex items-center">
@@ -66,7 +68,10 @@ export const PostCard: React.FC<{ post: Post }> = ({ post }) => {
             {post.tags.slice(0, 2).map(tag => (
               <span
                 key={tag.name}
-                className={`text-xs px-2 py-1 rounded-full font-raleway-regular ${getTagColor(tag.name)}`}
+                className={cn(
+                  "text-xs px-2 py-1 rounded-full font-raleway-regular transition-standard",
+                  getTagColor(tag.name)
+                )}
               >
                 {tag.name}
               </span>

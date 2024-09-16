@@ -81,12 +81,12 @@ const LabelCard = ({ icon: Icon, text }) => {
 export function AnimatedLabels() {
   return (
     <div className="relative w-full overflow-hidden py-4">
-      <Marquee pauseOnHover className="mb-2 [--duration:90s]">
+      <Marquee pauseOnHover className="mb-2 [--duration:160s]"> {/* Zvýšení na 120s */}
         {firstRow.map((label, index) => (
           <LabelCard key={index} {...label} />
         ))}
       </Marquee>
-      <Marquee reverse pauseOnHover className="[--duration:90s]">
+      <Marquee reverse pauseOnHover className="[--duration:160s]"> {/* Zvýšení na 120s */}
         {secondRow.map((label, index) => (
           <LabelCard key={index} {...label} />
         ))}
@@ -96,5 +96,6 @@ export function AnimatedLabels() {
     </div>
   )
 }
+
 
 export default AnimatedLabels

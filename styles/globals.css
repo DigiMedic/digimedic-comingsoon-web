@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;600;700&family=Raleway:wght@400&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;600;700&family=Raleway:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,10 +9,10 @@
   --astral: #5b8a9a;
   --fountain-blue: #5ba2c2;
   --powder-blue: #a8d4e1;
-  --polar: #ffffff; /* Změněno na bílou */
-  --font-space-bold-regular: "Space Mono", monospace;
-  --font-space-bold-semibold: "Space Mono", monospace;
-  --font-raleway-regular: "Raleway", sans-serif;
+  --polar: #ffffff;
+  --font-space-bold-regular: 'Space Mono', monospace;
+  --font-space-bold-semibold: 'Space Mono', monospace;
+  --font-raleway-regular: 'Raleway', sans-serif;
 }
 
 @layer base {
@@ -34,12 +34,47 @@
     font-family: var(--font-raleway-regular);
     font-weight: 400;
   }
-}
-/* styles/globals.css nebo jiný relevantní soubor CSS */
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap');
-
-.font-space-mono-bold {
-  font-family: 'Space Mono', monospace;
-  font-weight: 700; /* Bold */
+  .font-space-mono-bold {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+  }
 }
 
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blumine to-fountain-blue;
+  }
+  .bg-gradient {
+    @apply bg-gradient-to-r from-blumine to-fountain-blue;
+  }
+  .transition-standard {
+    @apply transition-all duration-300 ease-in-out;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInFromBottom {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slide-in {
+  animation: slideInFromBottom 0.5s ease-out;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

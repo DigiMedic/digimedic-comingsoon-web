@@ -4,183 +4,77 @@ Vítejte v repozitáři projektu DigiMedic-comingsoon-web, digitální páteře 
 
 ## O projektu
 
-DigiMedic je webová prezentace zaměřená na digitalizaci a inovaci v českém zdravotnictví. Náš cíl je vytvořit efektivnější a dostupnější zdravotní péči prostřednictvím moderních technologií. Projekt je momentálně ve fázi "coming soon" a zaměřuje se na sběr emailů pro budoucí komunikaci a prezentaci informací prostřednictvím blogu.
+DigiMedic je webová prezentace zaměřená na digitalizaci a inovaci v českém zdravotnictví. Náš cíl je vytvořit efektivnější a dostupnější zdravotní péči prostřednictvím moderních technologií. Projekt je momentálně ve fázi "coming soon" a zaměřuje se na sběr emailů pro budoucí komunikaci, prezentaci informací prostřednictvím blogu a správu uživatelských účtů.
 
-## Technologie
+## Architektura projektu
 
-Projekt je postaven na následujících technologiích:
+Projekt je postaven na moderní architektuře využívající následující klíčové technologie a přístupy:
 
-- Next.js 14
-- React 18
-- TypeScript 5
-- Tailwind CSS 3
-- Radix UI komponenty
-- MDX pro zpracování obsahu
-- Framer Motion pro animace
-- @tsparticles/react pro interaktivní částicové efekty
-- next-themes pro podporu tmavého režimu
-- axios pro HTTP požadavky
-- date-fns pro manipulaci s daty
-- @tryghost/content-api pro integraci s Ghost CMS
-- react-fast-marquee pro běžící text
-- react-virtualized-auto-sizer a react-window pro virtualizaci dlouhých seznamů
-- react-wrap-balancer pro lepší zalamování textu
-- sharp pro optimalizaci obrázků
-- remark a remark-html pro zpracování Markdown
-- schema-dts a react-schemaorg pro strukturovaná data
-- Formbricks pro sledování uživatelského chování a sběr zpětné vazby
+1. **Framework**: Next.js 14 - využívá App Router a Server Components pro optimální výkon a SEO.
+2. **Jazyk**: JavaScript a TypeScript - zajišťuje typovou bezpečnost a lepší vývojářskou zkušenost.
+3. **UI knihovna**: React 18 - umožňuje vytváření interaktivních uživatelských rozhraní.
+4. **Styling**: Tailwind CSS - pro rychlý vývoj responzivního designu.
+5. **Autentizace**: Appwrite - poskytuje bezpečnou a škálovatelnou správu uživatelů a autentizaci.
+6. **State management**: React Hooks - pro efektivní správu lokálního stavu komponent.
+7. **Formuláře**: react-hook-form - usnadňuje práci s formuláři a jejich validaci.
+8. **API integrace**: axios - pro snadnou komunikaci s back-end službami.
+9. **Animace**: Framer Motion - pro plynulé a atraktivní animace UI.
+10. **Zpracování obsahu**: MDX, remark - umožňuje psaní dynamického obsahu s podporou React komponent.
+11. **SEO**: react-schemaorg, schema-dts - pro implementaci strukturovaných dat a zlepšení SEO.
+12. **Optimalizace obrázků**: sharp - pro efektivní zpracování a optimalizaci obrázků.
+13. **Správa témat**: next-themes - pro implementaci tmavého režimu a dalších barevných schémat.
 
 ## Struktura projektu
 
 ```
 .
-├── .editorconfig
-├── .eslintignore
-├── .eslintrc.json
-├── .gitignore
-├── .prettierignore
-├── components.json
-├── next-env.d.ts
-├── next.config.mjs
-├── package.json
-├── postcss.config.js
-├── prettier.config.js
-├── README.md
-├── tailwind.config.js
-├── tsconfig.json
 ├── app/
-│   ├── ClientLayout.tsx
-│   ├── layout.tsx
-│   ├── page.tsx
-│   ├── formbricks.tsx
-│   └── blog/
-│       ├── layout.tsx
-│       ├── page.tsx
-│       ├── api/
-│       │   └── hello/
-│       │       └── route.ts
-│       └── posts/
-│           └── [...slug]/
-│               └── page.tsx
-├── components/
-│   ├── AnimatedCard.tsx
-│   ├── AnimatedLabels.jsx
-│   ├── BlogHero.tsx
-│   ├── card-hover-effect.tsx
-│   ├── Comments.tsx
-│   ├── craft.tsx
-│   ├── DigiMedicCoverTitle.tsx
-│   ├── DigiMedicTimeline.tsx
-│   ├── dock-live.tsx
-│   ├── ErrorBoundary.tsx
-│   ├── FeaturedPost.tsx
-│   ├── footer.tsx
-│   ├── fui-feature-section-with-cards.tsx
-│   ├── FullArticle.tsx
-│   ├── hero.tsx
-│   ├── icons.tsx
-│   ├── main-nav.tsx
-│   ├── MDXContent.tsx
-│   ├── navbar-menu.tsx
-│   ├── NewsletterForm.tsx
-│   ├── PostCard.tsx
-│   ├── PostCardList.tsx
-│   ├── RelatedArticles.tsx
-│   ├── SEO.tsx
-│   ├── ShareButtons.tsx
-│   ├── site-header.tsx
-│   ├── TableOfContents.tsx
-│   ├── tailwind-indicator.tsx
-│   ├── TextRevealByWord.tsx
-│   ├── blog/
-│   ├── magicui/
-│   │   ├── dock.tsx
-│   │   ├── dot-pattern.tsx
-│   │   ├── hyper-text.tsx
-│   │   ├── marquee.tsx
-│   │   └── word-rotate.tsx
-│   ├── mdx/
-│   │   ├── Callout.tsx
-│   │   ├── Chart.tsx
-│   │   ├── ProjectCard.tsx
-│   │   └── Tabs.tsx
-│   └── ui/
-│       ├── button.tsx
-│       ├── card-hover-effect.tsx
-│       ├── cover.tsx
-│       ├── input.tsx
-│       ├── label.tsx
-│       ├── SkeletonLoader.tsx
-│       ├── sparkles.tsx
-│       ├── subtle-background-animation.tsx
-│       ├── text-reveal-card.tsx
-│       └── timeline.tsx
-├── config/
-│   └── site.ts
-├── lib/
-│   ├── fonts.ts
-│   ├── ghost.ts
-│   └── utils.ts
-├── public/
-│   ├── favicon.ico
-│   ├── favicon.svg
-│   ├── next.svg
-│   ├── thirteen.svg
-│   ├── vercel.svg
-│   └── brand/
-│       ├── wdd
-│       └── svg/
-│           ├── various image files
-│           └── png/
-│               └── various image files
-├── styles/
-│   └── globals.css
-└── types/
-    ├── blog.ts
-    └── nav.ts
+│   ├── appwrite.js         # Konfigurace a inicializace Appwrite klienta
+│   ├── page.js             # Hlavní stránka s funkcionalitou přihlášení/registrace
+│   ├── layout.tsx          # Hlavní layout aplikace
+│   ├── ClientLayout.tsx    # Client-side layout wrapper
+│   ├── formbricks.tsx      # Integrace Formbricks pro analýzu uživatelského chování
+│   └── blog/               # Blog sekce
+│       ├── page.tsx        # Hlavní stránka blogu
+│       ├── layout.tsx      # Layout pro blog sekci
+│       └── posts/          # Jednotlivé blogové příspěvky
+├── components/             # Znovupoužitelné React komponenty
+├── lib/                    # Pomocné funkce a utility
+├── public/                 # Statické soubory (obrázky, fonty)
+├── styles/                 # Globální styly
+└── types/                  # TypeScript definice typů
 ```
 
 ## Hlavní komponenty
 
-- Hero sekce s formulářem pro odběr novinek
-- AnimatedLabels a AnimatedCard pro vizuální efekty
-- TextRevealByWord pro efektní odhalování textu
-- DockLive pro interaktivní prvky
-- FUIFeatureSectionWithCards pro prezentaci funkcí
-- BlogHero pro hlavičku blogu
-- PostCard a PostCardList pro zobrazení příspěvků na blogu
-- FeaturedPost pro zvýrazněný příspěvek
-- Komponenty pro blog a MDX obsah
-- Vlastní UI komponenty (tlačítka, karty, timeline)
-- SEO komponenta pro optimalizaci pro vyhledávače
-- ErrorBoundary pro zachycení a zpracování chyb
-- FullArticle pro zobrazení celého článku
-- RelatedArticles pro zobrazení souvisejících článků
-- TableOfContents pro navigaci v dlouhých článcích
-- Comments pro systém komentářů
-- ShareButtons pro sdílení obsahu na sociálních sítích
-- NewsletterForm pro sběr emailů
+- **LoginPage** (app/page.js): Implementuje funkcionalitu pro přihlášení, registraci a odhlášení uživatelů pomocí Appwrite.
+- **AppwriteClient** (app/appwrite.js): Konfiguruje a inicializuje Appwrite klienta pro autentizaci a správu uživatelů.
+- **FormbricksProvider** (app/formbricks.tsx): Integruje Formbricks pro sledování uživatelského chování a sběr zpětné vazby.
+- **Layout** (app/layout.tsx): Definuje hlavní layout aplikace včetně globálních stylů a metadat.
+- **ClientLayout** (app/ClientLayout.tsx): Wrapper pro client-side funkcionalitu.
+- **BlogPage** (app/blog/page.tsx): Zobrazuje seznam blogových příspěvků.
+- **PostPage** (app/blog/posts/[...slug]/page.tsx): Zobrazuje jednotlivé blogové příspěvky.
+- **NewsletterForm** (components/NewsletterForm.tsx): Formulář pro sběr emailů.
+- **AnimatedCard**, **TextRevealByWord**, **DockLive**: Komponenty pro vizuální efekty a animace.
 
-## Styly a design
+## Autentizace a správa uživatelů
 
-- Vlastní barevná paleta (definována v Tailwind konfiguraci)
-- Vlastní fonty (definovány v lib/fonts.ts)
-- Vlastní animace a interaktivní prvky (components/magicui/)
-- Responzivní design s využitím Tailwind CSS
-- Vlastní ikony a SVG ilustrace (public/brand/)
-- Různé vizuální efekty a animace pro zlepšení uživatelského zážitku
+Projekt využívá Appwrite pro správu uživatelských účtů a autentizaci:
+
+- Registrace nových uživatelů
+- Přihlášení pomocí emailu a hesla
+- Odhlášení uživatelů
+- Získávání informací o přihlášeném uživateli
 
 ## Konfigurace projektu
 
 Projekt využívá několik konfiguračních souborů pro nastavení různých aspektů vývoje:
 
-- `.editorconfig`: Zajišťuje konzistentní formátování kódu napříč různými editory
-- `.eslintrc.json`: Konfigurace ESLint pro kontrolu kvality kódu
-- `.prettierignore` a `prettier.config.js`: Konfigurace Prettier pro formátování kódu
 - `next.config.mjs`: Konfigurace Next.js
-- `postcss.config.js`: Konfigurace PostCSS pro zpracování CSS
 - `tailwind.config.js`: Konfigurace Tailwind CSS
 - `tsconfig.json`: Konfigurace TypeScript
+- `.eslintrc.json`: Konfigurace ESLint pro kontrolu kvality kódu
+- `prettier.config.js`: Konfigurace Prettier pro formátování kódu
 
 ## Instalace a spuštění
 
@@ -195,12 +89,19 @@ Projekt využívá několik konfiguračních souborů pro nastavení různých a
    npm install
    ```
 
-3. Spusťte vývojový server:
+3. Nastavte proměnné prostředí:
+   Vytvořte soubor `.env.local` v kořenovém adresáři projektu a nastavte potřebné proměnné prostředí, včetně Appwrite konfigurace:
+   ```
+   NEXT_PUBLIC_APPWRITE_ENDPOINT=your_appwrite_endpoint
+   NEXT_PUBLIC_APPWRITE_PROJECT_ID=your_appwrite_project_id
+   ```
+
+4. Spusťte vývojový server:
    ```
    npm run dev
    ```
 
-4. Otevřete prohlížeč a přejděte na `http://localhost:3000`
+5. Otevřete prohlížeč a přejděte na `http://localhost:3000`
 
 ## Skripty
 
@@ -219,6 +120,7 @@ Projekt využívá několik konfiguračních souborů pro nastavení různých a
 ### Kódové standardy
 - Projekt využívá ESLint a Prettier pro zajištění konzistentního stylu kódu
 - TypeScript je použit pro statickou typovou kontrolu
+- JavaScript je použit pro některé soubory (např. app/page.js, app/appwrite.js)
 - Importy jsou automaticky řazeny pomocí `@ianvs/prettier-plugin-sort-imports`
 
 ### Práce s obsahem
@@ -238,7 +140,6 @@ Projekt využívá několik konfiguračních souborů pro nastavení různých a
 - Implementace FormbricksProvider v `app/formbricks.tsx` pro inicializaci a sledování změn cest
 - Použití Formbricks pro webové stránky (`@formbricks/js/website`)
 - Inicializace Formbricks s vlastním `environmentId` a `apiHost`
-- Poznámka: Při integraci Formbricks s Next.js mohou nastat problémy s importem. V takovém případě zkontrolujte kompatibilitu verzí a použijte správný import (`import formbricks from "@formbricks/js/website";`)
 
 ### Animace a vizuální efekty
 - Využití Framer Motion pro plynulé animace

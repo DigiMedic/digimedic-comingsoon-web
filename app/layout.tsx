@@ -10,7 +10,6 @@ import DotPattern from "@/components/magicui/dot-pattern"
 
 import ClientLayout from "./ClientLayout"
 import FormbricksProvider from "./formbricks"; // Ujistěte se, že cesta je správná
-import ThemeEditor from "shadcn-theme-editor"; // New import added
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -49,7 +48,6 @@ function RootLayout({
           <Footer />
           <TailwindIndicator />
           <FormbricksProvider /> {/* Zde je komponenta zahrnuta */}
-          <ThemeEditor /> {/* New component added */}
         </div>
       </body>
     </html>
