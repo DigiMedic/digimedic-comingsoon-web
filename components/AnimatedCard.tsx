@@ -21,32 +21,29 @@ export const AnimatedCard = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <AnimatePresence>
+      <AnimatePresence mode="sync">
         {isHovered && (
-          <motion.span
-            className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block rounded-lg p-4" // Změněno p-2 na p-4 pro větší rámeček
-            layoutId="hoverBackground"
+          <motion.div
+            key="hoverBackground"
             initial={{ opacity: 0 }}
-            animate={{
-              opacity: 1,
-              transition: { duration: 0.15 },
-            }}
-            exit={{
-              opacity: 0,
-              transition: { duration: 0.15, delay: 0.2 },
-            }}
-          />
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.span
+              className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-600/[0.5] block rounded-lg p-4"
+              layoutId="hoverBackground"
+              transition={{ duration: 0.15 }}
+            />
+          </motion.div>
         )}
       </AnimatePresence>
       <div
         className={cn(
-          "rounded-lg h-full w-full p-1 overflow-hidden bg-white dark:bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20",
+          "rounded-lg h-full w-full p-1 overflow-hidden bg-white border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20",
           className
         )}
       >
-        <div className="relative z-50">
-          {children}
-        </div>
+        <div className="relative z-50">{children}</div>
       </div>
     </Link>
   );

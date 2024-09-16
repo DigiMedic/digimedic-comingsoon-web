@@ -1,6 +1,7 @@
 import React from 'react';
 import { Clock, Calendar } from 'lucide-react';
 import { AnimatedCard } from './AnimatedCard';
+import { cn } from "@/lib/utils";
 
 interface Post {
   id: string;
@@ -9,7 +10,7 @@ interface Post {
   slug: string;
   tags: { name: string }[];
   reading_time?: number;
-  published_at: string; // Přidáno datum publikace
+  published_at: string;
 }
 
 const tagColors = [
@@ -38,12 +39,22 @@ export const PostCardList: React.FC<{ post: Post }> = ({ post }) => {
   }
 
   return (
-    <AnimatedCard link={`/blog/posts/${post.slug}`} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-gray-300">
+    <AnimatedCard 
+      link={`/blog/posts/${post.slug}`} 
+      className={cn(
+        "bg-white rounded-lg shadow-md overflow-hidden",
+        "transition-standard hover:shadow-lg border border-powder-blue"
+      )}
+    >
       <div className="p-6">
-        <h3 className="text-xl font-space-bold-regular text-blumine mb-3 line-clamp-2">{post.title}</h3>
-        <p className="text-sm font-raleway-regular text-astral mb-4 line-clamp-3">{post.excerpt}</p>
-        <div className="flex items-center justify-between flex-wrap">
-          <div className="flex items-center text-xs text-astral font-raleway-regular mr-4">
+        <h3 className="text-xl font-space-bold-regular text-blumine mb-3 line-clamp-2 transition-standard group-hover:text-fountain-blue">
+          {post.title}
+        </h3>
+        <p className="text-sm font-raleway-regular text-astral mb-4 line-clamp-3">
+          {post.excerpt}
+        </p>
+        <div className="flex flex-wrap items-center justify-between">
+          <div className="flex items-center text-xs text-astral font-raleway-regular mr-4 mb-2 sm:mb-0">
             <span className="flex items-center mr-3">
               <Calendar size={12} className="mr-1" />
               {formatDate(post.published_at)}
@@ -53,11 +64,14 @@ export const PostCardList: React.FC<{ post: Post }> = ({ post }) => {
               {post.reading_time} min čtení
             </span>
           </div>
-          <div className="flex flex-wrap gap-2 justify-end flex-grow">
+          <div className="flex flex-wrap gap-2 justify-end">
             {post.tags.slice(0, 3).map(tag => (
               <span 
                 key={tag.name} 
-                className={`text-xs px-2 py-1 rounded-full font-raleway-regular ${getTagColor(tag.name)}`}
+                className={cn(
+                  "text-xs px-2 py-1 rounded-full font-raleway-regular transition-standard",
+                  getTagColor(tag.name)
+                )}
               >
                 {tag.name}
               </span>

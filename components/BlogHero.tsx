@@ -12,12 +12,12 @@ export const BlogHero: React.FC<BlogHeroProps> = ({ title, subtitle }) => (
     initial={{ opacity: 0, y: -20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5 }}
-    className="text-center mb-16"
+    className="text-center mb-16 px-4 sm:px-6 lg:px-8 py-12"
   >
-    <h1 className="text-4xl font-space-bold-regular sm:text-5xl md:text-6xl mb-4">
+    <h1 className="text-3xl font-space-bold-regular sm:text-4xl md:text-5xl lg:text-6xl mb-6 transition-standard">
       {title.split(' ').map((word, index) => 
         index === 1 ? (
-          <span key={index} className="text-transparent bg-clip-text bg-gradient-to-r from-blumine to-fountain-blue">
+          <span key={index} className="text-gradient">
             {word}{' '}
           </span>
         ) : (
@@ -25,7 +25,7 @@ export const BlogHero: React.FC<BlogHeroProps> = ({ title, subtitle }) => (
         )
       )}
     </h1>
-    <p className="text-xl text-astral font-raleway-regular max-w-2xl mx-auto">
+    <p className="text-lg sm:text-xl text-astral font-raleway-regular max-w-2xl mx-auto transition-standard">
       {subtitle}
     </p>
   </motion.header>
