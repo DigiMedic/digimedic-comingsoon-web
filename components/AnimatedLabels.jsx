@@ -1,5 +1,6 @@
 "use client"
 
+import React from 'react';
 import {
   ActivityIcon,
   BarChartIcon,
@@ -27,7 +28,6 @@ import {
   VideoIcon,
   ZapIcon,
 } from "lucide-react"
-
 import { cn } from "@/lib/utils"
 import Marquee from "@/components/magicui/marquee"
 
@@ -81,12 +81,12 @@ const LabelCard = ({ icon: Icon, text }) => {
 export function AnimatedLabels() {
   return (
     <div className="relative w-full overflow-hidden py-4">
-      <Marquee pauseOnHover className="mb-2 [--duration:160s]"> {/* Zvýšení na 120s */}
+      <Marquee className="mb-2 [--duration:300s]" pauseOnHover>
         {firstRow.map((label, index) => (
           <LabelCard key={index} {...label} />
         ))}
       </Marquee>
-      <Marquee reverse pauseOnHover className="[--duration:160s]"> {/* Zvýšení na 120s */}
+      <Marquee className="[--duration:300s]" pauseOnHover reverse>
         {secondRow.map((label, index) => (
           <LabelCard key={index} {...label} />
         ))}
@@ -96,6 +96,5 @@ export function AnimatedLabels() {
     </div>
   )
 }
-
 
 export default AnimatedLabels

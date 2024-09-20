@@ -22,7 +22,7 @@ export default function IndexPage() {
         <DockLive />
         <FUIFeatureSectionWithCards />
       </div>
-      
+
       <script
         defer
         src="https://cloud.umami.is/script.js"
