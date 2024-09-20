@@ -1,5 +1,6 @@
 import { getPostBySlug, getPosts } from "@/lib/ghost"
 import { FullArticle } from "@/components/FullArticle"
+import FormComponent from "@/components/FormComponent"
 import type { BlogPost } from "@/types/blog"
 
 export default async function BlogPost({
@@ -15,5 +16,10 @@ export default async function BlogPost({
     return <div>Článek nebyl nalezen</div>
   }
 
-  return <FullArticle post={post} relatedPosts={relatedPosts} />
+  return (
+    <>
+      <FullArticle post={post} relatedPosts={relatedPosts} />
+      <FormComponent />
+    </>
+  )
 }

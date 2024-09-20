@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@formbricks/js": "^2.2.0",
-    "@kinfe123/farm-ui": "^1.0.12",
     "@radix-ui/react-slot": "^1.1.0",
     "@tryghost/content-api": "^1.11.21",
     "@tsparticles/engine": "^3.5.0",

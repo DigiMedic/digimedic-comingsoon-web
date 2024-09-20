@@ -14,8 +14,8 @@ module.exports = {
         polar: '#ffffff',
       },
       animation: {
-        marquee: 'marquee 40s linear infinite',
-        'marquee-vertical': 'marqueeVertical 40s linear infinite',
+        marquee: 'marquee 100s linear infinite',
+        'marquee-vertical': 'marqueeVertical 100s linear infinite',
       },
       keyframes: {
         marquee: {
