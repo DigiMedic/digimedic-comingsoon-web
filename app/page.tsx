@@ -1,5 +1,4 @@
 import { Metadata } from "next"
-import DockLive from "@/components/dock-live"
 import FUIFeatureSectionWithCards from "@/components/fui-feature-section-with-cards"
 import Hero from "@/components/hero"
 import TextRevealByWord from "@/components/TextRevealByWord"
@@ -19,7 +18,6 @@ export default function IndexPage() {
           <div className="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_300px_at_80%_300px,#C9EBFF,transparent)]"></div>
         </div>
         <TextRevealByWord />
-        <DockLive />
         <FUIFeatureSectionWithCards />
       </div>
 
