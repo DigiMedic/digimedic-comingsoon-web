@@ -23,8 +23,8 @@ const RelatedArticles: React.FC<RelatedArticlesProps> = ({ posts = [] }) => {
             <article className="bg-white shadow-md rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
               {post.feature_image && (
                 <Image
-                  src={post.feature_image}
-                  alt={post.title}
+                  src={post.feature_image || '/default-image.jpg'}
+                  alt={post.title || 'Článek bez názvu'}
                   width={500}
                   height={300}
                   className="w-full h-48 object-cover"
