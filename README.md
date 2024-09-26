@@ -33,8 +33,7 @@ Projekt je postaven na moderní architektuře využívající následující kl�
 │   ├── page.js             # Hlavní stránka s funkcionalitou přihlášení/registrace
 │   ├── layout.tsx          # Hlavní layout aplikace
 │   ├── ClientLayout.tsx    # Client-side layout wrapper
-│   ├── formbricks.tsx      # Integrace Formbricks pro analýzu uživatelského chování
-│   └── blog/               # Blog sekce
+│   ├── blog/               # Blog sekce
 │       ├── page.tsx        # Hlavní stránka blogu
 │       ├── layout.tsx      # Layout pro blog sekci
 │       └── posts/          # Jednotlivé blogové příspěvky
@@ -49,7 +48,6 @@ Projekt je postaven na moderní architektuře využívající následující kl�
 
 - **LoginPage** (app/page.js): Implementuje funkcionalitu pro přihlášení, registraci a odhlášení uživatelů pomocí Appwrite.
 - **AppwriteClient** (app/appwrite.js): Konfiguruje a inicializuje Appwrite klienta pro autentizaci a správu uživatelů.
-- **FormbricksProvider** (app/formbricks.tsx): Integruje Formbricks pro sledování uživatelského chování a sběr zpětné vazby.
 - **Layout** (app/layout.tsx): Definuje hlavní layout aplikace včetně globálních stylů a metadat.
 - **ClientLayout** (app/ClientLayout.tsx): Wrapper pro client-side funkcionalitu.
 - **BlogPage** (app/blog/page.tsx): Zobrazuje seznam blogových příspěvků.
@@ -78,7 +76,7 @@ Projekt využívá několik konfiguračních souborů pro nastavení různých a
 
 ## Instalace a spuštění
 
-1. Naklonujte repozitář:
+1. Naklonujte repozitá��:
    ```
    git clone https://github.com/vas-username/digimedic-comingsoon-web.git
    ```

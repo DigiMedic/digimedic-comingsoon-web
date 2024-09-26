@@ -4,7 +4,8 @@ const nextConfig = {
   images: {
     domains: [
       'ghost-dso8k808400okgkc80wss8s0.digimedic.cz',
-      'www.gravatar.com'
+      'www.gravatar.com',
+      'utfs.io'
     ],
   },
   webpack: (config, { isServer }) => {
@@ -16,12 +17,7 @@ const nextConfig = {
     }
     return config;
   },
-  postcss: {
-    plugins: [
-      'tailwindcss',
-      'autoprefixer',
-    ],
-  },
-}
+  transpilePackages: ['react-email-starter'],
+};
 
-export default nextConfig
+export default nextConfig;

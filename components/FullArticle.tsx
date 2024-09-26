@@ -16,7 +16,6 @@ interface FullArticleProps {
 
 export const FullArticle: React.FC<FullArticleProps> = ({ post, relatedPosts }) => {
   const [readProgress, setReadProgress] = useState(0);
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     const updateReadProgress = () => {
@@ -28,10 +27,6 @@ export const FullArticle: React.FC<FullArticleProps> = ({ post, relatedPosts }) 
     window.addEventListener('scroll', updateReadProgress);
     return () => window.removeEventListener('scroll', updateReadProgress);
   }, []);
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
 
   const readingTime = Math.ceil((post.html?.split(" ").length || 0) / 200);
 
@@ -57,14 +52,7 @@ export const FullArticle: React.FC<FullArticleProps> = ({ post, relatedPosts }) 
   };
 
   return (
-    <article className={`mx-auto max-w-4xl px-6 py-12 font-raleway ${isDarkMode ? 'dark bg-gray-900 text-gray-100' : 'bg-white text-gray-900'}`}>
-      <button
-        onClick={toggleDarkMode}
-        className="fixed top-4 right-4 z-50 bg-blue-500 text-white p-2 rounded-full transition-colors duration-300 hover:bg-blue-600"
-        aria-label={isDarkMode ? "Přepnout na světlý režim" : "Přepnout na tmavý režim"}
-      >
-        {isDarkMode ? '☀️' : '🌙'}
-      </button>
+    <article className="mx-auto max-w-4xl px-6 py-12 font-raleway bg-white text-gray-900">
       <div 
         className="fixed top-0 left-0 h-1 bg-blue-500 transition-all duration-300"
         style={{ width: `${readProgress}%` }}

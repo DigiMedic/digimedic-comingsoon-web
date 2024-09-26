@@ -1,5 +1,11 @@
 "use client";
 
+declare global {
+  interface Window {
+    initEmbed?: (id: string) => void;
+  }
+}
+
 import React, { useEffect } from 'react';
 import { cn } from '../lib/utils';
 
@@ -10,7 +16,7 @@ export const NewsletterForm: React.FC = () => {
     script.src = 'https://opnform.com/widgets/iframe.min.js';
     script.type = 'text/javascript';
     script.onload = () => {
-      if (window.initEmbed) {
+      if (typeof window.initEmbed === 'function') {
         window.initEmbed('prihlaseni-k-odberu-gpt8sb');
       }
     };

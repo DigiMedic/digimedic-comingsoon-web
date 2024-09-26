@@ -27,6 +27,11 @@ module.exports = {
           '100%': { transform: 'translateY(-100%)' },
         },
       },
+      fontFamily: {
+        'space-mono': ['var(--font-space-mono)', 'monospace'],
+        'raleway': ['var(--font-raleway)', 'sans-serif'],
+        'open-sans': ['var(--font-open-sans)', 'sans-serif'],
+      },
     },
   },
   plugins: [],
