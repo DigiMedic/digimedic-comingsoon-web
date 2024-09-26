@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { BlogPost } from '@/types/blog';
+import Image from 'next/image';
 
 interface RelatedArticlesProps {
   posts?: BlogPost[];
@@ -21,7 +22,13 @@ const RelatedArticles: React.FC<RelatedArticlesProps> = ({ posts = [] }) => {
           <Link href={`/blog/${post.slug}`} key={post.id}>
             <article className="bg-white shadow-md rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
               {post.feature_image && (
-                <img src={post.feature_image} alt={post.title} className="w-full h-48 object-cover" />
+                <Image
+                  src={post.feature_image}
+                  alt={post.title}
+                  width={500}
+                  height={300}
+                  className="w-full h-48 object-cover"
+                />
               )}
               <div className="p-4">
                 <h3 className="text-lg font-semibold mb-2">{post.title}</h3>

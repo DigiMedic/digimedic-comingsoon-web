@@ -17,12 +17,6 @@ const nextConfig = {
     }
     return config;
   },
-  postcss: {
-    plugins: [
-      'tailwindcss',
-      'autoprefixer',
-    ],
-  },
 }
 
 export default nextConfig
