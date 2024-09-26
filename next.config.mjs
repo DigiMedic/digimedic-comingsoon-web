@@ -18,6 +18,9 @@ const nextConfig = {
     return config;
   },
   transpilePackages: ['react-email-starter'],
+  experimental: {
+    externalDir: true,
+  },
 };
-
+export default nextConfig
 export default nextConfig;
