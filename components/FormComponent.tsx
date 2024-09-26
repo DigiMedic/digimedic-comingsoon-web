@@ -9,7 +9,7 @@ export default function FormComponent() {
     <div className="w-full max-w-2xl mx-auto bg-white rounded-lg overflow-hidden shadow-lg" style={{ height: 'auto' }}>
       <div className="bg-blumine text-white p-6 text-center">
         <h2 className="font-space text-2xl font-bold mb-2 tracking-wide">
-          Zůstaňte informováni
+          Zůstaňte informovaní
         </h2>
         <p className="font-raleway text-base text-powder-blue leading-relaxed">
           Přihlaste se k odběru našeho newsletteru a buďte v obraze o nejnovějších trendech v digitálním zdravotnictví
