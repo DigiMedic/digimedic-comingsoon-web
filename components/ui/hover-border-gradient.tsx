@@ -6,6 +6,15 @@ import { cn } from "@/lib/utils";
 
 type Direction = "TOP" | "LEFT" | "BOTTOM" | "RIGHT";
 
+const movingMap: Record<Direction, string> = {
+  TOP: "linear-gradient(0deg, #000 0%, #1B4D6A 100%)",
+  RIGHT: "linear-gradient(90deg, #000 0%, #1B4D6A 100%)",
+  BOTTOM: "linear-gradient(180deg, #000 0%, #1B4D6A 100%)",
+  LEFT: "linear-gradient(270deg, #000 0%, #1B4D6A 100%)",
+};
+
+const highlight = "radial-gradient(circle, #1B4D6A 0%, #000 100%)";
+
 export function HoverBorderGradient({
   children,
   containerClassName,
@@ -38,7 +47,7 @@ export function HoverBorderGradient({
 
     if (!hovered) {
       const interval = setInterval(() => {
-        setDirection((prevState) => rotateDirection(prevState));
+        setDirection(rotateDirection);
       }, duration * 1000);
       return () => clearInterval(interval);
     }
