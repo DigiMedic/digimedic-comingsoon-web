@@ -17,6 +17,7 @@ const nextConfig = {
     }
     return config;
   },
-}
+  transpilePackages: ['react-email-starter'],
+};
 
-export default nextConfig
+export default nextConfig;
