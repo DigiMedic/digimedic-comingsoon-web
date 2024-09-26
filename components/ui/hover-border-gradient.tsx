@@ -6,6 +6,15 @@ import { cn } from "@/lib/utils";
 
 type Direction = "TOP" | "LEFT" | "BOTTOM" | "RIGHT";
 
+const movingMap: Record<Direction, string> = {
+  TOP: "linear-gradient(0deg, #000 0%, #1B4D6A 100%)",
+  RIGHT: "linear-gradient(90deg, #000 0%, #1B4D6A 100%)",
+  BOTTOM: "linear-gradient(180deg, #000 0%, #1B4D6A 100%)",
+  LEFT: "linear-gradient(270deg, #000 0%, #1B4D6A 100%)",
+};
+
+const highlight = "radial-gradient(circle, #1B4D6A 0%, #000 100%)";
+
 export function HoverBorderGradient({
   children,
   containerClassName,
@@ -26,35 +35,23 @@ export function HoverBorderGradient({
   const [hovered, setHovered] = useState<boolean>(false);
   const [direction, setDirection] = useState<Direction>("TOP");
 
-  const rotateDirection = (currentDirection: Direction): Direction => {
-    const directions: Direction[] = ["TOP", "LEFT", "BOTTOM", "RIGHT"];
-    const currentIndex = directions.indexOf(currentDirection);
-    const nextIndex = clockwise
-      ? (currentIndex - 1 + directions.length) % directions.length
-      : (currentIndex + 1) % directions.length;
-    return directions[nextIndex];
-  };
-
-  const movingMap: Record<Direction, string> = {
-    TOP: "radial-gradient(20.7% 50% at 50% 0%, hsl(0, 0%, 100%) 0%, rgba(255, 255, 255, 0) 100%)",
-    LEFT: "radial-gradient(16.6% 43.1% at 0% 50%, hsl(0, 0%, 100%) 0%, rgba(255, 255, 255, 0) 100%)",
-    BOTTOM:
-      "radial-gradient(20.7% 50% at 50% 100%, hsl(0, 0%, 100%) 0%, rgba(255, 255, 255, 0) 100%)",
-    RIGHT:
-      "radial-gradient(16.2% 41.199999999999996% at 100% 50%, hsl(0, 0%, 100%) 0%, rgba(255, 255, 255, 0) 100%)",
-  };
-
-  const highlight =
-    "radial-gradient(75% 181.15942028985506% at 50% 50%, #3275F8 0%, rgba(255, 255, 255, 0) 100%)";
-
   useEffect(() => {
+    const rotateDirection = () => {
+      const directions: Direction[] = ["TOP", "LEFT", "BOTTOM", "RIGHT"];
+      const currentIndex = directions.indexOf(direction);
+      const nextIndex = clockwise
+        ? (currentIndex - 1 + directions.length) % directions.length
+        : (currentIndex + 1) % directions.length;
+      return directions[nextIndex];
+    };
+
     if (!hovered) {
       const interval = setInterval(() => {
-        setDirection((prevState) => rotateDirection(prevState));
+        setDirection(rotateDirection);
       }, duration * 1000);
       return () => clearInterval(interval);
     }
-  }, [hovered]);
+  }, [duration, hovered, clockwise, direction]);
   return (
     <Tag
       onMouseEnter={(event: React.MouseEvent<HTMLDivElement>) => {
