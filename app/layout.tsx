@@ -9,7 +9,7 @@ import { TailwindIndicator } from "@/components/tailwind-indicator"
 import DotPattern from "@/components/magicui/dot-pattern"
 
 import ClientLayout from "./ClientLayout"
-import FormbricksProvider from "./formbricks"; // Ujistěte se, že cesta je správná
+import { spaceMono, raleway, openSans } from './fonts'
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -25,13 +25,7 @@ function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="cs" suppressHydrationWarning>
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Raleway&family=Open+Sans&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="cs" suppressHydrationWarning className={`${spaceMono.variable} ${raleway.variable} ${openSans.variable}`}>
       <body
         className={cn(
           "min-h-screen font-raleway text-blumine antialiased relative"
@@ -47,7 +41,6 @@ function RootLayout({
           </ClientLayout>
           <Footer />
           <TailwindIndicator />
-          <FormbricksProvider /> {/* Zde je komponenta zahrnuta */}
         </div>
       </body>
     </html>

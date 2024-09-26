@@ -1,20 +1,14 @@
 {
-  "name": "digimedic-comingsoon-web",
-  "version": "0.0.2",
+  "name": "digimedic-blog",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "lint:fix": "next lint --fix",
-    "preview": "next build && next start",
-    "typecheck": "tsc --noEmit",
-    "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
-    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@formbricks/js": "^2.2.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@tryghost/content-api": "^1.11.21",
     "@tsparticles/engine": "^3.5.0",
