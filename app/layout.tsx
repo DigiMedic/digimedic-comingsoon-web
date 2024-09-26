@@ -10,6 +10,8 @@ import DotPattern from "@/components/magicui/dot-pattern"
 
 import { spaceMono, raleway, openSans } from './fonts'
 
+import { Analytics } from '@vercel/analytics/react';
+
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "DigiMedic Blog",
@@ -38,6 +40,7 @@ function RootLayout({
           </main>
           <Footer />
           <TailwindIndicator />
+          <Analytics />
         </div>
       </body>
     </html>
