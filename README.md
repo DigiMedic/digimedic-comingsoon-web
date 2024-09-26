@@ -11,7 +11,7 @@ DigiMedic je webová prezentace zaměřená na digitalizaci a inovaci v českém
 Projekt je postaven na moderní architektuře využívající následující klíčové technologie a přístupy:
 
 1. **Framework**: Next.js 14 - využívá App Router a Server Components pro optimální výkon a SEO.
-2. **Jazyk**: JavaScript a TypeScript - zajišťuje typovou bezpečnost a lepší vývojářskou zkušenost.
+2. **Jazyk**: TypeScript - zajišťuje typovou bezpečnost a lepší vývojářskou zkušenost.
 3. **UI knihovna**: React 18 - umožňuje vytváření interaktivních uživatelských rozhraní.
 4. **Styling**: Tailwind CSS - pro rychlý vývoj responzivního designu.
 5. **Autentizace**: Appwrite - poskytuje bezpečnou a škálovatelnou správu uživatelů a autentizaci.
@@ -21,8 +21,9 @@ Projekt je postaven na moderní architektuře využívající následující kl�
 9. **Animace**: Framer Motion - pro plynulé a atraktivní animace UI.
 10. **Zpracování obsahu**: MDX, remark - umožňuje psaní dynamického obsahu s podporou React komponent.
 11. **SEO**: react-schemaorg, schema-dts - pro implementaci strukturovaných dat a zlepšení SEO.
-12. **Optimalizace obrázků**: sharp - pro efektivní zpracování a optimalizaci obrázků.
+12. **Optimalizace obrázků**: next/image - pro efektivní zpracování a optimalizaci obrázků.
 13. **Správa témat**: next-themes - pro implementaci tmavého režimu a dalších barevných schémat.
+14. **CMS**: Ghost - pro správu obsahu blogu.
 
 ## Struktura projektu
 
@@ -76,7 +77,7 @@ Projekt využívá několik konfiguračních souborů pro nastavení různých a
 
 ## Instalace a spuštění
 
-1. Naklonujte repozitá��:
+1. Naklonujte repozitá:
    ```
    git clone https://github.com/vas-username/digimedic-comingsoon-web.git
    ```
