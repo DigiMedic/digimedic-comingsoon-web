@@ -22,7 +22,7 @@ const Hero = () => {
             </h1>
           </div>
           <p className="font-raleway-regular mb-2 mt-1 text-sm sm:text-base text-astral">
-            Naše webové stránky jsou právě ve vývoji. Pracujeme na tom, abychom
+          Pracujeme na tom, abychom
             vám brzy mohli představit kompletní online prezentaci. Připojte se k
             nám na cestě k efektivnější a dostupnější zdravotní péči.
           </p>
