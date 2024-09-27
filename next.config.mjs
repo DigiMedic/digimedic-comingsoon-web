@@ -7,29 +7,24 @@ const __dirname = dirname(__filename);
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  swcMinify: true,
+  // Pokud používáte experimentální funkce, přidejte je zde
+  experimental: {
+    appDir: true,
+  },
   images: {
     domains: [
       'ghost-dso8k808400okgkc80wss8s0.digimedic.cz',
-      'www.gravatar.com',
-      'utfs.io'
+      'digimedic.cz',
+      'www.digimedic.cz'
+    ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.digimedic.cz',
+      },
     ],
   },
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-      };
-    }
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': __dirname,
-    };
-    return config;
-  },
-  transpilePackages: ['react-email-starter'],
-  experimental: {
-    externalDir: true,
-  },
 };
+
 export default nextConfig;

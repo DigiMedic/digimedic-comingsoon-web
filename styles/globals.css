@@ -9,7 +9,7 @@
   --astral: #5b8a9a;
   --fountain-blue: #5ba2c2;
   --powder-blue: #a8d4e1;
-  --polar: #ffffff; /* Změněno na bílou */
+  --polar: #ffffff;
   --font-space-bold-regular: 'Space Mono', monospace;
   --font-space-bold-semibold: 'Space Mono', monospace;
   --font-raleway-regular: 'Raleway', sans-serif;
@@ -38,6 +38,6 @@
 
 .font-space-mono-bold {
   font-family: 'Space Mono', monospace;
-  font-weight: 700; /* Bold */
+  font-weight: 700;
 }
 
