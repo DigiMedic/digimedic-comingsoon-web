@@ -10,7 +10,7 @@ const nextConfig = {
   swcMinify: true,
   // Pokud používáte experimentální funkce, přidejte je zde
   experimental: {
-    appDir: true,
+    // Odstraňte řádek s appDir
   },
   images: {
     domains: [
