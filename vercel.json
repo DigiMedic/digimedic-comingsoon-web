@@ -6,18 +6,6 @@
   "framework": "nextjs",
   "outputDirectory": ".next",
   "regions": ["fra1"],
-  "builds": [
-    {
-      "src": "next.config.mjs",
-      "use": "@vercel/next"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
