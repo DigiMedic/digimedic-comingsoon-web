@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { X, Mail, Phone, MapPin, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
@@ -11,8 +13,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-blumine bg-opacity-50 flex justify-center items-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-5xl w-full mx-auto overflow-hidden">
+    <div className="fixed inset-0 bg-blumine bg-opacity-50 flex justify-center items-center z-50 p-4 overflow-y-auto">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-5xl mx-auto my-8 overflow-hidden">
         <div className="flex flex-col lg:flex-row">
           {/* Kontaktní karta */}
           <div className="w-full lg:w-2/5 bg-polar p-8 space-y-6">
@@ -76,5 +78,3 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
     </div>
   );
 };
-
-export default ContactModal;

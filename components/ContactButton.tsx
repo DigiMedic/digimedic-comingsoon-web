@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from "react"
-import { ContactModal } from "./ContactModal"
+import { ContactModal } from "@/components/ContactModal"
 
 interface ContactButtonProps {
   className?: string;
-  href?: string;
+  href: string;  // Odstraňte otazník, aby bylo href povinné
 }
 
 export const ContactButton: React.FC<ContactButtonProps> = ({ className = "", href = "#" }) => {

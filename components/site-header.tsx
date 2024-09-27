@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ContactButton } from "./ContactButton"
+import { ContactButton } from "@/components/ContactButton"
 
 export function SiteHeader() {
   return (
