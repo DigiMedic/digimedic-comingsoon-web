@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import { motion, useScroll, useMotionValueEvent } from "framer-motion"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { ContactButton } from "@/components/ContactButton"
 
 const MenuItem = motion(Link)
 
@@ -61,10 +62,11 @@ export const DigiMedicNavigation = () => {
         animate={hidden ? "hidden" : "visible"}
         transition={{ duration: 0.35, ease: "easeInOut" }}
         onMouseLeave={() => setActive(null)}
-        className="inline-flex justify-center space-x-4 rounded-full border border-gray-200 bg-white/90 px-4 py-2 shadow-md backdrop-blur-md"
+        className="inline-flex justify-center items-center space-x-4 rounded-full border border-gray-200 bg-white/90 px-4 py-2 shadow-md backdrop-blur-md"
       >
         <MenuItemComponent setActive={setActive} active={active} item="Domů" href="/" />
         <MenuItemComponent setActive={setActive} active={active} item="Blog" href="/blog" />
+        <ContactButton className="ml-4" href="#" />
       </motion.nav>
     </div>
   )

@@ -1,6 +1,5 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ContactButton } from "@/components/ContactButton"
 
 export function SiteHeader() {
   return (
@@ -18,13 +17,6 @@ export function SiteHeader() {
               priority
             />
           </Link>
-          <Link
-            href="/blog"
-            className="mr-4 text-blumine hover:text-fountain-blue"
-          >
-            Blog
-          </Link>
-          <ContactButton href="/contact" />
         </div>
       </div>
     </header>

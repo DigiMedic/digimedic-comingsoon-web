@@ -2,10 +2,11 @@
 
 import React, { useState } from "react"
 import { ContactModal } from "@/components/ContactModal"
+import { createPortal } from "react-dom"
 
 interface ContactButtonProps {
   className?: string;
-  href: string;  // Odstraňte otazník, aby bylo href povinné
+  href: string;
 }
 
 export const ContactButton: React.FC<ContactButtonProps> = ({ className = "", href = "#" }) => {
@@ -25,7 +26,7 @@ export const ContactButton: React.FC<ContactButtonProps> = ({ className = "", hr
       >
         <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E7F5F8_0%,#1B4D6A_50%,#E7F5F8_100%)] pointer-events-none" />
         <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-white px-3 py-1 text-sm font-medium text-blumine backdrop-blur-3xl pointer-events-none">
-          Kontaktujte nás
+          Kontakt
           <svg
             className="ml-2 h-4 w-4"
             fill="none"
@@ -41,7 +42,10 @@ export const ContactButton: React.FC<ContactButtonProps> = ({ className = "", hr
           </svg>
         </span>
       </a>
-      {isModalOpen && <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && createPortal(
+        <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />,
+        document.body
+      )}
     </>
   )
 }

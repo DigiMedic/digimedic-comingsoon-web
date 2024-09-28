@@ -1,8 +1,7 @@
 "use client";
 
 import React from 'react';
-import { X, Mail, Phone, MapPin, ExternalLink } from 'lucide-react';
-import Image from 'next/image';
+import { X, Mail, Phone, MapPin } from 'lucide-react';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -13,18 +12,16 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-blumine bg-opacity-50 flex justify-center items-center z-50 p-4 overflow-y-auto">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-5xl mx-auto my-8 overflow-hidden">
+    <div className="fixed inset-0 bg-blumine bg-opacity-50 flex justify-center items-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-xl max-w-5xl w-full mx-auto overflow-hidden">
         <div className="flex flex-col lg:flex-row">
           {/* Kontaktní karta */}
           <div className="w-full lg:w-2/5 bg-polar p-8 space-y-6">
             <div className="flex justify-center mb-6">
-              <Image
-                src="@https://utfs.io/f/NyKlEsePJFL1S6Kx7l2O8nK5CrB9quV1ojygEkAcI7Xe6WzT"
+              <img
+                src="https://utfs.io/f/NyKlEsePJFL1eCsi9ZEzl3DpVAEL2Wqayfw71FktP6uBYThO"
                 alt="DigiMedic Logo"
-                width={200}
-                height={60}
-                objectFit="contain"
+                className="w-48 h-auto object-contain"
               />
             </div>
             <h2 className="text-2xl font-space font-bold text-blumine mb-4 text-center">Kontaktní údaje</h2>
@@ -51,13 +48,6 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
                 </div>
               </div>
             </div>
-            <a 
-              href="https://www.digimedic.cz/kontakt" 
-              className="block w-full bg-astral hover:bg-fountain-blue text-white text-center py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center mt-8 font-semibold"
-            >
-              <span>Více informací</span>
-              <ExternalLink size={18} className="ml-2" />
-            </a>
           </div>
 
           {/* Formulář */}

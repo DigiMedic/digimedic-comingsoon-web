@@ -17,7 +17,7 @@ const nextConfig = {
       'ghost-dso8k808400okgkc80wss8s0.digimedic.cz',
       'digimedic.cz',
       'www.digimedic.cz',
-      'utfs.io'  // Přidáme tuto doménu
+      'utfs.io'
     ],
     remotePatterns: [
       {
@@ -26,7 +26,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'utfs.io',  // Přidáme vzor pro utfs.io
+        hostname: 'utfs.io',
       },
     ],
   },
