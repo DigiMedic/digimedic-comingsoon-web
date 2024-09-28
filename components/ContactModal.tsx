@@ -20,7 +20,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
           <div className="w-full lg:w-2/5 bg-polar p-8 space-y-6">
             <div className="flex justify-center mb-6">
               <Image
-                src="https://utfs.io/f/NyKlEsePJFL1eCsi9ZEzl3DpVAEL2Wqayfw71FktP6uBYThO"
+                src="@https://utfs.io/f/NyKlEsePJFL1S6Kx7l2O8nK5CrB9quV1ojygEkAcI7Xe6WzT"
                 alt="DigiMedic Logo"
                 width={200}
                 height={60}
