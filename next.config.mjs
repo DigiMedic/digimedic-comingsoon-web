@@ -8,7 +8,6 @@ const __dirname = dirname(__filename);
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  // Pokud používáte experimentální funkce, přidejte je zde
   experimental: {
     // Zde by nemělo být nic, pokud nepoužíváte jiné experimentální funkce
   },
@@ -29,6 +28,10 @@ const nextConfig = {
         hostname: 'utfs.io',
       },
     ],
+  },
+  env: {
+    GHOST_API_URL: process.env.GHOST_API_URL,
+    GHOST_CONTENT_API_KEY: process.env.GHOST_CONTENT_API_KEY,
   },
 };
 

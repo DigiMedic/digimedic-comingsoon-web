@@ -1,8 +1,7 @@
 import GhostContentAPI from "@tryghost/content-api"
 
-const GHOST_API_URL =
-  "https://ghost-dso8k808400okgkc80wss8s0.digimedic.cz/ghost/api/content"
-const GHOST_API_KEY = "0fe6e78d497ebf77ab192d7804"
+const GHOST_API_URL = process.env.GHOST_API_URL || ""
+const GHOST_API_KEY = process.env.GHOST_CONTENT_API_KEY || ""
 
 const api = new GhostContentAPI({
   url: GHOST_API_URL,
