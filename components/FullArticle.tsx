@@ -53,7 +53,7 @@ export const FullArticle: React.FC<FullArticleProps> = ({ post, relatedPosts }) 
 
   return (
     <article className="mx-auto max-w-4xl px-6 py-12 font-raleway bg-white text-gray-900">
-      <div 
+      <div
         className="fixed top-0 left-0 h-1 bg-blue-500 transition-all duration-300"
         style={{ width: `${readProgress}%` }}
       />
@@ -65,7 +65,7 @@ export const FullArticle: React.FC<FullArticleProps> = ({ post, relatedPosts }) 
           <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
             📅 {formattedDate}
           </span>
-          {post.primary_author && (
+          {post.primary_author && typeof post.primary_author === 'object' && (
             <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
               👤 Autor: {post.primary_author.name}
             </span>
@@ -88,16 +88,16 @@ export const FullArticle: React.FC<FullArticleProps> = ({ post, relatedPosts }) 
           </div>
         )}
       </header>
-      
+
       <TableOfContents content={post.html || ""} />
-      
+
       <div
         className="prose prose-lg max-w-none"
         dangerouslySetInnerHTML={{ __html: processContent(post.html || "") }}
       />
-      
+
       <RelatedArticles posts={relatedPosts} />
-      
+
       <footer className="mt-16 pt-8 border-t border-gray-200">
         {post.tags && post.tags.length > 0 && (
           <div className="flex flex-wrap gap-3 mb-8">

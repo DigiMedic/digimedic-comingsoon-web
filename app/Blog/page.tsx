@@ -47,7 +47,7 @@ export default function BlogHome() {
     fetchPosts();
   }, []);
 
-  const tags = useMemo(() => 
+  const tags = useMemo(() =>
     Array.from(new Set(posts.flatMap(post => post.tags.map(tag => tag.name)))),
     [posts]
   );
@@ -77,17 +77,17 @@ export default function BlogHome() {
 
   return (
     <ErrorBoundary>
-      <SEO 
-        title="DigiMedic Blog"
-        description="Objevte nejnovější trendy a inovace v digitalizaci zdravotnictví"
+      <SEO
+        title="Blog"
+        description="Zjistěte, jak digitalizace mění zdravotnictví"
       />
       <div className={cn(
         "max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12",
         "animate-fade-in"
       )}>
-        <BlogHero 
-          title="Blog DigiMedic"
-          subtitle="Objevte nejnovější trendy a inovace v digitalizaci zdravotnictví"
+        <BlogHero
+          title="Blog"
+          subtitle="Osobní blog"
         />
 
         {isLoading ? (
@@ -98,7 +98,7 @@ export default function BlogHome() {
           <>
             {featuredPost && <FeaturedPost post={featuredPost} />}
 
-            <motion.div 
+            <motion.div
               className="mb-16"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -112,7 +112,7 @@ export default function BlogHome() {
               </div>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               className={cn(
                 "mb-12 flex flex-col md:flex-row items-center justify-between",
                 "bg-polar p-6 rounded-lg shadow-md"
@@ -158,7 +158,7 @@ export default function BlogHome() {
               </div>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               className="mb-16"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -174,7 +174,7 @@ export default function BlogHome() {
           </>
         )}
 
-        <motion.footer 
+        <motion.footer
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}

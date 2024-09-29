@@ -1,29 +1,20 @@
-import { Author, PostOrPage, PostsOrPages, Tag } from "@tryghost/content-api"
-
-export interface BlogPost extends PostOrPage {
-  // Přidejte další vlastnosti, pokud jsou potřeba
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  html?: string; // Přidáno pro zpětnou kompatibilitu
+  createdAt: string;
+  updatedAt: string;
+  feature_image?: string;
+  tags?: Array<{ id: string; name: string }>;
+  published_at?: string; // Přidáno
+  primary_author?: string; // Pokud je to ID autora
+  custom_excerpt?: string; // Přidání custom_excerpt
 }
 
-export interface BlogTag extends Tag {
-  // Přidejte další vlastnosti, pokud jsou potřeba
-}
-
-export interface BlogAuthor extends Author {
-  // Přidejte další vlastnosti, pokud jsou potřeba
-}
-
-export type BlogPosts = PostsOrPages
-
-export interface PostsResponse {
-  posts: BlogPost[]
-  meta: {
-    pagination: {
-      page: number
-      limit: number
-      pages: number
-      total: number
-      next: number | null
-      prev: number | null
-    }
-  }
+export interface Author {
+  id: string;
+  name: string;
 }

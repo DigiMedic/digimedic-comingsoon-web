@@ -16,7 +16,8 @@ const nextConfig = {
       'ghost-dso8k808400okgkc80wss8s0.digimedic.cz',
       'digimedic.cz',
       'www.digimedic.cz',
-      'utfs.io'
+      'utfs.io',
+      'ghost-dso8k808400okgkc80wss8s0.194.164.72.131.sslip.io'
     ],
     remotePatterns: [
       {
@@ -26,6 +27,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'utfs.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ghost-dso8k808400okgkc80wss8s0.194.164.72.131.sslip.io',
       },
     ],
   },
