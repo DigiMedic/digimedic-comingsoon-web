@@ -65,7 +65,7 @@ export const FullArticle: React.FC<FullArticleProps> = ({ post, relatedPosts }) 
           <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
             📅 {formattedDate}
           </span>
-          {post.primary_author && typeof post.primary_author === 'object' && (
+          {post.primary_author && typeof post.primary_author === 'object' && post.primary_author.name && (
             <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
               👤 Autor: {post.primary_author.name}
             </span>

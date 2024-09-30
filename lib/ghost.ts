@@ -1,4 +1,4 @@
-import GhostContentAPI, { MakeRequestParams } from "@tryghost/content-api";
+import GhostContentAPI from "@tryghost/content-api";
 
 interface MakeRequestOptions {
   url: string;
