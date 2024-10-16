@@ -41,3 +41,18 @@
   font-weight: 700;
 }
 
+.page-header {
+  padding-top: 4rem; /* nebo jakoukoliv jinou hodnotu */
+}
+
+@media (min-width: 640px) {
+  .page-header {
+    padding-top: 6rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .page-header {
+    padding-top: 8rem;
+  }
+}

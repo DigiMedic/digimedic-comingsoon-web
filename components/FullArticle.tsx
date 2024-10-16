@@ -14,7 +14,7 @@ interface FullArticleProps {
   relatedPosts: BlogPost[];
 }
 
-export const FullArticle: React.FC<FullArticleProps> = ({ post, relatedPosts }) => {
+const FullArticle: React.FC<FullArticleProps> = ({ post, relatedPosts }) => {
   const [readProgress, setReadProgress] = useState(0);
 
   useEffect(() => {

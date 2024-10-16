@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect, useMemo } from 'react';
 import { getPosts } from '@/lib/ghost';
-import { PostCard } from '@/components/PostCard';
+import PostCard from '@/components/PostCard';
 import { PostCardList } from '@/components/PostCardList';
-import { FeaturedPost } from '@/components/FeaturedPost';
+import FeaturedPost from '@/components/FeaturedPost';
 import BlogHero from '@/components/BlogHero';
 import { motion } from "framer-motion";
 import { Search, Tag } from "lucide-react";

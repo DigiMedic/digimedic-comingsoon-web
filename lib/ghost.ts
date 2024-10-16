@@ -32,29 +32,6 @@ export async function getPosts() {
   return json.posts
 }
 
-export const getSinglePost = async (postSlug: string) => {
-  return await api.posts
-    .read({ slug: postSlug }, { include: ["tags", "authors"] })
-    .catch((err: Error) => {
-      console.error(err)
-      return null
-    })
-}
-
-export const getTags = async () => {
-  return await api.tags.browse({ limit: "all" }).catch((err: Error) => {
-    console.error(err)
-    return []
-  })
-}
-
-export const getAuthors = async () => {
-  return await api.authors.browse({ limit: "all" }).catch((err: Error) => {
-    console.error(err)
-    return []
-  })
-}
-
 export async function getPostBySlug(slug: string) {
   try {
   const res = await fetch(

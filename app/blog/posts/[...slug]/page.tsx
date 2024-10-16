@@ -1,5 +1,5 @@
 import { getPostBySlug, getPosts } from "@/lib/ghost"
-import { FullArticle } from "@/components/FullArticle"
+import FullArticle from '@/components/FullArticle';
 import FormComponent from "@/components/FormComponent"
 import type { BlogPost } from "@/types/blog"
 

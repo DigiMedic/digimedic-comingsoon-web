@@ -33,7 +33,7 @@ const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' });
 };
 
-export const PostCard: React.FC<{ post: Post }> = ({ post }) => {
+const PostCard: React.FC<{ post: Post }> = ({ post }) => {
   if (!post || !post.slug) {
     return null;
   }

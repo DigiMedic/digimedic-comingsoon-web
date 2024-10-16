@@ -10,7 +10,7 @@ interface TextRevealByWordProps {
   className?: string
 }
 
-export const TextRevealByWord: FC<TextRevealByWordProps> = ({ className }) => {
+const TextRevealByWord: FC<TextRevealByWordProps> = ({ className }) => {
   const targetRef = useRef<HTMLDivElement | null>(null)
   const { scrollYProgress } = useScroll({
     target: targetRef,

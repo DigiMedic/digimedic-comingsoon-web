@@ -25,5 +25,7 @@
       "files": ["*.ts", "*.tsx"],
       "parser": "@typescript-eslint/parser"
     }
-  ]
+  ],
+  "useEslintrc": true,
+  "extensions": [".js", ".jsx", ".ts", ".tsx"]
 }

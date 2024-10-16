@@ -20,9 +20,9 @@ const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' });
 };
 
-export const FeaturedPost: React.FC<{ post: Post }> = ({ post }) => (
+const FeaturedPost: React.FC<{ post: Post }> = ({ post }) => (
   <Link href={`/blog/posts/${post.slug}`} className="block">
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -75,7 +75,7 @@ export const FeaturedPost: React.FC<{ post: Post }> = ({ post }) => (
               ))}
             </div>
             <span className="text-sm font-raleway-regular flex items-center group transition-standard hover:text-fountain-blue">
-              Číst dále 
+              Číst dále
               <ArrowRight className="ml-2 transition-transform duration-300 group-hover:translate-x-1" size={20} />
             </span>
           </div>

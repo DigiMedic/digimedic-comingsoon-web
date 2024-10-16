@@ -16,8 +16,3 @@ export interface BlogPost {
   };
   custom_excerpt?: string; // Přidání custom_excerpt
 }
-
-export interface Author {
-  id: string;
-  name: string;
-}
