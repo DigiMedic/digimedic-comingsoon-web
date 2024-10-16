@@ -36,7 +36,7 @@ Projekt je postaven na moderní architektuře využívající následující kl�
 │   ├── layout.tsx          # Hlavní layout aplikace
 │   ├── ClientLayout.tsx    # Client-side layout wrapper
 │   ├── formbricks.tsx      # Inicializace a konfigurace Formbricks
-│   ├── blog/               # Blog sekce
+   ├── blog/               # Blog sekce
 │       ├── page.tsx        # Hlavní stránka blogu
 │       ├── layout.tsx      # Layout pro blog sekci
 │       └── posts/          # Jednotlivé blogové příspěvky
@@ -56,7 +56,7 @@ Projekt je postaven na moderní architektuře využívající následující kl�
 - **ClientLayout** (app/ClientLayout.tsx): Wrapper pro client-side funkcionalitu.
 - **BlogPage** (app/blog/page.tsx): Zobrazuje seznam blogových příspěvků.
 - **PostPage** (app/blog/posts/[...slug]/page.tsx): Zobrazuje jednotlivé blogové příspěvky.
-- **NewsletterForm** (components/NewsletterForm.tsx): Formulář pro sběr emailů.
+- **NewsletterForm** (components/NewsletterForm.tsx): Formulář pro sb��r emailů.
 - **AnimatedCard**, **TextRevealByWord**, **DockLive**: Komponenty pro vizuální efekty a animace.
 - **FormbricksProvider** (app/formbricks.tsx): Inicializace a sledování změn cest pro Formbricks.
 
@@ -151,7 +151,7 @@ Vítáme příspěvky od komunity! Pokud chcete přispět k projektu, prosím po
 
 1. Forkněte repozitář
 2. Vytvořte novou větev pro vaši funkcionalitu (`git checkout -b feature/AmazingFeature`)
-3. Commitněte vaše změny (`git commit -m 'Add some AmazingFeature'`)
+3. Commitněte vaše zm��ny (`git commit -m 'Add some AmazingFeature'`)
 4. Pushněte do větve (`git push origin feature/AmazingFeature`)
 5. Otevřete Pull Request
 
@@ -168,3 +168,33 @@ Pro více informací o projektu DigiMedic navštivte naši webovou stránku nebo
 ---
 
 Děkujeme, že jste součástí projektu DigiMedic. Společně můžeme zlepšit budoucnost českého zdravotnictví!
+
+## Použití Nixpacks
+
+Tento projekt používá Nixpacks pro konzistentní buildy a nasazení. Pro vytvoření Docker image pomocí Nixpacks použijte:
+
+```bash
+npm run nixpacks-build
+```
+
+7. Pokud používáte CI/CD, upravte konfigurační soubory pro použití Nixpacks. Například pro GitHub Actions vytvořte soubor `.github/workflows/nixpacks-build.yml`:
+
+```yaml
+name: Nixpacks Build
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Nixpacks
+      run: curl -sSL https://nixpacks.com/install.sh | bash
+    - name: Build with Nixpacks
+      run: nixpacks build . -n digimedic-web
+```
+
+Tyto kroky by měly zajistit plnohodnotnou integraci Nixpacks do vašeho projektu DigiMedic-comingsoon-web. Nezapomeňte otestovat build a nasazení po těchto změnách, abyste se ujistili, že vše funguje správně.
