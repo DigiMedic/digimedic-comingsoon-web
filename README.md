@@ -24,6 +24,7 @@ Projekt je postaven na moderní architektuře využívající následující kl�
 12. **Optimalizace obrázků**: next/image - pro efektivní zpracování a optimalizaci obrázků.
 13. **Správa témat**: next-themes - pro implementaci tmavého režimu a dalších barevných schémat.
 14. **CMS**: Ghost - pro správu obsahu blogu.
+15. **Uživatelské chování**: Formbricks - pro sledování uživatelského chování a sběr zpětné vazby.
 
 ## Struktura projektu
 
@@ -34,12 +35,14 @@ Projekt je postaven na moderní architektuře využívající následující kl�
 │   ├── page.js             # Hlavní stránka s funkcionalitou přihlášení/registrace
 │   ├── layout.tsx          # Hlavní layout aplikace
 │   ├── ClientLayout.tsx    # Client-side layout wrapper
+│   ├── formbricks.tsx      # Inicializace a konfigurace Formbricks
 │   ├── blog/               # Blog sekce
 │       ├── page.tsx        # Hlavní stránka blogu
 │       ├── layout.tsx      # Layout pro blog sekci
 │       └── posts/          # Jednotlivé blogové příspěvky
 ├── components/             # Znovupoužitelné React komponenty
 ├── lib/                    # Pomocné funkce a utility
+│   └── ghost.ts            # Konfigurace a funkce pro Ghost CMS
 ├── public/                 # Statické soubory (obrázky, fonty)
 ├── styles/                 # Globální styly
 └── types/                  # TypeScript definice typů
@@ -55,15 +58,7 @@ Projekt je postaven na moderní architektuře využívající následující kl�
 - **PostPage** (app/blog/posts/[...slug]/page.tsx): Zobrazuje jednotlivé blogové příspěvky.
 - **NewsletterForm** (components/NewsletterForm.tsx): Formulář pro sběr emailů.
 - **AnimatedCard**, **TextRevealByWord**, **DockLive**: Komponenty pro vizuální efekty a animace.
-
-## Autentizace a správa uživatelů
-
-Projekt využívá Appwrite pro správu uživatelských účtů a autentizaci:
-
-- Registrace nových uživatelů
-- Přihlášení pomocí emailu a hesla
-- Odhlášení uživatelů
-- Získávání informací o přihlášeném uživateli
+- **FormbricksProvider** (app/formbricks.tsx): Inicializace a sledování změn cest pro Formbricks.
 
 ## Konfigurace projektu
 
@@ -77,7 +72,7 @@ Projekt využívá několik konfiguračních souborů pro nastavení různých a
 
 ## Instalace a spuštění
 
-1. Naklonujte repozitá:
+1. Naklonujte repozitář:
    ```
    git clone https://github.com/vas-username/digimedic-comingsoon-web.git
    ```
@@ -93,6 +88,8 @@ Projekt využívá několik konfiguračních souborů pro nastavení různých a
    ```
    NEXT_PUBLIC_APPWRITE_ENDPOINT=your_appwrite_endpoint
    NEXT_PUBLIC_APPWRITE_PROJECT_ID=your_appwrite_project_id
+   GHOST_API_URL=your_ghost_api_url
+   GHOST_CONTENT_API_KEY=your_ghost_content_api_key
    ```
 
 4. Spusťte vývojový server:
@@ -113,6 +110,9 @@ Projekt využívá několik konfiguračních souborů pro nastavení různých a
 - `npm run format:write`: Formátuje kód pomocí Prettier
 - `npm run format:check`: Zkontroluje formátování kódu
 - `npm run preview`: Vytvoří produkční build a spustí ho lokálně pro náhled
+- `npm run vercel-build`: Skript pro build na Vercel platformě
+- `npm run check-outdated`: Zkontroluje zastaralé závislosti
+- `npm run knip`: Spustí Knip pro analýzu kódu
 
 ## Vývoj
 
