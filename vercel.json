@@ -1,9 +1,9 @@
 {
   "version": 2,
-  "buildCommand": "next build",
+  "buildCommand": "npm run build",
   "outputDirectory": ".next",
   "devCommand": "npm run dev",
-  "installCommand": "npm ci && npm install",
+  "installCommand": "npm ci",
   "framework": "nextjs",
   "regions": ["fra1"],
   "headers": [
