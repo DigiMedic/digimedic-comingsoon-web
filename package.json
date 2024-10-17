@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "vercel-build": "npm ci --legacy-peer-deps && npm run build",
+    "vercel-build": "next build",
     "check-outdated": "npm outdated",
     "knip": "knip",
     "nixpacks-build": "nixpacks build . --name digimedic-web --out ./nixpacks-output"
