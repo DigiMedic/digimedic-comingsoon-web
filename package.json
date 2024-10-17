@@ -10,7 +10,7 @@
     "vercel-build": "npm ci --legacy-peer-deps && npm run build",
     "check-outdated": "npm outdated",
     "knip": "knip",
-    "nixpacks-build": "nixpacks build ."
+    "nixpacks-build": "nixpacks build . --name digimedic-web --out ./nixpacks-output"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
