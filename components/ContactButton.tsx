@@ -4,10 +4,11 @@ import React, { useState } from "react"
 import { ContactModal } from "./ContactModal"
 
 interface ContactButtonProps {
-  className?: string
+  className?: string;
+  href?: string;
 }
 
-export const ContactButton: React.FC<ContactButtonProps> = ({ className = "" }) => {
+export const ContactButton: React.FC<ContactButtonProps> = ({ className = "", href = "#" }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const openModal = (e: React.MouseEvent) => {
@@ -17,7 +18,8 @@ export const ContactButton: React.FC<ContactButtonProps> = ({ className = "" }) 
 
   return (
     <>
-      <button
+      <a
+        href={href}
         onClick={openModal}
         className={`relative inline-flex h-12 overflow-hidden rounded-full p-px focus:outline-none focus:ring-2 focus:ring-blumine focus:ring-offset-2 focus:ring-offset-white ${className}`}
       >
@@ -38,7 +40,7 @@ export const ContactButton: React.FC<ContactButtonProps> = ({ className = "" }) 
             />
           </svg>
         </span>
-      </button>
+      </a>
       {isModalOpen && <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
     </>
   )
