@@ -5,10 +5,10 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Kopírování package.json a package-lock.json
-COPY package*.json ./
+COPY package.json package-lock.json* ./
 
 # Instalace závislostí
-RUN npm ci
+RUN npm install
 
 # Kopírování zdrojových souborů
 COPY . .
