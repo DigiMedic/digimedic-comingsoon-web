@@ -1,19 +1,27 @@
+# Základní obraz
 FROM node:18-alpine
 
-# Nastavte pracovní adresář v kontejneru
+# Nastavení pracovního adresáře
 WORKDIR /app
 
-# Zkopírujte package.json a package-lock.json
+# Kopírování package.json a package-lock.json
 COPY package*.json ./
 
-# Nainstalujte závislosti
+# Instalace závislostí
 RUN npm ci
 
-# Zkopírujte zdrojové soubory
+# Kopírování zdrojových souborů
 COPY . .
 
-# Sestavte aplikaci
+# Sestavení aplikace
 RUN npm run build
 
-# Spusťte aplikaci
+# Nastavení proměnných prostředí
+ENV NODE_ENV=production
+ENV PORT=3000
+
+# Expozice portu
+EXPOSE 3000
+
+# Spuštění aplikace
 CMD ["npm", "start"]

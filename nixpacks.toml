@@ -12,3 +12,7 @@ cmd = "npm start"
 
 [nixpacks]
 output-dir = "./nixpacks-output"
+
+# Přidejte tuto sekci pro vyloučení tsconfig.tsbuildinfo z cache
+[phases.build.cache]
+exclude = ["tsconfig.tsbuildinfo"]
