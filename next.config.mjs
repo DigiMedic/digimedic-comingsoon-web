@@ -8,6 +8,12 @@ const __dirname = dirname(__filename);
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  poweredByHeader: false,
+  compress: true,
+  optimizeFonts: true,
+  images: {
+    domains: ['your-domain.com'], // Přidejte domény, ze kterých načítáte obrázky
+  },
 };
 
 export default nextConfig;
