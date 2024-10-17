@@ -1,15 +1,19 @@
-FROM node:18-alpine AS builder
+FROM node:18-alpine
+
+# Nastavte pracovní adresář v kontejneru
 WORKDIR /app
+
+# Zkopírujte package.json a package-lock.json
 COPY package*.json ./
-RUN npm install --legacy-peer-deps
+
+# Nainstalujte závislosti
+RUN npm ci
+
+# Zkopírujte zdrojové soubory
 COPY . .
+
+# Sestavte aplikaci
 RUN npm run build
 
-FROM node:18-alpine
-WORKDIR /app
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/node_modules ./node_modules
-EXPOSE 3000
+# Spusťte aplikaci
 CMD ["npm", "start"]
