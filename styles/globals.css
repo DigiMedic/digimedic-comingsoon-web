@@ -4,6 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Zde můžete přidat své globální styly */
 :root {
   --blumine: #1b4d6a;
   --astral: #5b8a9a;
@@ -56,3 +57,5 @@
     padding-top: 8rem;
   }
 }
+
+/* Další vlastní styly */
