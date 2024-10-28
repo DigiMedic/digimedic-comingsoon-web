@@ -39,6 +39,8 @@ next-env.d.ts
 
 .contentlayer
 .env
+.env.local
+.env.*.local
 
 .nixpacks
 result
