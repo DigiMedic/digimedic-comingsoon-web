@@ -1,27 +1,35 @@
-# Základní obraz
-FROM node:18-alpine
-
-# Nastavení pracovního adresáře
+# Základní image s Node.js 18
+FROM node:18.19.1-alpine AS base
 WORKDIR /app
 
-# Kopírování package.json a package-lock.json
+# Dependencies
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
 COPY package.json package-lock.json* ./
-
-# Instalace závislostí
 RUN npm ci
 
-# Kopírování zdrojových souborů
+# Builder
+FROM base AS builder
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
-# Sestavení aplikace
 RUN npm run build
 
-# Nastavení proměnných prostředí
+# Runner
+FROM base AS runner
 ENV NODE_ENV=production
-ENV PORT=3000
+ENV NEXT_TELEMETRY_DISABLED 1
 
-# Expozice portu
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
 EXPOSE 3000
+ENV PORT 3000
+ENV HOSTNAME "0.0.0.0"
 
-# Spuštění aplikace
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
