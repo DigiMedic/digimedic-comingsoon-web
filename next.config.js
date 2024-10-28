@@ -14,6 +14,10 @@ const nextConfig = {
   typescript: {
     // Dočasně ignorujeme TypeScript chyby během buildu
     ignoreBuildErrors: true
+  },
+  webpack: (config) => {
+    config.resolve.fallback = { fs: false };
+    return config;
   }
 }
 
