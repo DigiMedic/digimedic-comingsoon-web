@@ -1,7 +1,6 @@
 {
   "version": 2,
   "buildCommand": "npm install && npm run build",
-  "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "nextjs",
   "regions": ["fra1"],
@@ -25,8 +24,8 @@
     }
   ],
   "env": {
-    "NODE_ENV": "production",
     "NEXT_PUBLIC_GHOST_URL": "https://ghost-dso8k808400okgkc80wss8s0.194.164.72.131.sslip.io",
-    "NEXT_PUBLIC_GHOST_KEY": "0fe6e78d497ebf77ab192d7804"
+    "NEXT_PUBLIC_GHOST_KEY": "0fe6e78d497ebf77ab192d7804",
+    "NODE_ENV": "production"
   }
 }

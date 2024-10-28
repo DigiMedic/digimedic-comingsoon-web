@@ -11,7 +11,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "vercel-build": "next build",
+    "vercel-build": "npm run build",
     "check-outdated": "npm outdated",
     "knip": "knip",
     "nixpacks-build": "nixpacks build . --name digimedic-web --out ./nixpacks-output"

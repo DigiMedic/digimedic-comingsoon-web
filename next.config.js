@@ -8,16 +8,13 @@ const nextConfig = {
     unoptimized: true
   },
   eslint: {
-    // Dočasně ignorujeme ESLint chyby během buildu
     ignoreDuringBuilds: true
   },
   typescript: {
-    // Dočasně ignorujeme TypeScript chyby během buildu
     ignoreBuildErrors: true
   },
-  webpack: (config) => {
-    config.resolve.fallback = { fs: false };
-    return config;
+  experimental: {
+    serverActions: true
   }
 }
 
