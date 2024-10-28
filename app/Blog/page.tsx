@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useMemo } from 'react';
 import { getPosts } from '@/lib/ghost';
+import type { GhostPost } from '@/lib/ghost';  // Přidáme import typu
 import PostCard from '@/components/PostCard';
 import { PostCardList } from '@/components/PostCardList';
 import FeaturedPost from '@/components/FeaturedPost';
@@ -23,8 +24,8 @@ interface Post {
 }
 
 export default function BlogHome() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<GhostPost[]>([]);
+  const [filteredPosts, setFilteredPosts] = useState<GhostPost[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTag, setSelectedTag] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -34,16 +35,34 @@ export default function BlogHome() {
     async function fetchPosts() {
       try {
         setIsLoading(true);
+        setError(null);
+        console.log('Starting to fetch posts...'); // Pro debugging
+
         const fetchedPosts = await getPosts();
+        console.log('Fetched posts:', fetchedPosts); // Pro debugging
+
+        if (!Array.isArray(fetchedPosts)) {
+          console.error('Invalid posts data:', fetchedPosts);
+          throw new Error('Neplatná data z API - posts nejsou pole');
+        }
+
+        if (fetchedPosts.length === 0) {
+          console.log('No posts returned from API');
+        }
+
         setPosts(fetchedPosts);
         setFilteredPosts(fetchedPosts);
       } catch (error) {
         console.error('Error fetching posts:', error);
-        setError(error instanceof Error ? error : new Error('An unknown error occurred'));
+        setError(error instanceof Error ? error : new Error('Nastala neočekávaná chyba'));
+        setPosts([]);
+        setFilteredPosts([]);
       } finally {
         setIsLoading(false);
       }
     }
+
+    console.log('Component mounted, calling fetchPosts...'); // Pro debugging
     fetchPosts();
   }, []);
 
@@ -60,11 +79,36 @@ export default function BlogHome() {
     setFilteredPosts(results);
   }, [searchTerm, selectedTag, posts]);
 
+  // Přidáme debugging informace do UI
+  if (isLoading) {
+    return (
+      <div className="text-center py-10">
+        <p className="text-lg text-astral animate-pulse">Načítání článků...</p>
+        <p className="text-sm text-gray-500 mt-2">Připojuji se ke Ghost API</p>
+      </div>
+    );
+  }
+
   if (error) {
     return (
-      <div className="text-center py-10 animate-fade-in">
+      <div className="text-center py-10">
         <h2 className="text-2xl font-bold text-blumine mb-4">Chyba při načítání článků</h2>
         <p className="text-lg text-astral">{error.message}</p>
+        <p className="text-sm text-gray-500 mt-2">
+          Zkontrolujte konzoli prohlížeče pro více detailů
+        </p>
+      </div>
+    );
+  }
+
+  // Přidáme podmínku pro zobrazení, když nejsou žádné příspěvky
+  if (!isLoading && posts.length === 0) {
+    return (
+      <div className="text-center py-10 animate-fade-in">
+        <h2 className="text-2xl font-bold text-blumine mb-4">Žádné příspěvky k zobrazení</h2>
+        <p className="text-lg text-astral">
+          {error ? error.message : "Momentálně nejsou k dispozici žádné příspěvky."}
+        </p>
       </div>
     );
   }

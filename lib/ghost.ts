@@ -7,23 +7,23 @@ interface MakeRequestOptions {
   headers: Record<string, string>;
 }
 
-const GHOST_API_URL =
-  "https://ghost-dso8k808400okgkc80wss8s0.194.164.72.131.sslip.io/ghost/api/content"
-const GHOST_API_KEY = "0fe6e78d497ebf77ab192d7804"
+// Použijeme NEXT_PUBLIC_ proměnné
+const GHOST_URL = process.env.NEXT_PUBLIC_GHOST_URL;
+const GHOST_KEY = process.env.NEXT_PUBLIC_GHOST_KEY;
 
-// Přejmenujeme na _api nebo odstraníme, pokud není potřeba
-// const _api = new GhostContentAPI({
-//   url: GHOST_API_URL,
-//   key: GHOST_API_KEY,
-//   version: "v5.0",
-//   makeRequest: ({ url, method, params, headers }: MakeRequestOptions) => {
-//     const apiUrl = new URL(url);
-//     Object.keys(params).forEach((key) =>
-//       apiUrl.searchParams.set(key, encodeURIComponent(params[key]))
-//     );
-//     return fetch(apiUrl, { method, headers }).then((res) => res.json());
-//   },
-// })
+if (!GHOST_URL || !GHOST_KEY) {
+  console.error('Environment variables:', {
+    GHOST_URL: process.env.NEXT_PUBLIC_GHOST_URL,
+    GHOST_KEY: process.env.NEXT_PUBLIC_GHOST_KEY ? '[REDACTED]' : 'undefined'
+  });
+  throw new Error('Ghost URL nebo API klíč není nastaven v proměnných prostředí');
+}
+
+const api = new GhostContentAPI({
+  url: GHOST_URL,
+  key: GHOST_KEY,
+  version: "v5.0"
+});
 
 // Přidáme na začátek souboru typy
 interface GhostTag {
@@ -62,38 +62,51 @@ interface GhostPostsResponse {
 // Upravíme existující funkce pro použití typů
 export async function getPosts(): Promise<GhostPost[]> {
   try {
+    console.log('Fetching posts from Ghost API');
     const response = await fetch(
-      `${GHOST_API_URL}/posts/?key=${GHOST_API_KEY}`
+      `${GHOST_URL}/ghost/api/content/posts/?key=${GHOST_KEY}&include=tags,authors`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        next: { revalidate: 60 } // Cache na 60 sekund
+      }
     );
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json() as GhostPostsResponse;
-    return data.posts;
+    const data = await response.json();
+    console.log(`Fetched ${data.posts?.length || 0} posts`);
+    return data.posts || [];
   } catch (error) {
-    console.error("Chyba při načítání příspěvků:", error);
+    console.error("Error in getPosts:", error);
     return [];
   }
 }
 
 export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
   try {
-    const res = await fetch(
-      `${GHOST_API_URL}/posts/slug/${slug}/?key=${GHOST_API_KEY}&include=tags,authors`
-    )
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
+    console.log('Fetching post with slug:', slug);
+    const response = await fetch(
+      `${GHOST_URL}/ghost/api/content/posts/slug/${slug}/?key=${GHOST_KEY}&include=tags,authors`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        next: { revalidate: 60 } // Cache na 60 sekund
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const json = await res.json() as GhostPostsResponse;
-    if (!json.posts || json.posts.length === 0) {
-      console.error("Žádný příspěvek nenalezen pro slug:", slug);
-      return null;
-    }
-    return json.posts[0];
+
+    const data = await response.json();
+    return data.posts?.[0] || null;
   } catch (error) {
-    console.error("Chyba při načítání příspěvku:", error);
+    console.error("Error in getPostBySlug:", error);
     return null;
   }
 }
