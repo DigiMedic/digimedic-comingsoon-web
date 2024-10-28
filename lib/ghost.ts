@@ -26,11 +26,11 @@ const _api = new GhostContentAPI({
 })
 
 export async function getPosts() {
-  const res = await fetch(
-    `${GHOST_API_URL}/posts/?key=${GHOST_API_KEY}&include=tags,authors`
-  )
-  const json = await res.json()
-  return json.posts
+  const response = await fetch(
+    `${process.env.GHOST_URL}/ghost/api/content/posts/?key=${process.env.GHOST_KEY}`
+  );
+  const data = await response.json();
+  return data.posts;
 }
 
 export async function getPostBySlug(slug: string) {
