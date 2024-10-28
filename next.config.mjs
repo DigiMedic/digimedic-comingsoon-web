@@ -1,6 +1,5 @@
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -12,8 +11,12 @@ const nextConfig = {
   compress: true,
   optimizeFonts: true,
   images: {
-    domains: ['your-domain.com'], // Přidejte domény, ze kterých načítáte obrázky
+    domains: ['your-domain.com'] // Přidejte domény, ze kterých načítáte obrázky
   },
+  experimental: {
+    swcPlugins: [["@onlook/nextjs", {
+      root: path.resolve(".")
+    }]]
+  }
 };
-
 export default nextConfig;
