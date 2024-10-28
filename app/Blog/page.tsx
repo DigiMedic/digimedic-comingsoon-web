@@ -48,14 +48,14 @@ export default function BlogHome() {
   }, []);
 
   const tags = useMemo(() =>
-    Array.from(new Set(posts.flatMap(post => post.tags.map(tag => tag.name)))),
+    Array.from(new Set(posts.flatMap(post => (post.tags?.map(tag => tag.name) ?? [])))),
     [posts]
   );
 
   useEffect(() => {
     const results = posts.filter(post =>
       post.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (selectedTag === '' || post.tags.some(tag => tag.name === selectedTag))
+      (selectedTag === '' || (post.tags?.some(tag => tag.name === selectedTag) ?? false))
     );
     setFilteredPosts(results);
   }, [searchTerm, selectedTag, posts]);

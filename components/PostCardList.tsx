@@ -8,7 +8,8 @@ interface Post {
   title: string;
   excerpt: string;
   slug: string;
-  tags: { name: string }[];
+  tags?: { name: string }[];  // Přidáno '?'
+  feature_image?: string;
   reading_time?: number;
   published_at: string;
 }
@@ -39,8 +40,8 @@ export const PostCardList: React.FC<{ post: Post }> = ({ post }) => {
   }
 
   return (
-    <AnimatedCard 
-      link={`/blog/posts/${post.slug}`} 
+    <AnimatedCard
+      link={`/blog/posts/${post.slug}`}
       className={cn(
         "bg-white rounded-lg shadow-md overflow-hidden",
         "transition-standard hover:shadow-lg border border-powder-blue"
@@ -64,10 +65,10 @@ export const PostCardList: React.FC<{ post: Post }> = ({ post }) => {
               {post.reading_time} min čtení
             </span>
           </div>
-          <div className="flex flex-wrap gap-2 justify-end">
-            {post.tags.slice(0, 3).map(tag => (
-              <span 
-                key={tag.name} 
+          <div className="flex flex-wrap gap-2">
+            {post.tags?.slice(0, 3).map(tag => (
+              <span
+                key={tag.name}
                 className={cn(
                   "text-xs px-2 py-1 rounded-full font-raleway-regular transition-standard",
                   getTagColor(tag.name)

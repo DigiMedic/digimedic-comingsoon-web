@@ -1,15 +1,17 @@
 "use client";
 import React from 'react';
 import Image from "next/image";
-import { Clock, Tag } from 'lucide-react';
+import { Clock, Calendar } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { AnimatedCard } from './AnimatedCard';
 
 interface Post {
+  id: string;
   title: string;
+  excerpt: string;
   slug: string;
+  tags?: { name: string }[];  // Přidáno '?'
   feature_image?: string;
-  tags: { name: string }[];
   reading_time?: number;
   published_at: string;
 }
@@ -20,8 +22,6 @@ const tagColors = [
   'bg-yellow-100 text-yellow-800',
   'bg-red-100 text-red-800',
   'bg-indigo-100 text-indigo-800',
-  'bg-purple-100 text-purple-800',
-  'bg-pink-100 text-pink-800',
 ];
 
 const getTagColor = (tagName: string) => {
@@ -30,42 +30,39 @@ const getTagColor = (tagName: string) => {
 };
 
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' });
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString('cs-CZ', options);
 };
 
 const PostCard: React.FC<{ post: Post }> = ({ post }) => {
-  if (!post || !post.slug) {
-    return null;
-  }
-
   return (
-    <AnimatedCard link={`/blog/posts/${post.slug}`} className="w-full h-full">
-      <div className={cn(
-        "overflow-hidden rounded-lg shadow-md group bg-white",
-        "flex flex-col h-full transition-standard hover:shadow-lg"
-      )}>
-        <div className="relative w-full h-48 overflow-hidden">
-          <Image
-            src={post.feature_image || '/default-image.jpg'}
-            alt={post.title}
-            layout="fill"
-            objectFit="cover"
-            className="transition-standard group-hover:scale-105"
-          />
-        </div>
-        <div className="p-4 flex flex-col flex-grow">
-          <h2 className="text-lg font-space-bold-regular mb-2 line-clamp-2 text-blumine transition-standard group-hover:text-fountain-blue">
-            {post.title}
-          </h2>
-          <div className="flex items-center justify-between text-xs font-raleway-regular text-astral mb-2">
-            <span>{formatDate(post.published_at)}</span>
+    <AnimatedCard
+      link={`/blog/posts/${post.slug}`}
+      className={cn(
+        "bg-white rounded-lg shadow-md overflow-hidden h-full",
+        "transition-standard hover:shadow-lg border border-powder-blue"
+      )}
+    >
+      <div className="p-6 flex flex-col h-full">
+        <h3 className="text-xl font-space-bold-regular text-blumine mb-3 line-clamp-2 transition-standard group-hover:text-fountain-blue">
+          {post.title}
+        </h3>
+        <p className="text-sm font-raleway-regular text-astral mb-4 line-clamp-3">
+          {post.excerpt}
+        </p>
+        <div className="flex flex-col mt-auto">
+          <div className="flex items-center text-xs text-astral font-raleway-regular mb-3">
+            <span className="flex items-center mr-3">
+              <Calendar size={12} className="mr-1" />
+              {formatDate(post.published_at)}
+            </span>
             <span className="flex items-center">
               <Clock size={12} className="mr-1" />
-              {post.reading_time} min
+              {post.reading_time} min čtení
             </span>
           </div>
           <div className="flex flex-wrap gap-1 mt-auto">
-            {post.tags.slice(0, 2).map(tag => (
+            {post.tags?.slice(0, 2).map(tag => (
               <span
                 key={tag.name}
                 className={cn(

@@ -9,11 +9,12 @@ import { cn } from "@/lib/utils";
 interface Post {
   id: string;
   title: string;
+  excerpt: string;
   slug: string;
+  tags?: { name: string }[];  // Přidáno '?'
   feature_image?: string;
   reading_time?: number;
   published_at: string;
-  tags: { name: string }[];
 }
 
 const formatDate = (dateString: string) => {
@@ -65,7 +66,7 @@ const FeaturedPost: React.FC<{ post: Post }> = ({ post }) => (
           </div>
           <div className="flex flex-col items-start sm:items-end">
             <div className="flex flex-wrap gap-2 mb-2">
-              {post.tags.slice(0, 3).map(tag => (
+              {post.tags?.slice(0, 3).map(tag => (
                 <span
                   key={tag.name}
                   className="inline-flex items-center text-xs px-2 py-1 rounded-full bg-white/20 transition-standard hover:bg-white/30"
