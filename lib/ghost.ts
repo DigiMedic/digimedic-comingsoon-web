@@ -11,7 +11,8 @@ const GHOST_API_URL =
   "https://ghost-dso8k808400okgkc80wss8s0.194.164.72.131.sslip.io/ghost/api/content"
 const GHOST_API_KEY = "0fe6e78d497ebf77ab192d7804"
 
-const api = new GhostContentAPI({
+// Přejmenujeme na _api nebo odstraníme, pokud není potřeba
+const _api = new GhostContentAPI({
   url: GHOST_API_URL,
   key: GHOST_API_KEY,
   version: "v5.0",
