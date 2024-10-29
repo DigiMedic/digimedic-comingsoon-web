@@ -1,14 +1,6 @@
-import GhostContentAPI from '@tryghost/content-api';
+import axios from 'axios';
 
-declare global {
-  namespace NodeJS {
-    interface ProcessEnv {
-      NEXT_PUBLIC_GHOST_URL: string;
-      NEXT_PUBLIC_GHOST_KEY: string;
-    }
-  }
-}
-
+// Přidáme konstanty pro URL a KEY
 const GHOST_URL = process.env.NEXT_PUBLIC_GHOST_URL;
 const GHOST_KEY = process.env.NEXT_PUBLIC_GHOST_KEY;
 
@@ -16,52 +8,6 @@ if (!GHOST_URL || !GHOST_KEY) {
   throw new Error(
     'Ghost API konfigurace chybí. Zkontrolujte NEXT_PUBLIC_GHOST_URL a NEXT_PUBLIC_GHOST_KEY v .env'
   );
-}
-
-export async function getPosts(): Promise<GhostPost[]> {
-  try {
-    const response = await fetch(
-      `${GHOST_URL}/ghost/api/content/posts/?key=${GHOST_KEY}&include=tags,authors&fields=id,slug,title,html,feature_image,published_at,excerpt,reading_time&limit=all`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    const data = await response.json();
-    return data.posts;
-  } catch (error) {
-    console.error('Chyba při načítání příspěvků z Ghost:', error);
-    return [];
-  }
-}
-
-export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
-  try {
-    const response = await fetch(
-      `${GHOST_URL}/ghost/api/content/posts/slug/${slug}/?key=${GHOST_KEY}&include=tags,authors`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    const data = await response.json();
-    return data.posts[0] || null;
-  } catch (error) {
-    console.error('Chyba při načítání příspěvku:', error);
-    return null;
-  }
 }
 
 export interface GhostPost {
@@ -74,4 +20,54 @@ export interface GhostPost {
   excerpt: string;
   reading_time: number;
   tags?: Array<{ name: string; slug: string }>;
+}
+
+export interface GhostError {
+  message: string;
+  code?: number;
+}
+
+export async function getPosts(): Promise<GhostPost[]> {
+  try {
+    const response = await axios.get(`${GHOST_URL}/ghost/api/content/posts/`, {
+      params: {
+        key: GHOST_KEY,
+        limit: 'all',
+        include: 'tags,authors'
+      }
+    });
+
+    if (!response.data || !response.data.posts) {
+      throw new Error('Neplatná odpověď z Ghost API');
+    }
+
+    return response.data.posts;
+  } catch (err) {
+    console.error('Error fetching posts:', err);
+    throw new Error(
+      err instanceof Error
+        ? err.message
+        : 'Chyba při načítání příspěvků z Ghost API'
+    );
+  }
+}
+
+export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
+  try {
+    const response = await axios.get(`${GHOST_URL}/ghost/api/content/posts/slug/${slug}/`, {
+      params: {
+        key: GHOST_KEY,
+        include: 'tags,authors'
+      }
+    });
+
+    if (!response.data || !response.data.posts) {
+      return null;
+    }
+
+    return response.data.posts[0] || null;
+  } catch (error) {
+    console.error('Chyba při načítání příspěvku:', error);
+    return null;
+  }
 }

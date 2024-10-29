@@ -12,9 +12,9 @@ import SEO from '@/components/SEO';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { cn } from "@/lib/utils";
 
-interface Post {
-  feature_image: string | undefined;
-  // ... ostatní vlastnosti
+interface GhostError {
+  message: string;
+  code?: number;
 }
 
 export default function BlogHome() {
@@ -23,7 +23,7 @@ export default function BlogHome() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTag, setSelectedTag] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<GhostError | null>(null);
 
   useEffect(() => {
     async function fetchPosts() {
@@ -48,7 +48,9 @@ export default function BlogHome() {
         setFilteredPosts(fetchedPosts);
       } catch (error) {
         console.error('Error fetching posts:', error);
-        setError(error instanceof Error ? error : new Error('Nastala neočekávaná chyba'));
+        setError({
+          message: error instanceof Error ? error.message : 'Nastala neočekávaná chyba'
+        });
         setPosts([]);
         setFilteredPosts([]);
       } finally {
@@ -61,14 +63,16 @@ export default function BlogHome() {
   }, []);
 
   const tags = useMemo(() =>
-    Array.from(new Set(posts.flatMap(post => (post.tags?.map(tag => tag.name) ?? [])))),
+    Array.from(new Set(posts.flatMap(post =>
+      (post.tags?.map((tag: { name: string }) => tag.name) ?? []))
+    )),
     [posts]
   );
 
   useEffect(() => {
     const results = posts.filter(post =>
       post.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (selectedTag === '' || (post.tags?.some(tag => tag.name === selectedTag) ?? false))
+      ((selectedTag === '' || post.tags?.some((tag: { name: string }) => tag.name === selectedTag)) ?? false)
     );
     setFilteredPosts(results);
   }, [searchTerm, selectedTag, posts]);
@@ -76,9 +80,9 @@ export default function BlogHome() {
   // Přidáme debugging informace do UI
   if (isLoading) {
     return (
-      <div className="text-center py-10">
-        <p className="text-lg text-astral animate-pulse">Načítání článků...</p>
-        <p className="text-sm text-gray-500 mt-2">Připojuji se ke Ghost API</p>
+      <div className="text-center animate-pulse py-10">
+        <p className="text-lg text-astral">Načítání článků...</p>
+        <p className="mt-2 text-sm text-gray-500">Připojuji se ke Ghost API</p>
       </div>
     );
   }
@@ -95,27 +99,21 @@ export default function BlogHome() {
     );
   }
 
-  // Přidáme podmínku pro zobrazení, když nejsou žádné příspěvky
+  // Upravíme podmínku pro zobrazení, když nejsou žádné příspěvky
   if (!isLoading && posts.length === 0) {
     return (
       <div className="text-center py-10 animate-fade-in">
         <h2 className="text-2xl font-bold text-blumine mb-4">Žádné příspěvky k zobrazení</h2>
         <p className="text-lg text-astral">
-          {error ? error.message : "Momentálně nejsou k dispozici žádné příspěvky."}
+          {error instanceof Error ? error.message : "Momentálně nejsou k dispozici žádné příspěvky."}
         </p>
       </div>
     );
   }
 
-  const featuredPost = posts[0] as unknown as Post;
-  const topPosts = posts.slice(1, 3).map(post => ({
-    ...post,
-    feature_image: post.feature_image || undefined
-  }));
-  const remainingPosts = filteredPosts.slice(3).map(post => ({
-    ...post,
-    feature_image: post.feature_image || undefined
-  }));
+  const featuredPost = posts[0];
+  const topPosts = posts.slice(1, 3);
+  const remainingPosts = filteredPosts.slice(3);
 
   const sectionTitle = selectedTag ? `Články kategorie: ${selectedTag}` : 'Všechny články';
 
@@ -165,21 +163,24 @@ export default function BlogHome() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <div className="relative mb-4 md:mb-0 w-full md:w-auto">
+              <div className="relative w-full md:w-auto mb-4 md:mb-0">
                 <input
                   type="text"
                   placeholder="Hledat články..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className={cn(
-                    "w-full md:w-64 pl-10 pr-4 py-2",
-                    "border border-powder-blue rounded-full",
-                    "focus:outline-none focus:ring-2 focus:ring-fountain-blue",
-                    "font-raleway-regular transition-standard"
+                    "w-full md:w-64 py-2 pl-10 pr-4",
+                    "rounded-full border border-powder-blue",
+                    "font-raleway-regular transition-standard",
+                    "focus:outline-none focus:ring-2 focus:ring-fountain-blue"
                   )}
                   aria-label="Vyhledávání článků"
                 />
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-astral" size={20} />
+                <Search
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-astral"
+                  size={20}
+                />
               </div>
               <div className="flex items-center space-x-2 w-full md:w-auto">
                 <Tag className="text-blumine" size={20} />

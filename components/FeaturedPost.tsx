@@ -11,8 +11,8 @@ interface Post {
   title: string;
   excerpt: string;
   slug: string;
-  tags?: { name: string }[];  // Přidáno '?'
-  feature_image?: string;
+  tags?: { name: string }[];
+  feature_image: string | null | undefined;
   reading_time?: number;
   published_at: string;
 }
