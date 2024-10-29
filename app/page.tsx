@@ -1,7 +1,7 @@
 import { Metadata } from "next"
-import FUIFeatureSectionWithCards from "@/components/fui-feature-section-with-cards"
-import Hero from "@/components/hero"
-import TextRevealByWord from "@/components/TextRevealByWord"
+import FUIFeatureSectionWithCards from 'components/fui-feature-section-with-cards'
+import Hero from 'components/hero'
+import TextRevealByWord from 'components/TextRevealByWord'
 
 export const metadata: Metadata = {
   title: "DigiMedic - Digitální páteř českého zdravotnictví",
@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 
 export default function IndexPage() {
   return (
-    <div className="relative min-h-screen w-full">
+    <div className="relative min-h-screen size-full">
       <div className="relative z-10">
         <Hero />
-        <div className="absolute inset-0 -z-10 h-full w-full animate-subtle-move">
-          <div className="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_300px_at_80%_300px,#C9EBFF,transparent)]"></div>
+        <div className="absolute inset-0 -z-10 size-full animate-subtle-move">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_300px_at_80%_300px,#C9EBFF,transparent)]"></div>
         </div>
         <TextRevealByWord />
         <FUIFeatureSectionWithCards />
