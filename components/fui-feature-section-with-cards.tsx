@@ -4,21 +4,21 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const IconWrapper = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-powder-blue flex items-center justify-center">
+  <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-lg bg-powder-blue">
     {children}
   </div>
 );
 
 const FeatureCard = ({ title, content, icon }: { title: string; content: string; icon: React.ReactNode }) => (
   <motion.div 
-    className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-all duration-300"
+    className="rounded-lg bg-white shadow-md p-6 hover:shadow-lg transition-all duration-300"
     whileHover={{ scale: 1.03 }}
   >
     <div className="flex items-center mb-4">
       <IconWrapper>{icon}</IconWrapper>
-      <h3 className="text-xl font-space font-bold text-blumine ml-4">{title}</h3>
+      <h3 className="ml-4 text-xl font-space font-bold text-blumine">{title}</h3>
     </div>
-    <p className="text-gray-600 font-raleway">{content}</p>
+    <p className="font-raleway text-gray-600">{content}</p>
   </motion.div>
 );
 
@@ -30,20 +30,20 @@ const Modal = ({ isOpen, onClose, children }: { isOpen: boolean; onClose: () => 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
           onClick={onClose}
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-white rounded-lg w-full h-full max-w-2xl max-h-[90vh] m-4 flex flex-col" // Změněno z max-w-4xl na max-w-2xl
+            className="flex flex-col w-full h-full max-w-2xl max-h-[90vh] m-4 overflow-hidden rounded-lg bg-white"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex justify-between items-center p-4 border-b">
+            <div className="flex items-center justify-between p-4 border-b">
               <h2 className="text-xl font-bold text-blumine">Domluvte si konzultaci</h2>
               <button
-                className="text-gray-500 hover:text-gray-700"
+                className="hover:text-gray-700 text-gray-500"
                 onClick={onClose}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -63,7 +63,7 @@ const Modal = ({ isOpen, onClose, children }: { isOpen: boolean; onClose: () => 
 
 const CTAButton = ({ onClick, children }: { onClick: () => void; children: React.ReactNode }) => (
   <motion.button 
-    className="bg-blumine text-white font-bold py-3 px-6 rounded-lg hover:bg-blumine/90 transition-colors duration-300"
+    className="rounded-lg bg-blumine py-3 px-6 font-bold text-white transition-colors duration-300 hover:bg-blumine/90"
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
     onClick={onClick}
@@ -116,17 +116,17 @@ export default function MissionVisionSection() {
     <section className="bg-polar py-16 lg:py-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-space font-bold text-blumine mb-4">
+          <h2 className="mb-4 text-4xl font-space font-bold text-blumine">
             Transformujeme zdravotnictví digitálními inovacemi
           </h2>
-          <p className="text-xl text-astral font-raleway max-w-3xl mx-auto">
+          <p className="max-w-3xl mx-auto text-xl text-astral font-raleway">
             DigiMedic přináší revoluční řešení, která zlepšují kvalitu péče, usnadňují práci zdravotníkům a přinášejí pozitivní změny do života pacientů.
           </p>
         </div>
 
-        <div className="flex justify-center mb-8">
+        <div className="mb-8 flex justify-center">
           <motion.button 
-            className={`px-8 py-3 font-space font-bold text-lg ${activeTab === 'mise' ? 'bg-blumine text-white' : 'bg-white text-blumine'} rounded-l-lg shadow-md transition-colors duration-300`}
+            className={`rounded-l-lg px-8 py-3 font-space font-bold text-lg ${activeTab === 'mise' ? 'bg-blumine text-white' : 'bg-white text-blumine'} shadow-md transition-colors duration-300`}
             onClick={() => setActiveTab('mise')}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -134,7 +134,7 @@ export default function MissionVisionSection() {
             Naše mise
           </motion.button>
           <motion.button 
-            className={`px-8 py-3 font-space font-bold text-lg ${activeTab === 'vize' ? 'bg-blumine text-white' : 'bg-white text-blumine'} rounded-r-lg shadow-md transition-colors duration-300`}
+            className={`rounded-r-lg px-8 py-3 font-space font-bold text-lg ${activeTab === 'vize' ? 'bg-blumine text-white' : 'bg-white text-blumine'} shadow-md transition-colors duration-300`}
             onClick={() => setActiveTab('vize')}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -143,29 +143,29 @@ export default function MissionVisionSection() {
           </motion.button>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
+        <div className="mb-12 rounded-lg bg-white shadow-lg p-8">
           {activeTab === 'mise' ? (
-            <p className="text-gray-700 font-raleway text-lg">
+            <p className="text-lg text-gray-700 font-raleway">
               Naším posláním je vytvářet inovativní digitální řešení, která zefektivňují procesy ve zdravotnictví, snižují administrativní zátěž a umožňují zdravotníkům věnovat více času péči o pacienty. Spojujeme nejmodernější technologie s hlubokou znalostí zdravotnického prostředí.
             </p>
           ) : (
-            <p className="text-gray-700 font-raleway text-lg">
+            <p className="text-lg text-gray-700 font-raleway">
               Naší vizí je zdravotnictví, kde každý pacient má přístup k personalizované a preventivní péči, kde data pomáhají včas předcházet nemocem a kde špičková zdravotní péče je dostupná všem bez ohledu na to, kde žijí. Usilujeme o propojení všech účastníků zdravotní péče a vytvoření efektivního ekosystému.
             </p>
           )}
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
+        <div className="grid gap-8 mb-12 md:grid-cols-3">
           {features.map((feature, index) => (
             <FeatureCard key={index} {...feature} />
           ))}
         </div>
 
-        <div className="bg-blumine/5 rounded-lg p-8 text-center">
-          <h3 className="text-2xl font-space font-bold text-blumine mb-4">
+        <div className="rounded-lg bg-blumine/5 p-8 text-center">
+          <h3 className="mb-4 text-2xl font-space font-bold text-blumine">
             Připraveni na digitální transformaci?
           </h3>
-          <p className="text-gray-700 font-raleway mb-6 max-w-2xl mx-auto">
+          <p className="max-w-2xl mx-auto mb-6 text-gray-700 font-raleway">
             Zjistěte, jak DigiMedic může pomoci vaší organizaci zefektivnit procesy, zlepšit péči o pacienty a připravit se na budoucnost zdravotnictví. Nabízíme osobní konzultace šité na míru vašim potřebám.
           </p>
           <CTAButton onClick={() => setIsModalOpen(true)}>

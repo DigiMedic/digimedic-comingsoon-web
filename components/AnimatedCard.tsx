@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from 'lib/utils';
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
@@ -17,7 +17,7 @@ export const AnimatedCard = ({
   return (
     <Link
       href={link}
-      className="relative group block p-1 h-full w-full rounded-lg"
+      className="group relative block h-full w-full rounded-lg p-1"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -30,7 +30,7 @@ export const AnimatedCard = ({
             exit={{ opacity: 0 }}
           >
             <motion.span
-              className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-600/[0.5] block rounded-lg p-4"
+              className="absolute inset-0 block h-full w-full rounded-lg bg-neutral-200 p-4 dark:bg-slate-600/[0.5]"
               layoutId="hoverBackground"
               transition={{ duration: 0.15 }}
             />
@@ -39,7 +39,7 @@ export const AnimatedCard = ({
       </AnimatePresence>
       <div
         className={cn(
-          "rounded-lg h-full w-full p-1 overflow-hidden bg-white border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20",
+          "relative z-20 h-full w-full overflow-hidden rounded-lg border border-transparent bg-white p-1 dark:border-white/[0.2] group-hover:border-slate-700",
           className
         )}
       >

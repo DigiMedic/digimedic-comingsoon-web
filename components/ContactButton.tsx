@@ -25,7 +25,7 @@ export const ContactButton: React.FC<ContactButtonProps> = ({ className = "", hr
         className={`relative inline-flex h-12 overflow-hidden rounded-full p-px pointer-events-auto focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumine focus:ring-offset-white ${className}`}
       >
         <span className="absolute inset-[-1000%] pointer-events-none animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E7F5F8_0%,#1B4D6A_50%,#E7F5F8_100%)]" />
-        <span className="inline-flex items-center justify-center size-full cursor-pointer rounded-full bg-white px-3 py-1 text-sm font-medium text-blumine backdrop-blur-3xl pointer-events-none">
+        <span className="inline-flex items-center justify-center rounded-full bg-white px-3 py-1 text-sm font-medium text-blumine backdrop-blur-3xl cursor-pointer pointer-events-none size-full">
           Kontakt
           <svg
             className="ml-2 size-4"
