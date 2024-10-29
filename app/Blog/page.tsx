@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useMemo } from 'react';
 import { getPosts } from '@/lib/ghost';
-import type { GhostPost } from '@/lib/ghost';  // Přidáme import typu
+import type { GhostPost } from '@/lib/ghost';
 import PostCard from '@/components/PostCard';
 import { PostCardList } from '@/components/PostCardList';
 import FeaturedPost from '@/components/FeaturedPost';
@@ -12,28 +12,23 @@ import SEO from '@/components/SEO';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { cn } from "@/lib/utils";
 
-interface GhostError {
-  message: string;
-  code?: number;
-}
-
 export default function BlogHome() {
   const [posts, setPosts] = useState<GhostPost[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<GhostPost[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTag, setSelectedTag] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<GhostError | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchPosts() {
       try {
         setIsLoading(true);
-        setError(null);
-        console.log('Starting to fetch posts...'); // Pro debugging
+        setErrorMessage(null);
+        console.log('Starting to fetch posts...');
 
         const fetchedPosts = await getPosts();
-        console.log('Fetched posts:', fetchedPosts); // Pro debugging
+        console.log('Fetched posts:', fetchedPosts);
 
         if (!Array.isArray(fetchedPosts)) {
           console.error('Invalid posts data:', fetchedPosts);
@@ -46,11 +41,10 @@ export default function BlogHome() {
 
         setPosts(fetchedPosts);
         setFilteredPosts(fetchedPosts);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-        setError({
-          message: error instanceof Error ? error.message : 'Nastala neočekávaná chyba'
-        });
+      } catch (err) {
+        console.error('Error fetching posts:', err);
+        const message = err instanceof Error ? err.message : 'Nastala neočekávaná chyba';
+        setErrorMessage(message);
         setPosts([]);
         setFilteredPosts([]);
       } finally {
@@ -58,7 +52,7 @@ export default function BlogHome() {
       }
     }
 
-    console.log('Component mounted, calling fetchPosts...'); // Pro debugging
+    console.log('Component mounted, calling fetchPosts...');
     fetchPosts();
   }, []);
 
@@ -77,7 +71,6 @@ export default function BlogHome() {
     setFilteredPosts(results);
   }, [searchTerm, selectedTag, posts]);
 
-  // Přidáme debugging informace do UI
   if (isLoading) {
     return (
       <div className="text-center animate-pulse py-10">
@@ -87,11 +80,11 @@ export default function BlogHome() {
     );
   }
 
-  if (error) {
+  if (errorMessage) {
     return (
       <div className="text-center py-10">
         <h2 className="text-2xl font-bold text-blumine mb-4">Chyba při načítání článků</h2>
-        <p className="text-lg text-astral">{error.message}</p>
+        <p className="text-lg text-astral">{errorMessage}</p>
         <p className="text-sm text-gray-500 mt-2">
           Zkontrolujte konzoli prohlížeče pro více detailů
         </p>
@@ -99,13 +92,12 @@ export default function BlogHome() {
     );
   }
 
-  // Upravíme podmínku pro zobrazení, když nejsou žádné příspěvky
   if (!isLoading && posts.length === 0) {
     return (
       <div className="text-center py-10 animate-fade-in">
         <h2 className="text-2xl font-bold text-blumine mb-4">Žádné příspěvky k zobrazení</h2>
         <p className="text-lg text-astral">
-          {error instanceof Error ? error.message : "Momentálně nejsou k dispozici žádné příspěvky."}
+          {errorMessage || "Momentálně nejsou k dispozici žádné příspěvky."}
         </p>
       </div>
     );
