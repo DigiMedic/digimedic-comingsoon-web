@@ -1,6 +1,5 @@
 import { useId } from "react";
-
-import { cn } from "@/lib/utils";
+import { cn } from 'lib/utils';
 
 interface DotPatternProps {
   width?: any;
@@ -13,6 +12,7 @@ interface DotPatternProps {
   className?: string;
   [key: string]: any;
 }
+
 function DotPattern({
   width = 16,
   height = 16,

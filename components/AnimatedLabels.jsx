@@ -28,8 +28,7 @@ import {
   VideoIcon,
   ZapIcon,
 } from "lucide-react"
-import { cn } from "@/lib/utils"
-import Marquee from "@/components/magicui/marquee"
+import Marquee from 'components/magicui/marquee';
 
 const labels = [
   { icon: GlobeIcon, text: "Webové stránky pro lékaře" },

@@ -50,10 +50,10 @@ export default function HyperText({
             t.map((l, i) =>
               l === " "
                 ? l
-                : i <= interations.current
+                : i === interations.current
                   ? text[i]
-                  : alphabets[getRandomInt(52)],
-            ),
+                  : l
+            ).map(item => item || '')
           );
           interations.current = interations.current + 0.1;
         } else {
