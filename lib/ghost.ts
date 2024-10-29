@@ -1,4 +1,6 @@
 // Přidáme konstanty pro URL a KEY
+import { BlogPost } from '../types/blog';
+
 const GHOST_URL = process.env.NEXT_PUBLIC_GHOST_URL;
 const GHOST_KEY = process.env.NEXT_PUBLIC_GHOST_KEY;
 
@@ -160,4 +162,21 @@ export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
     console.error('Chyba při načítání příspěvku:', error);
     return null;
   }
+}
+
+export function convertGhostPostToBlogPost(ghostPost: GhostPost): BlogPost {
+  return {
+    id: ghostPost.id,
+    title: ghostPost.title,
+    slug: ghostPost.slug,
+    excerpt: ghostPost.excerpt,
+    content: ghostPost.html,
+    createdAt: ghostPost.created_at,
+    updatedAt: ghostPost.updated_at,
+    feature_image: ghostPost.feature_image || undefined,
+    tags: ghostPost.tags?.map(tag => ({ id: tag.id, name: tag.name })),
+    published_at: ghostPost.published_at,
+    primary_author: ghostPost.primary_author ? { name: ghostPost.primary_author.name } : undefined,
+    custom_excerpt: ghostPost.custom_excerpt || undefined,
+  };
 }
