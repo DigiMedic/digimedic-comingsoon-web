@@ -44,9 +44,6 @@ module.exports = {
           '50%': { transform: 'translateY(-5px)' },
         },
       },
-      transitionTimingFunction: {
-        'standard': 'cubic-bezier(0.4, 0, 0.2, 1)',
-      },
     },
   },
   plugins: [],

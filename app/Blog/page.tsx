@@ -13,14 +13,8 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import { cn } from "@/lib/utils";
 
 interface Post {
-  id: string;
-  title: string;
-  excerpt: string;
-  slug: string;
-  tags: { name: string }[];
-  feature_image?: string;
-  reading_time?: number;
-  published_at: string;
+  feature_image: string | undefined;
+  // ... ostatní vlastnosti
 }
 
 export default function BlogHome() {
@@ -113,9 +107,15 @@ export default function BlogHome() {
     );
   }
 
-  const featuredPost = posts[0];
-  const topPosts = posts.slice(1, 3);
-  const remainingPosts = filteredPosts.slice(3);
+  const featuredPost = posts[0] as unknown as Post;
+  const topPosts = posts.slice(1, 3).map(post => ({
+    ...post,
+    feature_image: post.feature_image || undefined
+  }));
+  const remainingPosts = filteredPosts.slice(3).map(post => ({
+    ...post,
+    feature_image: post.feature_image || undefined
+  }));
 
   const sectionTitle = selectedTag ? `Články kategorie: ${selectedTag}` : 'Všechny články';
 
