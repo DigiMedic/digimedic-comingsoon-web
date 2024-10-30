@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "vercel-build": "next build"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
@@ -31,7 +32,7 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "autoprefixer": "^10.4.16",
-    "eslint": "^9.13.0",
+    "eslint": "^8.57.0",
     "eslint-config-next": "^14.0.4",
     "eslint-plugin-tailwindcss": "^3.17.5",
     "postcss": "^8.4.31",

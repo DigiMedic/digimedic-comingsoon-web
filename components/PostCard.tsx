@@ -4,16 +4,10 @@ import Image from "next/image";
 import { Clock, Calendar } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { AnimatedCard } from './AnimatedCard';
+import { BlogPost } from '@/types/blog';
 
-interface Post {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  feature_image?: string;
-  tags?: Array<{ id: string; name: string }>;
-  published_at?: string;
-  reading_time?: number;
+interface PostCardProps {
+  post: BlogPost;
 }
 
 const tagColors = [
@@ -35,7 +29,7 @@ const formatDate = (dateString?: string) => {
   return new Date(dateString).toLocaleDateString('cs-CZ', options);
 };
 
-const PostCard: React.FC<{ post: Post }> = ({ post }) => {
+const PostCard: React.FC<PostCardProps> = ({ post }) => {
   return (
     <AnimatedCard
       link={`/blog/posts/${post.slug}`}

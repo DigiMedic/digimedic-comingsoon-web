@@ -167,14 +167,14 @@ export function convertGhostPostToBlogPost(ghostPost: GhostPost): BlogPost {
     title: ghostPost.title,
     slug: ghostPost.slug,
     excerpt: ghostPost.excerpt || ghostPost.custom_excerpt || '',
-    content: ghostPost.html || '',
-    html: ghostPost.html || undefined,
-    createdAt: ghostPost.created_at || ghostPost.published_at || new Date().toISOString(),
-    updatedAt: ghostPost.updated_at || ghostPost.published_at || new Date().toISOString(),
-    feature_image: ghostPost.feature_image || undefined,
-    tags: ghostPost.tags || undefined,
-    published_at: ghostPost.published_at || undefined,
-    primary_author: ghostPost.primary_author || undefined,
-    custom_excerpt: ghostPost.custom_excerpt || undefined
+    content: ghostPost.html ?? '',
+    html: ghostPost.html ?? undefined,
+    createdAt: ghostPost.created_at,
+    updatedAt: ghostPost.updated_at,
+    feature_image: ghostPost.feature_image ?? undefined,
+    tags: ghostPost.tags ?? undefined,
+    published_at: ghostPost.published_at,
+    reading_time: ghostPost.reading_time || 5,
+    primary_author: ghostPost.primary_author ?? undefined
   };
 }

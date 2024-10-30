@@ -2,17 +2,21 @@ export interface GhostPost {
   id: string;
   title: string;
   slug: string;
-  excerpt?: string;
-  custom_excerpt?: string;
-  html?: string;
-  feature_image?: string;
-  tags?: Array<{ id: string; name: string }>;
-  published_at?: string;
-  created_at?: string;
-  updated_at?: string;
+  excerpt: string;
+  html: string | null;
+  feature_image: string | null;
+  created_at: string;
+  updated_at: string;
+  published_at: string;
+  custom_excerpt: string | null;
+  reading_time: number;
+  tags?: Array<{
+    id: string;
+    name: string;
+  }> | null;
   primary_author?: {
     name: string;
-  };
+  } | null;
 }
 
 export interface BlogPost {
@@ -21,26 +25,16 @@ export interface BlogPost {
   slug: string;
   excerpt: string;
   content: string;
-  html?: string; // Přidáno pro zpětnou kompatibilitu
+  html?: string;
   createdAt: string;
   updatedAt: string;
-  feature_image?: string;
+  feature_image?: string | null;
   tags?: Array<{ id: string; name: string }>;
-  published_at?: string; // Přidáno
+  published_at: string;
+  reading_time: number;
   primary_author?: {
     name: string;
-    // další vlastnosti autora, pokud jsou potřeba
   };
-  custom_excerpt?: string; // Přidání custom_excerpt
 }
 
-export interface Post {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  feature_image?: string;
-  tags?: Array<{ id: string; name: string }>;
-  published_at?: string;
-  reading_time?: number;
-}
+export interface Post extends BlogPost {}
