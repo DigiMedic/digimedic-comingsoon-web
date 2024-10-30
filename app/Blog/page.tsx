@@ -26,8 +26,8 @@ export default function BlogPage() {
       try {
         setIsLoading(true);
         const fetchedPosts = await getPosts();
-        setPosts(fetchedPosts as GhostPost[]);
-        setFilteredPosts(fetchedPosts as GhostPost[]);
+        setPosts(fetchedPosts);
+        setFilteredPosts(fetchedPosts);
       } catch (error) {
         console.error('Error fetching posts:', error);
         setError(error instanceof Error ? error : new Error('An unknown error occurred'));

@@ -13,7 +13,9 @@ interface FullArticleProps {
 }
 
 export function FullArticle({ post, relatedPosts }: FullArticleProps) {
-  const firstTag = post.tags && post.tags.length > 0 ? post.tags[0].name : null;
+  const firstTag = post.tags && Array.isArray(post.tags) && post.tags.length > 0
+    ? post.tags[0].name
+    : null;
 
   return (
     <div className="bg-polar">
