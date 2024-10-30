@@ -1,37 +1,43 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { Component, ErrorInfo, ReactNode } from 'react';
 
-interface ErrorBoundaryProps {
-  children: React.ReactNode;
+interface Props {
+  children: ReactNode;
 }
 
-const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
-  const [hasError, setHasError] = useState(false);
+interface State {
+  hasError: boolean;
+  error?: Error;
+}
 
-  useEffect(() => {
-    const errorHandler = (error: ErrorEvent) => {
-      console.error('Uncaught error:', error);
-      setHasError(true);
-    };
+export default class ErrorBoundary extends Component<Props, State> {
+  public state: State = {
+    hasError: false
+  };
 
-    window.addEventListener('error', errorHandler);
-
-    return () => {
-      window.removeEventListener('error', errorHandler);
-    };
-  }, []);
-
-  if (hasError) {
-    return (
-      <div className="text-center py-10">
-        <h2 className="text-2xl font-bold text-blumine mb-4">Oops, něco se pokazilo!</h2>
-        <p className="text-lg text-gray-600">Prosím, obnovte stránku nebo zkuste později.</p>
-      </div>
-    );
+  public static getDerivedStateFromError(error: Error): State {
+    return { hasError: true, error };
   }
 
-  return <>{children}</>;
-};
+  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('Uncaught error:', error, errorInfo);
+  }
 
-export default ErrorBoundary;
+  public render() {
+    if (this.state.hasError) {
+      return (
+        <div className="text-center py-10">
+          <h2 className="text-2xl font-bold text-blumine mb-4">
+            Něco se pokazilo
+          </h2>
+          <p className="text-lg text-astral">
+            {this.state.error?.message || 'Došlo k neočekávané chybě.'}
+          </p>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
