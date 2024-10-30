@@ -1,77 +1,44 @@
 "use client";
 import React from 'react';
-import { Clock, Calendar } from 'lucide-react';
-import { cn } from "@/lib/utils";
-import { AnimatedCard } from './AnimatedCard';
-import { BlogPost } from '@/types/blog';
+import Image from 'next/image';
+import Link from 'next/link';
+import { GhostPost } from '@/types/blog';
+import { formatDate } from '@/lib/utils';
 
 interface PostCardProps {
-  post: BlogPost;
+  post: GhostPost;
 }
 
-const tagColors = [
-  'bg-blue-100 text-blue-800',
-  'bg-green-100 text-green-800',
-  'bg-yellow-100 text-yellow-800',
-  'bg-red-100 text-red-800',
-  'bg-indigo-100 text-indigo-800',
-];
-
-const getTagColor = (tagName: string) => {
-  const index = tagName.length % tagColors.length;
-  return tagColors[index];
-};
-
-const formatDate = (dateString?: string) => {
-  if (!dateString) return 'Datum není k dispozici';
-  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-  return new Date(dateString).toLocaleDateString('cs-CZ', options);
-};
-
-const PostCard: React.FC<PostCardProps> = ({ post }) => {
+export function PostCard({ post }: PostCardProps) {
   return (
-    <AnimatedCard
-      link={`/blog/posts/${post.slug}`}
-      className={cn(
-        "bg-white rounded-lg shadow-md overflow-hidden h-full",
-        "transition-standard hover:shadow-lg border border-powder-blue"
-      )}
+    <Link
+      href={`/blog/posts/${post.slug}`}
+      className="group block bg-polar rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
     >
-      <div className="p-6 flex flex-col h-full">
-        <h3 className="text-xl font-space-bold-regular text-blumine mb-3 line-clamp-2 transition-standard group-hover:text-fountain-blue">
+      {post.feature_image && (
+        <div className="relative aspect-[16/9] overflow-hidden">
+          <Image
+            src={post.feature_image}
+            alt={post.title}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+      )}
+      <div className="p-6">
+        <h3 className="text-xl font-bold text-blumine mb-2 font-raleway group-hover:text-fountain-blue transition-colors">
           {post.title}
         </h3>
-        <p className="text-sm font-raleway-regular text-astral mb-4 line-clamp-3">
-          {post.excerpt}
+        <p className="text-astral mb-4 line-clamp-2 font-raleway">
+          {post.excerpt || post.custom_excerpt}
         </p>
-        <div className="flex flex-col mt-auto">
-          <div className="flex items-center text-xs text-astral font-raleway-regular mb-3">
-            <span className="flex items-center mr-3">
-              <Calendar size={12} className="mr-1" />
-              {formatDate(post.published_at)}
-            </span>
-            <span className="flex items-center">
-              <Clock size={12} className="mr-1" />
-              {post.reading_time || 5} min čtení
-            </span>
-          </div>
-          <div className="flex flex-wrap gap-1 mt-auto">
-            {post.tags?.slice(0, 2).map(tag => (
-              <span
-                key={tag.name}
-                className={cn(
-                  "text-xs px-2 py-1 rounded-full font-raleway-regular transition-standard",
-                  getTagColor(tag.name)
-                )}
-              >
-                {tag.name}
-              </span>
-            ))}
-          </div>
+        <div className="flex items-center justify-between text-sm text-astral font-space">
+          <time dateTime={post.published_at}>
+            {formatDate(new Date(post.published_at))}
+          </time>
+          <span>{post.reading_time} min čtení</span>
         </div>
       </div>
-    </AnimatedCard>
+    </Link>
   );
-};
-
-export default PostCard;
+}

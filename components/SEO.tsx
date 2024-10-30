@@ -1,20 +1,21 @@
-import Head from "next/head"
+import Head from 'next/head';
 
 interface SEOProps {
-  title: string
-  description: string
-  ogImage?: string
+  title: string;
+  description: string;
 }
 
-const SEO: React.FC<SEOProps> = ({ title, description, ogImage }) => (
-  <Head>
-    <title>{title} | DigiMedic Blog</title>
-    <meta name="description" content={description} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    {ogImage && <meta property="og:image" content={ogImage} />}
-    <meta name="twitter:card" content="summary_large_image" />
-  </Head>
-)
-
-export default SEO
+export default function SEO({ title, description }: SEOProps) {
+  return (
+    <Head>
+      <title>{title} | DigiMedic</title>
+      <meta name="description" content={description} />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:type" content="website" />
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
+    </Head>
+  );
+}

@@ -1,174 +1,125 @@
-// Přidáme konstanty pro URL a KEY
-import { BlogPost } from '../types/blog';
+import { GhostPost, GhostAPIResponse } from './ghost.types';
+import { ghostConfig } from '../config/ghost.config';
+import { BlogPost } from '@/types/blog';
 
-const GHOST_URL = process.env.NEXT_PUBLIC_GHOST_URL || 'https://ghost-dso8k808400okgkc80wss8s0.194.164.72.131.sslip.io';
-const GHOST_KEY = process.env.NEXT_PUBLIC_GHOST_KEY || '0fe6e78d497ebf77ab192d7804';
+// Kontrola prostředí a konfigurace
+const GHOST_URL = process.env.NEXT_PUBLIC_GHOST_URL!;
+const GHOST_KEY = process.env.NEXT_PUBLIC_GHOST_KEY!;
 
-console.log('Ghost API URL:', GHOST_URL);
-console.log('Ghost API Key:', GHOST_KEY);
-
-export interface GhostPost {
-  id: string;
-  uuid: string;
-  title: string;
-  slug: string;
-  html: string | null;
-  comment_id: string;
-  feature_image: string | null;
-  feature_image_alt: string | null;
-  feature_image_caption: string | null;
-  featured: boolean;
-  visibility: string;
-  created_at: string;
-  updated_at: string;
-  published_at: string;
-  custom_excerpt: string | null;
-  codeinjection_head: string | null;
-  codeinjection_foot: string | null;
-  custom_template: string | null;
-  canonical_url: string | null;
-  url: string;
-  excerpt: string;
-  reading_time: number;
-  access: boolean;
-  og_image: string | null;
-  og_title: string | null;
-  og_description: string | null;
-  twitter_image: string | null;
-  twitter_title: string | null;
-  twitter_description: string | null;
-  meta_title: string | null;
-  meta_description: string | null;
-  email_subject: string | null;
-  authors?: Array<{
-    id: string;
-    name: string;
-    slug: string;
-    profile_image: string | null;
-    cover_image: string | null;
-    bio: string | null;
-    website: string | null;
-    location: string | null;
-    facebook: string | null;
-    twitter: string | null;
-    meta_title: string | null;
-    meta_description: string | null;
-    url: string;
-  }>;
-  primary_author?: {
-    id: string;
-    name: string;
-    slug: string;
-    profile_image: string | null;
-    cover_image: string | null;
-    bio: string | null;
-    website: string | null;
-    location: string | null;
-    facebook: string | null;
-    twitter: string | null;
-    meta_title: string | null;
-    meta_description: string | null;
-    url: string;
-  } | null;
-  tags?: Array<{
-    id: string;
-    name: string;
-    slug: string;
-    description: string | null;
-    feature_image: string | null;
-    visibility: string;
-    meta_title: string | null;
-    meta_description: string | null;
-    url: string;
-  }> | null;
-  primary_tag?: {
-    id: string;
-    name: string;
-    slug: string;
-    description: string | null;
-    feature_image: string | null;
-    visibility: string;
-    meta_title: string | null;
-    meta_description: string | null;
-    url: string;
-  };
+if (!GHOST_URL || !GHOST_KEY) {
+  throw new Error('Ghost API konfigurace chybí - zkontrolujte NEXT_PUBLIC_GHOST_URL a NEXT_PUBLIC_GHOST_KEY v .env');
 }
 
-export interface GhostError {
-  message: string;
-  code?: number;
+export function convertGhostPostToBlogPost(post: GhostPost): BlogPost {
+  // Zajistíme, že máme validní datum nebo použijeme aktuální datum jako fallback
+  const safeDate = (dateStr: string | null): Date => {
+    if (!dateStr) return new Date();
+    const date = new Date(dateStr);
+    return isNaN(date.getTime()) ? new Date() : date;
+  };
+
+  return {
+    id: post.id,
+    title: post.title,
+    slug: post.slug,
+    content: post.html || '',
+    imageUrl: post.feature_image,
+    publishedAt: safeDate(post.published_at),
+    excerpt: post.excerpt || '',
+    createdAt: safeDate(post.created_at),
+    updatedAt: safeDate(post.updated_at),
+    published_at: post.published_at || new Date().toISOString(),
+    reading_time: post.reading_time || 0,
+  };
 }
 
 export async function getPosts(): Promise<GhostPost[]> {
   try {
-    const response = await fetch(
-      `${GHOST_URL}/ghost/api/content/posts/?key=${GHOST_KEY}&include=tags,authors&limit=all`,
-      {
-        next: { revalidate: 3600 },
-        headers: {
-          'Accept-Version': 'v5.0',
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    console.log('Ghost API konfigurace:', {
+      url: GHOST_URL,
+      hasKey: !!GHOST_KEY,
+    });
+
+    const url = new URL(ghostConfig.endpoints.posts, GHOST_URL);
+    url.searchParams.append('key', GHOST_KEY);
+    url.searchParams.append('include', ghostConfig.defaultParams.include);
+    url.searchParams.append('limit', ghostConfig.defaultParams.limit);
+
+    console.log('Pokus o načtení z URL:', url.toString());
+
+    const response = await fetch(url.toString(), {
+      next: { revalidate: ghostConfig.revalidateInterval },
+      headers: {
+        'Accept-Version': ghostConfig.apiVersion,
+        'Content-Type': 'application/json',
+      },
+    });
 
     if (!response.ok) {
-      console.error('Ghost API response not OK:', response.status);
-      return [];
+      const errorText = await response.text();
+      console.error('Ghost API response not OK:', response.status, errorText);
+      throw new Error(`Ghost API vrátila chybu: ${response.status} - ${errorText}`);
     }
 
-    const data = await response.json();
-    return data.posts || [];
+    const data = await response.json() as GhostAPIResponse;
+    console.log('Počet načtených příspěvků:', data.posts?.length || 0);
+
+    if (!data.posts) {
+      throw new Error('Ghost API nevrátila žádné příspěvky');
+    }
+
+    return data.posts;
 
   } catch (error) {
-    console.error('Chyba při načítání příspěvků:', error);
-    return [];
+    console.error('Detailní chyba při načítání příspěvků:', {
+      error,
+      message: error instanceof Error ? error.message : 'Neznámá chyba',
+      cause: error instanceof Error ? error.cause : undefined,
+    });
+    throw error;
   }
 }
 
 export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
   try {
-    const response = await fetch(
-      `${GHOST_URL}/posts/slug/${slug}/?key=${GHOST_KEY}&include=tags,authors`,
-      {
-        headers: {
-          'Accept-Version': 'v5.0',
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    console.log('Načítám článek se slugem:', slug);
+
+    const url = new URL(`${GHOST_URL}/ghost/api/content/posts/slug/${slug}`);
+    url.searchParams.append('key', GHOST_KEY);
+    url.searchParams.append('include', ghostConfig.defaultParams.include);
+
+    console.log('Pokus o načtení z URL:', url.toString());
+
+    const response = await fetch(url.toString(), {
+      headers: {
+        'Accept-Version': ghostConfig.apiVersion,
+        'Content-Type': 'application/json',
+      },
+    });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorText = await response.text();
+      console.error('Ghost API response not OK:', response.status, errorText);
+      throw new Error(`Ghost API vrátila chybu: ${response.status} - ${errorText}`);
     }
 
-    const data = await response.json();
+    const data = await response.json() as GhostAPIResponse;
+    console.log('API odpověď pro slug:', slug, 'Data:', data);
 
-    if (!data || !data.posts) {
+    if (!data.posts || !data.posts[0]) {
+      console.log('Žádný článek nebyl nalezen pro slug:', slug);
       return null;
     }
 
-    return data.posts[0] || null;
-  } catch (error) {
-    console.error('Chyba při načítání příspěvku:', error);
-    return null;
-  }
-}
+    return data.posts[0];
 
-export function convertGhostPostToBlogPost(ghostPost: GhostPost): BlogPost {
-  return {
-    id: ghostPost.id,
-    title: ghostPost.title,
-    slug: ghostPost.slug,
-    excerpt: ghostPost.excerpt || ghostPost.custom_excerpt || '',
-    content: ghostPost.html ?? '',
-    html: ghostPost.html ?? undefined,
-    createdAt: ghostPost.created_at,
-    updatedAt: ghostPost.updated_at,
-    feature_image: ghostPost.feature_image || undefined,
-    tags: ghostPost.tags || undefined,
-    published_at: ghostPost.published_at,
-    reading_time: ghostPost.reading_time || 5,
-    primary_author: ghostPost.primary_author || undefined
-  };
+  } catch (error) {
+    console.error('Detailní chyba při načítání článku:', {
+      error,
+      message: error instanceof Error ? error.message : 'Neznámá chyba',
+      cause: error instanceof Error ? error.cause : undefined,
+      slug,
+    });
+    throw error;
+  }
 }
