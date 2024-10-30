@@ -15,7 +15,7 @@ export interface GhostPost {
   uuid: string;
   title: string;
   slug: string;
-  html: string;
+  html: string | null;
   comment_id: string;
   feature_image: string | null;
   feature_image_alt: string | null;
@@ -72,7 +72,7 @@ export interface GhostPost {
     meta_title: string | null;
     meta_description: string | null;
     url: string;
-  };
+  } | null;
   tags?: Array<{
     id: string;
     name: string;
@@ -83,7 +83,7 @@ export interface GhostPost {
     meta_title: string | null;
     meta_description: string | null;
     url: string;
-  }>;
+  }> | null;
   primary_tag?: {
     id: string;
     name: string;
@@ -103,10 +103,15 @@ export interface GhostError {
 }
 
 export async function getPosts(): Promise<GhostPost[]> {
+  if (!GHOST_URL || !GHOST_KEY) {
+    throw new Error('Chybí Ghost API konfigurace');
+  }
+
   try {
     const response = await fetch(
-      `${GHOST_URL}/posts/?key=${GHOST_KEY}&include=tags,authors&limit=all`,
+      `${GHOST_URL}/ghost/api/content/posts/?key=${GHOST_KEY}&include=tags,authors&limit=all`,
       {
+        next: { revalidate: 3600 }, // Cache na 1 hodinu
         headers: {
           'Accept-Version': 'v5.0',
           'Content-Type': 'application/json',
@@ -119,19 +124,11 @@ export async function getPosts(): Promise<GhostPost[]> {
     }
 
     const data = await response.json();
+    return data.posts || [];
 
-    if (!data || !data.posts) {
-      throw new Error('Neplatná odpověď z Ghost API');
-    }
-
-    return data.posts;
-  } catch (err) {
-    console.error('Error fetching posts:', err);
-    throw new Error(
-      err instanceof Error
-        ? err.message
-        : 'Chyba při načítání příspěvků z Ghost API'
-    );
+  } catch (error) {
+    console.error('Chyba při načítání příspěvků:', error);
+    throw error;
   }
 }
 
@@ -169,14 +166,15 @@ export function convertGhostPostToBlogPost(ghostPost: GhostPost): BlogPost {
     id: ghostPost.id,
     title: ghostPost.title,
     slug: ghostPost.slug,
-    excerpt: ghostPost.excerpt,
-    content: ghostPost.html,
-    createdAt: ghostPost.created_at,
-    updatedAt: ghostPost.updated_at,
+    excerpt: ghostPost.excerpt || ghostPost.custom_excerpt || '',
+    content: ghostPost.html || '',
+    html: ghostPost.html || undefined,
+    createdAt: ghostPost.created_at || ghostPost.published_at || new Date().toISOString(),
+    updatedAt: ghostPost.updated_at || ghostPost.published_at || new Date().toISOString(),
     feature_image: ghostPost.feature_image || undefined,
-    tags: ghostPost.tags?.map(tag => ({ id: tag.id, name: tag.name })),
-    published_at: ghostPost.published_at,
-    primary_author: ghostPost.primary_author ? { name: ghostPost.primary_author.name } : undefined,
-    custom_excerpt: ghostPost.custom_excerpt || undefined,
+    tags: ghostPost.tags || undefined,
+    published_at: ghostPost.published_at || undefined,
+    primary_author: ghostPost.primary_author || undefined,
+    custom_excerpt: ghostPost.custom_excerpt || undefined
   };
 }
