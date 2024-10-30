@@ -8,12 +8,12 @@ import { AnimatedCard } from './AnimatedCard';
 interface Post {
   id: string;
   title: string;
-  excerpt: string;
   slug: string;
-  tags?: { name: string }[];
-  feature_image: string | null | undefined;
+  excerpt: string;
+  feature_image?: string;
+  tags?: Array<{ id: string; name: string }>;
+  published_at?: string;
   reading_time?: number;
-  published_at: string;
 }
 
 const tagColors = [
@@ -29,7 +29,8 @@ const getTagColor = (tagName: string) => {
   return tagColors[index];
 };
 
-const formatDate = (dateString: string) => {
+const formatDate = (dateString?: string) => {
+  if (!dateString) return 'Datum není k dispozici';
   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
   return new Date(dateString).toLocaleDateString('cs-CZ', options);
 };
@@ -58,7 +59,7 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
             </span>
             <span className="flex items-center">
               <Clock size={12} className="mr-1" />
-              {post.reading_time} min čtení
+              {post.reading_time || 5} min čtení
             </span>
           </div>
           <div className="flex flex-wrap gap-1 mt-auto">

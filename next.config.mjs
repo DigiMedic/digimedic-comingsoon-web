@@ -7,16 +7,12 @@ const __dirname = dirname(__filename);
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  poweredByHeader: false,
-  compress: true,
-  optimizeFonts: true,
   images: {
-    domains: ['your-domain.com'] // Přidejte domény, ze kterých načítáte obrázky
+    domains: ['ghost-dso8k808400okgkc80wss8s0.194.164.72.131.sslip.io']
   },
   experimental: {
-    swcPlugins: [["@onlook/nextjs", {
-      root: path.resolve(".")
-    }]]
+    serverActions: true,
   }
 };
+
 export default nextConfig;
