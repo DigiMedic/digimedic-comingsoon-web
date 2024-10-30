@@ -28,7 +28,7 @@ export interface BlogPost {
   html?: string;
   createdAt: string;
   updatedAt: string;
-  feature_image?: string | null;
+  feature_image?: string;
   tags?: Array<{ id: string; name: string }>;
   published_at: string;
   reading_time: number;
@@ -36,5 +36,3 @@ export interface BlogPost {
     name: string;
   };
 }
-
-export interface Post extends BlogPost {}

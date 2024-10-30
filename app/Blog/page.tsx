@@ -8,14 +8,14 @@ export const metadata: Metadata = {
   description: 'Nejnovější články a novinky ze světa digitálního zdravotnictví',
 };
 
-export const revalidate = 3600; // revalidace každou hodinu
+export const revalidate = 3600;
 
 export default async function BlogPage() {
   try {
-    const ghostPosts = await getPosts();
-    const posts = ghostPosts.map(convertGhostPostToBlogPost);
+    const posts = await getPosts();
+    const convertedPosts = posts.map(convertGhostPostToBlogPost);
 
-    return <BlogContent initialPosts={posts} />;
+    return <BlogContent initialPosts={convertedPosts} />;
   } catch (error) {
     console.error('Chyba při načítání příspěvků:', error);
     return (

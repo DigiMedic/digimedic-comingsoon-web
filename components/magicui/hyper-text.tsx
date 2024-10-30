@@ -12,10 +12,6 @@ interface HyperTextProps {
   animateOnLoad?: boolean;
 }
 
-const alphabets = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-const getRandomInt = (max: number) => Math.floor(Math.random() * max);
-
 export default function HyperText({
   text,
   duration = 800,

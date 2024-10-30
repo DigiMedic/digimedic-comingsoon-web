@@ -1,6 +1,5 @@
 "use client";
 import React from 'react';
-import Image from "next/image";
 import { Clock, Calendar } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { AnimatedCard } from './AnimatedCard';

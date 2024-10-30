@@ -1,14 +1,11 @@
 // Přidáme konstanty pro URL a KEY
 import { BlogPost } from '../types/blog';
 
-const GHOST_URL = process.env.NEXT_PUBLIC_GHOST_URL;
-const GHOST_KEY = process.env.NEXT_PUBLIC_GHOST_KEY;
+const GHOST_URL = process.env.NEXT_PUBLIC_GHOST_URL || 'https://ghost-dso8k808400okgkc80wss8s0.194.164.72.131.sslip.io';
+const GHOST_KEY = process.env.NEXT_PUBLIC_GHOST_KEY || '0fe6e78d497ebf77ab192d7804';
 
-if (!GHOST_URL || !GHOST_KEY) {
-  throw new Error(
-    'Ghost API konfigurace chybí. Zkontrolujte NEXT_PUBLIC_GHOST_URL a NEXT_PUBLIC_GHOST_KEY v .env'
-  );
-}
+console.log('Ghost API URL:', GHOST_URL);
+console.log('Ghost API Key:', GHOST_KEY);
 
 export interface GhostPost {
   id: string;
@@ -103,15 +100,11 @@ export interface GhostError {
 }
 
 export async function getPosts(): Promise<GhostPost[]> {
-  if (!GHOST_URL || !GHOST_KEY) {
-    throw new Error('Chybí Ghost API konfigurace');
-  }
-
   try {
     const response = await fetch(
       `${GHOST_URL}/ghost/api/content/posts/?key=${GHOST_KEY}&include=tags,authors&limit=all`,
       {
-        next: { revalidate: 3600 }, // Cache na 1 hodinu
+        next: { revalidate: 3600 },
         headers: {
           'Accept-Version': 'v5.0',
           'Content-Type': 'application/json',
@@ -120,7 +113,8 @@ export async function getPosts(): Promise<GhostPost[]> {
     );
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      console.error('Ghost API response not OK:', response.status);
+      return [];
     }
 
     const data = await response.json();
@@ -128,7 +122,7 @@ export async function getPosts(): Promise<GhostPost[]> {
 
   } catch (error) {
     console.error('Chyba při načítání příspěvků:', error);
-    throw error;
+    return [];
   }
 }
 
@@ -171,10 +165,10 @@ export function convertGhostPostToBlogPost(ghostPost: GhostPost): BlogPost {
     html: ghostPost.html ?? undefined,
     createdAt: ghostPost.created_at,
     updatedAt: ghostPost.updated_at,
-    feature_image: ghostPost.feature_image ?? undefined,
-    tags: ghostPost.tags ?? undefined,
+    feature_image: ghostPost.feature_image || undefined,
+    tags: ghostPost.tags || undefined,
     published_at: ghostPost.published_at,
     reading_time: ghostPost.reading_time || 5,
-    primary_author: ghostPost.primary_author ?? undefined
+    primary_author: ghostPost.primary_author || undefined
   };
 }
