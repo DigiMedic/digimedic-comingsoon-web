@@ -42,4 +42,20 @@ const nextConfig = {
   poweredByHeader: false,
 };
 
-export default nextConfig;
+module.exports = {
+  ...nextConfig,
+  experimental: {
+    serverComponents: true,
+    serverActions: true,
+    optimizeFonts: true,
+  },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        vm2: false,
+      };
+    }
+    return config;
+  },
+}
