@@ -10,7 +10,7 @@ const IconWrapper = ({ children }: { children: React.ReactNode }) => (
 );
 
 const FeatureCard = ({ title, content, icon }: { title: string; content: string; icon: React.ReactNode }) => (
-  <motion.div 
+  <motion.div
     className="rounded-lg bg-white shadow-md p-6 hover:shadow-lg transition-all duration-300"
     whileHover={{ scale: 1.03 }}
   >
@@ -62,7 +62,7 @@ const Modal = ({ isOpen, onClose, children }: { isOpen: boolean; onClose: () => 
 };
 
 const CTAButton = ({ onClick, children }: { onClick: () => void; children: React.ReactNode }) => (
-  <motion.button 
+  <motion.button
     className="rounded-lg bg-blumine py-3 px-6 font-bold text-white transition-colors duration-300 hover:bg-blumine/90"
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
@@ -125,7 +125,7 @@ export default function MissionVisionSection() {
         </div>
 
         <div className="mb-8 flex justify-center">
-          <motion.button 
+          <motion.button
             className={`rounded-l-lg px-8 py-3 font-space font-bold text-lg ${activeTab === 'mise' ? 'bg-blumine text-white' : 'bg-white text-blumine'} shadow-md transition-colors duration-300`}
             onClick={() => setActiveTab('mise')}
             whileHover={{ scale: 1.05 }}
@@ -133,7 +133,7 @@ export default function MissionVisionSection() {
           >
             Naše mise
           </motion.button>
-          <motion.button 
+          <motion.button
             className={`rounded-r-lg px-8 py-3 font-space font-bold text-lg ${activeTab === 'vize' ? 'bg-blumine text-white' : 'bg-white text-blumine'} shadow-md transition-colors duration-300`}
             onClick={() => setActiveTab('vize')}
             whileHover={{ scale: 1.05 }}
@@ -175,10 +175,10 @@ export default function MissionVisionSection() {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <iframe 
+        <iframe
           ref={iframeRef}
-          style={{border:'none', width:'100%', height:'100%'}} 
-          id="pripraveni-na-digitalni-transformaci-qeze1m" 
+          style={{border:'none', width:'100%', height:'100%'}}
+          id="pripraveni-na-digitalni-transformaci-qeze1m"
           src="https://opnform.com/forms/pripraveni-na-digitalni-transformaci-qeze1m"
         />
       </Modal>

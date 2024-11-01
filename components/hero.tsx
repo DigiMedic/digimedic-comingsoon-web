@@ -13,8 +13,8 @@ const Hero = () => {
           <div className="flex flex-col items-center mb-2">
             <h1 className="font-space-mono-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-blumine mb-1">
               <HyperText
-                className="inline-block text-blumine"
                 text="Digitální páteř"
+                className="inline-block text-blumine"
               />
             </h1>
             <h1 className="font-space-mono-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-blumine">
@@ -22,9 +22,8 @@ const Hero = () => {
             </h1>
           </div>
           <p className="font-raleway-regular mb-2 mt-1 text-sm sm:text-base text-astral">
-          Pracujeme na tom, abychom
-            vám brzy mohli představit kompletní online prezentaci. Připojte se k
-            nám na cestě k efektivnější a dostupnější zdravotní péči.
+            Pracujeme na tom, abychom vám brzy mohli představit kompletní online prezentaci.
+            Připojte se k nám na cestě k efektivnější a dostupnější zdravotní péči.
           </p>
         </div>
         <div className="w-full max-w-lg mb-4">

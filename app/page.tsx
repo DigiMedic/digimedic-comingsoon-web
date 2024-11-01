@@ -2,9 +2,15 @@ import { Metadata } from "next"
 import FUIFeatureSectionWithCards from 'components/fui-feature-section-with-cards'
 import Hero from 'components/hero'
 import TextRevealByWord from 'components/TextRevealByWord'
+import HyperText from "@/components/magicui/hyper-text"
 
 export const metadata: Metadata = {
-  title: "DigiMedic - Digitální páteř českého zdravotnictví",
+  title: "DigiMedic - " +
+    <HyperText
+      text="Digitální páteř"
+      className="text-4xl font-bold text-black dark:text-white"
+    /> +
+    " českého zdravotnictví",
   description:
     "Naše webové stránky jsou právě ve vývoji. Pracujeme na tom, abychom vám brzy mohli představit kompletní online prezentaci",
 }
