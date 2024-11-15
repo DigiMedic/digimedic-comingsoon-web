@@ -46,24 +46,13 @@ export async function getPosts(): Promise<GhostPost[]> {
   }
 
   try {
-    console.log('Ghost API konfigurace:', {
-      url: GHOST_URL,
-      hasKey: !!GHOST_KEY,
-    });
-
-    const url = new URL(ghostConfig.endpoints.posts, GHOST_URL);
+    const url = new URL('/ghost-api/content/posts/', 'http://localhost:3000');
     url.searchParams.append('key', GHOST_KEY!);
     url.searchParams.append('include', ghostConfig.defaultParams.include);
     url.searchParams.append('limit', ghostConfig.defaultParams.limit);
 
-    console.log('Pokus o načtení z URL:', url.toString());
-
     const response = await fetch(url.toString(), {
       next: { revalidate: ghostConfig.revalidateInterval },
-      headers: {
-        'Accept-Version': ghostConfig.apiVersion,
-        'Content-Type': 'application/json',
-      },
     });
 
     if (!response.ok) {
@@ -73,16 +62,10 @@ export async function getPosts(): Promise<GhostPost[]> {
     }
 
     const data = await response.json() as GhostAPIResponse;
-    console.log('Počet načtených příspěvků:', data.posts?.length || 0);
-
     return data.posts || [];
 
   } catch (error) {
-    console.error('Detailní chyba při načítání příspěvků:', {
-      error,
-      message: error instanceof Error ? error.message : 'Neznámá chyba',
-      cause: error instanceof Error ? error.cause : undefined,
-    });
+    console.error('Chyba při načítání příspěvků:', error);
     return [];
   }
 }
@@ -93,19 +76,12 @@ export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
   }
 
   try {
-    console.log('Načítám článek se slugem:', slug);
-
-    const url = new URL(`${GHOST_URL}/ghost/api/content/posts/slug/${slug}`);
+    const url = new URL(`/ghost-api/content/posts/slug/${slug}`, 'http://localhost:3000');
     url.searchParams.append('key', GHOST_KEY!);
     url.searchParams.append('include', ghostConfig.defaultParams.include);
 
-    console.log('Pokus o načtení z URL:', url.toString());
-
     const response = await fetch(url.toString(), {
-      headers: {
-        'Accept-Version': ghostConfig.apiVersion,
-        'Content-Type': 'application/json',
-      },
+      next: { revalidate: ghostConfig.revalidateInterval },
     });
 
     if (!response.ok) {
@@ -118,12 +94,7 @@ export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
     return data.posts?.[0] || null;
 
   } catch (error) {
-    console.error('Detailní chyba při načítání článku:', {
-      error,
-      message: error instanceof Error ? error.message : 'Neznámá chyba',
-      cause: error instanceof Error ? error.cause : undefined,
-      slug,
-    });
+    console.error('Chyba při načítání článku:', error);
     return null;
   }
 }

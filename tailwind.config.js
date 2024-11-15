@@ -127,6 +127,12 @@ module.exports = {
           '50%': { transform: 'translateY(-5px)' },
         },
       },
+      backgroundImage: {
+        'grid-pattern': 'linear-gradient(to right, #4f4f4f0a 1px, transparent 1px), linear-gradient(to bottom, #4f4f4f0a 1px, transparent 1px)',
+      },
+      backgroundSize: {
+        'grid-pattern': '54px 54px',
+      },
     },
   },
   plugins: [

@@ -3,9 +3,19 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: [
-      'ghost-dso8k808400okgkc80wss8s0.194.164.72.131.sslip.io',
-      'www.digimedic.cz'
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ghost-dso8k808400okgkc80wss8s0.194.164.72.131.sslip.io'
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.digimedic.cz'
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com'
+      }
     ],
     formats: ['image/avif', 'image/webp']
   },
@@ -40,22 +50,14 @@ const nextConfig = {
     ]
   },
   poweredByHeader: false,
+  async rewrites() {
+    return [
+      {
+        source: '/ghost-api/:path*',
+        destination: `${process.env.NEXT_PUBLIC_GHOST_URL}/ghost/api/:path*`,
+      },
+    ];
+  },
 };
 
-module.exports = {
-  ...nextConfig,
-  experimental: {
-    serverComponents: true,
-    serverActions: true,
-    optimizeFonts: true,
-  },
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        vm2: false,
-      };
-    }
-    return config;
-  },
-}
+module.exports = nextConfig;

@@ -1,187 +1,172 @@
-'use client'
+'use client';
+import { useEffect, useRef } from 'react';
+import { useTransform, motion, useScroll, MotionValue } from 'framer-motion';
+import Lenis from '@studio-freight/lenis';
+import { Stethoscope, Laptop, Brain } from 'lucide-react';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+interface Project {
+  title: string;
+  description: string;
+  Icon: any;
+  color: string;
+  textColor?: string;  // Přidaný volitelný textový kontrast
+}
 
-const IconWrapper = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-lg bg-powder-blue">
-    {children}
-  </div>
-);
+const projects: Project[] = [
+  {
+    title: 'Digitální transformace',
+    description: 'Pomáháme zdravotnickým zařízením rychle a efektivně zavádět digitální technologie, které zjednodušují správu a zlepšují kvalitu péče. Společně modernizujeme systémy, které zajišťují lepší péči pro pacienty a efektivitu pro zdravotníky.',
+    Icon: Laptop,
+    color: '#1B4D6A',  // Tmavě modrá (hlavní barva)
+    textColor: '#FFFFFF',
+  },
+  {
+    title: 'Efektivní řešení',
+    description: 'Vytváříme přizpůsobená digitální řešení, která usnadňují každodenní práci zdravotnickým profesionálům. Naším cílem je zjednodušit procesy a zvýšit produktivitu, abyste se mohli soustředit na to nejdůležitější: péči o pacienty.',
+    Icon: Stethoscope,
+    color: '#5B8A9A',  // Středně modrá (sekundární prvky)
+    textColor: '#FFFFFF',
+  },
+  {
+    title: 'Inovace ve zdravotnictví',
+    description: 'Přinášíme inovace, které mění způsob, jakým pracujeme a pečujeme o pacienty. Ať už jde o nové technologie, nástroje nebo procesy, náš tým je tu, aby pomohl českému zdravotnictví být efektivnější a lépe připravené na výzvy budoucnosti.',
+    Icon: Brain,
+    color: '#5BA2C2',  // Světle modrá (doplňkové prvky)
+    textColor: '#FFFFFF',  // Změněno na bílou pro konzistenci
+  },
+  {
+    title: 'Připojte se k Digitální Revoluci ve Zdravotnictví',
+    description: 'Chcete být součástí revoluce, která změní budoucnost zdravotní péče? Ať už jste zdravotnické zařízení, technologický startup nebo investor, připojte se k nám a staňte se partnerem v našem projektu, který usnadňuje život pacientům a zdravotníkům.',
+    Icon: Laptop,
+    color: '#1B4D6A',  // Změna na tmavší barvu pro lepší kontrast
+    textColor: '#FFFFFF',
+  }
+];
 
-const FeatureCard = ({ title, content, icon }: { title: string; content: string; icon: React.ReactNode }) => (
-  <motion.div
-    className="rounded-lg bg-white shadow-md p-6 hover:shadow-lg transition-all duration-300"
-    whileHover={{ scale: 1.03 }}
-  >
-    <div className="flex items-center mb-4">
-      <IconWrapper>{icon}</IconWrapper>
-      <h3 className="ml-4 text-xl font-space font-bold text-blumine">{title}</h3>
-    </div>
-    <p className="font-raleway text-gray-600">{content}</p>
-  </motion.div>
-);
-
-const Modal = ({ isOpen, onClose, children }: { isOpen: boolean; onClose: () => void; children: React.ReactNode }) => {
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
-          onClick={onClose}
-        >
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            className="flex flex-col w-full h-full max-w-2xl max-h-[90vh] m-4 overflow-hidden rounded-lg bg-white"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between p-4 border-b">
-              <h2 className="text-xl font-bold text-blumine">Domluvte si konzultaci</h2>
-              <button
-                className="hover:text-gray-700 text-gray-500"
-                onClick={onClose}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div className="flex-grow overflow-hidden">
-              {children}
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-};
-
-const CTAButton = ({ onClick, children }: { onClick: () => void; children: React.ReactNode }) => (
-  <motion.button
-    className="rounded-lg bg-blumine py-3 px-6 font-bold text-white transition-colors duration-300 hover:bg-blumine/90"
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
-    onClick={onClick}
-  >
-    {children}
-  </motion.button>
-);
-
-export default function MissionVisionSection() {
-  const [activeTab, setActiveTab] = useState('mise');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+export default function MissionVisionSection(): JSX.Element {
+  const container = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ['start start', 'end end'],
+  });
 
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = "https://opnform.com/widgets/iframe.min.js";
-    script.async = true;
-    document.body.appendChild(script);
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+    });
 
-    return () => {
-      document.body.removeChild(script);
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
     }
+    requestAnimationFrame(raf);
+
+    return () => lenis.destroy();
   }, []);
 
-  const features = [
-    {
-      title: "Efektivní digitalizace",
-      content: "Snižujeme administrativní zátěž a optimalizujeme procesy ve zdravotnictví.",
-      icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#1B4D6A" className="w-6 h-6">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-    },
-    {
-      title: "Bezpečnost dat",
-      content: "Garantujeme nejvyšší standardy ochrany citlivých zdravotnických informací.",
-      icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#1B4D6A" className="w-6 h-6">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-      </svg>
-    },
-    {
-      title: "Inovativní řešení",
-      content: "Přinášíme nejmodernější technologie pro zlepšení kvality zdravotní péče.",
-      icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#1B4D6A" className="w-6 h-6">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-      </svg>
-    }
-  ];
-
   return (
-    <section className="bg-polar py-16 lg:py-24">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="mb-4 text-4xl font-space font-bold text-blumine">
-            Transformujeme zdravotnictví digitálními inovacemi
-          </h2>
-          <p className="max-w-3xl mx-auto text-xl text-astral font-raleway">
-            DigiMedic přináší revoluční řešení, která zlepšují kvalitu péče, usnadňují práci zdravotníkům a přinášejí pozitivní změny do života pacientů.
-          </p>
-        </div>
+    <main className="bg-transparent" ref={container}>
+      {/* Úvodní sekce */}
+      <section className="text-blumine h-[70vh] w-full bg-transparent grid place-content-center relative">
+        <div className="absolute inset-0 [background-image:linear-gradient(to_right,#4f4f4f0a_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f0a_1px,transparent_1px)] [background-size:54px_54px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#fff_70%,transparent_100%)]"></div>
+        <h1 className="2xl:text-7xl text-5xl px-8 font-space-bold text-center tracking-tight leading-[120%]">
+          Posunujeme zdravotní péči do nové éry 🚀
+        </h1>
+        <p className="text-xl text-center text-white mt-4">
+          Společně vytváříme moderní zdravotnické technologie, které zlepšují péči o pacienty a efektivitu pro zdravotníky. Inovace, které mění způsob, jak pracujeme, léčíme a pečujeme.
+        </p>
+      </section>
 
-        <div className="mb-8 flex justify-center">
-          <motion.button
-            className={`rounded-l-lg px-8 py-3 font-space font-bold text-lg ${activeTab === 'mise' ? 'bg-blumine text-white' : 'bg-white text-blumine'} shadow-md transition-colors duration-300`}
-            onClick={() => setActiveTab('mise')}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Naše mise
-          </motion.button>
-          <motion.button
-            className={`rounded-r-lg px-8 py-3 font-space font-bold text-lg ${activeTab === 'vize' ? 'bg-blumine text-white' : 'bg-white text-blumine'} shadow-md transition-colors duration-300`}
-            onClick={() => setActiveTab('vize')}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Naše vize
-          </motion.button>
-        </div>
-
-        <div className="mb-12 rounded-lg bg-white shadow-lg p-8">
-          {activeTab === 'mise' ? (
-            <p className="text-lg text-gray-700 font-raleway">
-              Naším posláním je vytvářet inovativní digitální řešení, která zefektivňují procesy ve zdravotnictví, snižují administrativní zátěž a umožňují zdravotníkům věnovat více času péči o pacienty. Spojujeme nejmodernější technologie s hlubokou znalostí zdravotnického prostředí.
-            </p>
-          ) : (
-            <p className="text-lg text-gray-700 font-raleway">
-              Naší vizí je zdravotnictví, kde každý pacient má přístup k personalizované a preventivní péči, kde data pomáhají včas předcházet nemocem a kde špičková zdravotní péče je dostupná všem bez ohledu na to, kde žijí. Usilujeme o propojení všech účastníků zdravotní péče a vytvoření efektivního ekosystému.
-            </p>
-          )}
-        </div>
-
-        <div className="grid gap-8 mb-12 md:grid-cols-3">
-          {features.map((feature, index) => (
-            <FeatureCard key={index} {...feature} />
-          ))}
-        </div>
-
-        <div className="rounded-lg bg-blumine/5 p-8 text-center">
-          <h3 className="mb-4 text-2xl font-space font-bold text-blumine">
-            Připraveni na digitální transformaci?
-          </h3>
-          <p className="max-w-2xl mx-auto mb-6 text-gray-700 font-raleway">
-            Zjistěte, jak DigiMedic může pomoci vaší organizaci zefektivnit procesy, zlepšit péči o pacienty a připravit se na budoucnost zdravotnictví. Nabízíme osobní konzultace šité na míru vašim potřebám.
-          </p>
-          <CTAButton onClick={() => setIsModalOpen(true)}>
-            Domluvte si bezplatnou konzultaci
-          </CTAButton>
-        </div>
-      </div>
-
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <iframe
-          ref={iframeRef}
-          style={{border:'none', width:'100%', height:'100%'}}
-          id="pripraveni-na-digitalni-transformaci-qeze1m"
-          src="https://opnform.com/forms/pripraveni-na-digitalni-transformaci-qeze1m"
-        />
-      </Modal>
-    </section>
+      {/* Sekce s kartami */}
+      <section className="text-blumine w-full bg-transparent">
+        {projects.map((project, i) => {
+          const targetScale = 1 - (projects.length - i) * 0.05;
+          return (
+            <Card
+              key={`project_${i}`}
+              i={i}
+              title={project.title}
+              description={project.description}
+              Icon={project.Icon}
+              color={project.color}
+              progress={scrollYProgress}
+              range={[i * 0.25, 1]}
+              targetScale={targetScale}
+            />
+          );
+        })}
+      </section>
+    </main>
   );
 }
+
+interface CardProps {
+  i: number;
+  title: string;
+  description: string;
+  Icon: React.ComponentType<{ className?: string }>;
+  color: string;
+  progress: MotionValue<number>;
+  range: [number, number];
+  targetScale: number;
+}
+
+const Card: React.FC<CardProps> = ({
+  i,
+  title,
+  description,
+  Icon,
+  color,
+  range,
+  targetScale,
+}) => {
+  const container = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ['start end', 'start start'],
+  });
+
+  const scale = useTransform(scrollYProgress, range, [1, targetScale]);
+
+  return (
+    <div
+      ref={container}
+      className="h-screen flex items-center justify-center sticky top-0"
+    >
+      <motion.div
+        style={{
+          scale,
+          top: `calc(-5vh + ${i * 25}px)`,
+          background: color,
+          color: '#FFFFFF',
+        }}
+        className={`flex flex-col relative -top-[25%] h-[450px] w-[70%] rounded-xl p-10 origin-top
+          backdrop-blur-md shadow-2xl
+          border border-white/10
+          hover:shadow-fountain-blue/20 hover:scale-[1.02]
+          transition-all duration-500
+          bg-grid-pattern bg-[54px_54px]`}
+      >
+        <h2 className='text-3xl text-center font-bold mb-6 font-space-bold text-white'>{title}</h2>
+        <div className='flex h-full gap-10'>
+          <div className='w-[40%] relative top-[10%]'>
+            <p className='text-lg font-raleway leading-relaxed text-white/90'>{description}</p>
+            <motion.div
+              className="mt-6 h-1 bg-white/30 rounded-full overflow-hidden"
+              initial={{ width: 0 }}
+              whileInView={{ width: "100%" }}
+              transition={{ duration: 1, delay: 0.5 }}
+            />
+          </div>
+          <div className='relative w-[60%] h-full flex items-center justify-center'>
+            <Icon className="w-full h-full max-w-[200px] text-white opacity-80" />
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+};

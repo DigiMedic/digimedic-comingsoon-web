@@ -53,7 +53,7 @@ export const DigiMedicNavigation = () => {
   })
 
   return (
-    <div className="fixed inset-x-0 top-4 z-50 flex justify-center">
+    <div className="fixed inset-x-0 top-3 z-50 flex justify-center">
       <motion.nav
         variants={{
           visible: { y: 0, opacity: 1 },

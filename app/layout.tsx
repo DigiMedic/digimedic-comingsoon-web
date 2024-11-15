@@ -34,16 +34,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="cs">
-      <head>
-        <UmamiAnalytics />
-      </head>
-      <body>
+      <body className="min-h-screen bg-white">
         <ErrorBoundary>
           <SiteHeader />
-          <DigiMedicNavigation />
-          <main>{children}</main>
-          <Footer />
+          <main className="pt-16 min-h-screen">
+            <DigiMedicNavigation />
+            {children}
+            <Footer />
+          </main>
           <VercelAnalytics />
+          <UmamiAnalytics />
         </ErrorBoundary>
       </body>
     </html>
