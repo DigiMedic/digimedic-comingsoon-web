@@ -59,7 +59,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Github className="h-5 w-5" />
+                  <Github className="size-5" />
                 </a>
               </Button>
               <Button
@@ -72,7 +72,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Linkedin className="h-5 w-5" />
+                  <Linkedin className="size-5" />
                 </a>
               </Button>
               <Button
@@ -85,7 +85,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Facebook className="h-5 w-5" />
+                  <Facebook className="size-5" />
                 </a>
               </Button>
             </div>

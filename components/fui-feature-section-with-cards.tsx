@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Stethoscope, Laptop, Brain, Shield } from "lucide-react";
+import { Laptop, Brain, Shield } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ContactButton } from 'components/ContactButton';
 

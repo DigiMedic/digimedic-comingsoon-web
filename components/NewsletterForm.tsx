@@ -37,7 +37,7 @@ export const NewsletterForm: React.FC = () => {
           src="https://opnform.com/forms/prihlaseni-k-odberu-gpt8sb"
           title="Newsletter Signup"
           className={cn(
-            "flex-grow px-3 py-2 text-base text-foreground placeholder-muted-foreground",
+            "grow px-3 py-2 text-base text-foreground placeholder:text-muted-foreground",
             "border border-input rounded-md",
             "bg-background"
           )}
