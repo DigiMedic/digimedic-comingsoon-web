@@ -7,21 +7,20 @@ import AnimatedLabels from "./AnimatedLabels";
 const Hero = () => {
   return (
     <div className="bg-light-gray">
-      <div className="container mx-auto flex max-w-7xl flex-col items-center px-4 py-4 sm:px-6 lg:px-8 lg:py-6">
-        <div className="max-w-3xl text-center mt-6 sm:mt-8 lg:mt-10">
-          {/* Kontejner pro oba nadpisy */}
-          <div className="flex flex-col items-center mb-2">
-            <h1 className="font-space-mono-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-blumine mb-1">
+      <div className="container mx-auto flex max-w-7xl flex-col items-center px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <div className="max-w-3xl text-center mt-4 sm:mt-6 lg:mt-8">
+          <div className="flex flex-col items-center mb-2 space-y-2 sm:space-y-3">
+            <h1 className="font-space-mono-bold text-2xl sm:text-3xl lg:text-5xl tracking-tight text-blumine">
               <HyperText
                 text="Digitální páteř"
                 className="inline-block text-blumine"
               />
             </h1>
-            <h1 className="font-space-mono-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-blumine">
+            <h1 className="font-space-mono-bold text-2xl sm:text-3xl lg:text-5xl tracking-tight text-blumine">
               pro české zdravotnictví
             </h1>
           </div>
-          <p className="font-raleway-regular mb-2 mt-1 text-sm sm:text-base text-astral">
+          <p className="font-raleway-regular mb-2 mt-1 text-sm sm:text-base text-astral px-4 sm:px-0">
             Pracujeme na tom, abychom vám brzy mohli představit kompletní online prezentaci.
             Připojte se k nám na cestě k efektivnější a dostupnější zdravotní péči.
           </p>
@@ -36,5 +35,5 @@ const Hero = () => {
     </div>
   );
 }
-
 export default Hero;
+

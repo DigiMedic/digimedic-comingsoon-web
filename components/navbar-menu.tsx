@@ -5,6 +5,7 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion"
 import Link from "next/link"
 import { cn } from 'lib/utils'
 import { ContactButton } from 'components/ContactButton'
+import { X, Menu } from 'lucide-react'
 
 const MenuItem = motion(Link)
 
@@ -42,6 +43,7 @@ export const DigiMedicNavigation = () => {
   const [active, setActive] = useState<string | null>(null)
   const [hidden, setHidden] = useState(false)
   const { scrollY } = useScroll()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious()
@@ -68,6 +70,23 @@ export const DigiMedicNavigation = () => {
         <MenuItemComponent setActive={setActive} active={active} item="Blog" href="/blog" />
         <ContactButton className="ml-4" href="#" />
       </motion.nav>
+      <div className="md:hidden absolute right-4">
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="p-2 text-blumine hover:text-fountain-blue"
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+      {isMobileMenuOpen && (
+        <div className="absolute top-full left-0 w-full bg-white/90 backdrop-blur-md shadow-lg md:hidden mt-2">
+          <nav className="flex flex-col p-4 space-y-4">
+            <MenuItemComponent setActive={setActive} active={active} item="Domů" href="/" />
+            <MenuItemComponent setActive={setActive} active={active} item="Blog" href="/blog" />
+            <ContactButton className="w-full" href="#" />
+          </nav>
+        </div>
+      )}
     </div>
   )
 }

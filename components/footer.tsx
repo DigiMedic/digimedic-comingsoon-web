@@ -7,18 +7,17 @@ import { NewsletterForm } from '@/components/NewsletterForm'
 
 export default function Footer() {
   return (
-    <footer className="bg-polar py-12">
-      <div className="container mx-auto px-4">
+    <footer className="bg-polar py-8 sm:py-12 border-t border-fountain-blue/20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4 sm:gap-6">
             <Link href="/" className="inline-block">
-              <span className="sr-only">DigiMedic</span>
               <Image
                 src="/brand/svg/DigiMedic-logo-long.svg"
                 alt="DigiMedic Logo"
-                width={200}
-                height={45}
-                className="transition-all hover:opacity-75"
+                width={160}
+                height={36}
+                className="sm:w-[200px] sm:h-[45px] transition-all hover:opacity-75"
               />
             </Link>
             <p className="max-w-xl text-astral">
@@ -43,10 +42,10 @@ export default function Footer() {
               </Link>
             </nav>
           </div>
-          
+
           <div className="flex flex-col justify-between items-end">
-            <div className="mb-6 w-full md:w-auto">
-              <h3 className="text-blumine font-semibold mb-2">Odebírejte naše novinky</h3>
+            <div className="w-full md:w-auto">
+              <div className="text-blumine font-semibold mb-1 text-left mt-4">Odebírejte naše novinky</div>
               <NewsletterForm />
             </div>
             <div className="flex gap-2">

@@ -18,24 +18,22 @@ export default function BlogPostDetail({ post }: BlogPostDetailProps) {
 
   return (
     <Container className="py-16">
-      <article className="max-w-4xl mx-auto">
-        {/* Header sekce */}
-        <header className="mb-12 text-center">
-          <h1 className="text-5xl font-raleway font-bold text-blumine mb-6 leading-tight">
+      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <header className="mb-8 sm:mb-12 text-center">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-raleway font-bold text-blumine mb-4 sm:mb-6 leading-tight">
             {post.title}
           </h1>
-          <div className="text-astral font-space text-lg">
+          <div className="text-astral font-space text-base sm:text-lg flex flex-wrap justify-center gap-2 sm:gap-3">
             <time dateTime={post.publishedAt.toISOString()}>
               {formatDate(post.publishedAt)}
             </time>
-            <span className="mx-3">•</span>
+            <span className="hidden sm:inline">•</span>
             <span>{post.reading_time} min čtení</span>
           </div>
         </header>
 
-        {/* Hlavní obrázek */}
         {post.imageUrl && (
-          <div className="relative w-full aspect-[21/9] mb-12 rounded-2xl overflow-hidden">
+          <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] mb-8 sm:mb-12 rounded-lg sm:rounded-2xl overflow-hidden">
             <Image
               src={post.imageUrl}
               alt={post.title}
@@ -46,7 +44,6 @@ export default function BlogPostDetail({ post }: BlogPostDetailProps) {
           </div>
         )}
 
-        {/* Obsah článku */}
         <div
           className="prose prose-lg max-w-none
             prose-headings:font-raleway prose-headings:text-blumine prose-headings:font-bold
@@ -66,7 +63,6 @@ export default function BlogPostDetail({ post }: BlogPostDetailProps) {
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
 
-        {/* Footer sekce */}
         <footer className="mt-16 pt-8 border-t border-powder-blue">
           <div className="flex justify-between items-center font-space text-astral">
             <div>

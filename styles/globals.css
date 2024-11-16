@@ -14,6 +14,11 @@
   --font-space-bold-regular: 'Space Mono', monospace;
   --font-space-bold-semibold: 'Space Mono', monospace;
   --font-raleway-regular: 'Raleway', sans-serif;
+  --font-size-base: 16px;
+
+  @screen sm {
+    --font-size-base: 18px;
+  }
 }
 
 @layer base {
@@ -58,4 +63,147 @@
   }
 }
 
+/* Responzivní úpravy */
+@layer utilities {
+  .responsive-container {
+    @apply px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl;
+  }
+
+  .responsive-text {
+    @apply text-base sm:text-lg lg:text-xl;
+  }
+
+  .responsive-heading {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  .responsive-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8;
+  }
+}
+
+/* Úpravy pro mobilní menu */
+@media (max-width: 640px) {
+  .mobile-menu {
+    @apply fixed inset-0 bg-white z-50;
+  }
+
+  .mobile-menu-content {
+    @apply h-full flex flex-col justify-center items-center;
+  }
+}
+
+/* Vylepšení čitelnosti na malých obrazovkách */
+@media (max-width: 480px) {
+  body {
+    @apply text-sm;
+  }
+
+  h1, h2, h3 {
+    @apply tracking-tight;
+  }
+}
+
+/* Optimalizace pro tablety */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .tablet-layout {
+    @apply grid-cols-2;
+  }
+}
+
+/* Úpravy pro větší obrazovky */
+@media (min-width: 1536px) {
+  .container {
+    @apply max-w-screen-2xl;
+  }
+}
+
 /* Další vlastní styly */
+
+.container {
+  @apply mx-auto px-4 sm:px-6 lg:px-8;
+  max-width: 100%;
+
+  @screen sm {
+    max-width: 640px;
+  }
+
+  @screen md {
+    max-width: 768px;
+  }
+
+  @screen lg {
+    max-width: 1024px;
+  }
+
+  @screen xl {
+    max-width: 1280px;
+  }
+}
+
+.grid-system {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+
+  @screen sm {
+    grid-template-columns: repeat(8, 1fr);
+    gap: 1.5rem;
+  }
+
+  @screen lg {
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2rem;
+  }
+}
+
+.text-responsive {
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+
+  @screen sm {
+    line-height: 1.6;
+  }
+
+  @screen lg {
+    line-height: 1.7;
+  }
+}
+
+h1 {
+  @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+  @apply leading-tight sm:leading-tight md:leading-tight;
+}
+
+h2 {
+  @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl;
+  @apply leading-snug sm:leading-snug md:leading-snug;
+}
+
+/* Mobilní zařízení (na výšku) */
+@media (max-width: 640px) and (orientation: portrait) {
+  .mobile-portrait {
+    @apply flex-col space-y-4;
+  }
+}
+
+/* Mobilní zařízení (na šířku) */
+@media (max-width: 896px) and (orientation: landscape) {
+  .mobile-landscape {
+    @apply flex-row space-x-4;
+  }
+}
+
+/* Tablety */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .tablet-specific {
+    @apply grid-cols-2;
+  }
+}
+
+/* Dotykové obrazovky */
+@media (hover: none) and (pointer: coarse) {
+  .touch-specific {
+    @apply p-4; /* Větší touch target */
+  }
+}
