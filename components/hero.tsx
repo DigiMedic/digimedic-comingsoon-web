@@ -1,8 +1,8 @@
-"use client";
+"use client"
 
-import HyperText from "@/components/magicui/hyper-text";
-import { NewsletterForm } from "./NewsletterForm";
-import AnimatedLabels from "./AnimatedLabels";
+import HyperText from "@/components/magicui/hyper-text"
+import { NewsletterForm } from "./NewsletterForm"
+import AnimatedLabels from "./AnimatedLabels"
 
 const Hero = () => {
   return (
@@ -21,8 +21,9 @@ const Hero = () => {
             </h1>
           </div>
           <p className="font-raleway-regular mb-2 mt-1 text-sm sm:text-base text-astral px-4 sm:px-0">
-            Pracujeme na tom, abychom vám brzy mohli představit kompletní online prezentaci.
-            Připojte se k nám na cestě k efektivnější a dostupnější zdravotní péči.
+            Pracujeme na tom, abychom vám brzy mohli představit kompletní online
+            prezentaci. Připojte se k nám na cestě k efektivnější a dostupnější
+            zdravotní péči.
           </p>
         </div>
         <div className="w-full max-w-lg mb-4">
@@ -33,7 +34,6 @@ const Hero = () => {
         </div>
       </div>
     </div>
-  );
+  )
 }
-export default Hero;
-
+export default Hero

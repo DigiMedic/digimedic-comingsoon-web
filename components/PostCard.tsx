@@ -1,12 +1,12 @@
-"use client";
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { GhostPost } from '@/types/blog';
-import { formatDate } from '@/lib/utils';
+"use client"
+import React from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { GhostPost } from "@/types/blog"
+import { formatDate } from "@/lib/utils"
 
 interface PostCardProps {
-  post: GhostPost;
+  post: GhostPost
 }
 
 export function PostCard({ post }: PostCardProps) {
@@ -40,5 +40,5 @@ export function PostCard({ post }: PostCardProps) {
         </div>
       </div>
     </Link>
-  );
+  )
 }

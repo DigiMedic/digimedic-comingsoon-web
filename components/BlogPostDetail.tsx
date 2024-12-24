@@ -1,20 +1,20 @@
-import React from 'react';
-import { BlogPost } from '@/types/blog';
-import Image from 'next/image';
-import Container from './Container';
+import React from "react"
+import { BlogPost } from "@/types/blog"
+import Image from "next/image"
+import Container from "./Container"
 
 interface BlogPostDetailProps {
-  post: BlogPost;
+  post: BlogPost
 }
 
 export default function BlogPostDetail({ post }: BlogPostDetailProps) {
   const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('cs-CZ', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    }).format(date);
-  };
+    return new Intl.DateTimeFormat("cs-CZ", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(date)
+  }
 
   return (
     <Container className="py-16">
@@ -65,15 +65,11 @@ export default function BlogPostDetail({ post }: BlogPostDetailProps) {
 
         <footer className="mt-16 pt-8 border-t border-powder-blue">
           <div className="flex justify-between items-center font-space text-astral">
-            <div>
-              Publikováno: {formatDate(post.publishedAt)}
-            </div>
-            <div>
-              Doba čtení: {post.reading_time} min
-            </div>
+            <div>Publikováno: {formatDate(post.publishedAt)}</div>
+            <div>Doba čtení: {post.reading_time} min</div>
           </div>
         </footer>
       </article>
     </Container>
-  );
+  )
 }

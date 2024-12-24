@@ -1,10 +1,10 @@
 // components/BlogHero.tsx
-import React from 'react';
-import { motion } from "framer-motion";
+import React from "react"
+import { motion } from "framer-motion"
 
 interface BlogHeroProps {
-  title: string;
-  subtitle: string;
+  title: string
+  subtitle: string
 }
 
 export default function BlogHero({ title, subtitle }: BlogHeroProps) {
@@ -16,13 +16,13 @@ export default function BlogHero({ title, subtitle }: BlogHeroProps) {
       className="mb-16 px-4 pt-16 text-center sm:pt-24 md:pt-32 sm:px-6 lg:px-8"
     >
       <h1 className="mb-6 text-3xl font-space-bold-regular transition-standard sm:text-4xl md:text-5xl lg:text-6xl">
-        {title.split(' ').map((word, index) =>
+        {title.split(" ").map((word, index) =>
           index === 1 ? (
             <span key={index} className="text-gradient">
-              {word}{' '}
+              {word}{" "}
             </span>
           ) : (
-            word + ' '
+            word + " "
           )
         )}
       </h1>
@@ -30,5 +30,5 @@ export default function BlogHero({ title, subtitle }: BlogHeroProps) {
         {subtitle}
       </p>
     </motion.header>
-  );
+  )
 }

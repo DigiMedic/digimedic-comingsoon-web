@@ -1,15 +1,15 @@
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { GhostPost } from '@/types/blog';
-import { formatDate } from '@/lib/utils';
+import React from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { GhostPost } from "@/types/blog"
+import { formatDate } from "@/lib/utils"
 
 interface PostCardListProps {
-  post: GhostPost;
+  post: GhostPost
 }
 
 export function PostCardList({ post }: PostCardListProps) {
-  const firstTag = post.tags?.[0]?.name;
+  const firstTag = post.tags?.[0]?.name
 
   return (
     <Link
@@ -48,5 +48,5 @@ export function PostCardList({ post }: PostCardListProps) {
         </div>
       </div>
     </Link>
-  );
+  )
 }

@@ -1,9 +1,9 @@
-import React from 'react';
-import { GhostPost } from '@/types/blog';
-import { PostCardList } from './PostCardList';
+import React from "react"
+import { GhostPost } from "@/types/blog"
+import { PostCardList } from "./PostCardList"
 
 interface BlogContentProps {
-  initialPosts: GhostPost[];
+  initialPosts: GhostPost[]
 }
 
 export default function BlogContent({ initialPosts }: BlogContentProps) {
@@ -15,5 +15,5 @@ export default function BlogContent({ initialPosts }: BlogContentProps) {
         ))}
       </div>
     </div>
-  );
+  )
 }

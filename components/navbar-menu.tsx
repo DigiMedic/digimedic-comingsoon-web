@@ -1,22 +1,27 @@
-"use client";  // Přidejte tuto řádku na začátek souboru
+"use client" // Přidejte tuto řádku na začátek souboru
 
 import React, { useState } from "react"
 import { motion, useScroll, useMotionValueEvent } from "framer-motion"
 import Link from "next/link"
-import { cn } from 'lib/utils'
-import { ContactButton } from 'components/ContactButton'
-import { X, Menu } from 'lucide-react'
+import { cn } from "lib/utils"
+import { ContactButton } from "components/ContactButton"
+import { X, Menu } from "lucide-react"
 
 const MenuItem = motion(Link)
 
 interface MenuItemProps {
-  href: string;
-  item: string;
-  setActive: (item: string) => void;
-  active: string | null;
+  href: string
+  item: string
+  setActive: (item: string) => void
+  active: string | null
 }
 
-const MenuItemComponent = ({ setActive, active, item, href }: MenuItemProps) => (
+const MenuItemComponent = ({
+  setActive,
+  active,
+  item,
+  href,
+}: MenuItemProps) => (
   <MenuItem
     href={href}
     className={cn(
@@ -43,7 +48,7 @@ export const DigiMedicNavigation = () => {
   const [active, setActive] = useState<string | null>(null)
   const [hidden, setHidden] = useState(false)
   const { scrollY } = useScroll()
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious()
@@ -59,15 +64,25 @@ export const DigiMedicNavigation = () => {
       <motion.nav
         variants={{
           visible: { y: 0, opacity: 1 },
-          hidden: { y: -100, opacity: 0 }
+          hidden: { y: -100, opacity: 0 },
         }}
         animate={hidden ? "hidden" : "visible"}
         transition={{ duration: 0.35, ease: "easeInOut" }}
         onMouseLeave={() => setActive(null)}
         className="inline-flex items-center justify-center space-x-4 rounded-full border border-gray-200 bg-white/90 px-4 py-2 shadow-md backdrop-blur-md"
       >
-        <MenuItemComponent setActive={setActive} active={active} item="Domů" href="/" />
-        <MenuItemComponent setActive={setActive} active={active} item="Blog" href="/blog" />
+        <MenuItemComponent
+          setActive={setActive}
+          active={active}
+          item="Domů"
+          href="/"
+        />
+        <MenuItemComponent
+          setActive={setActive}
+          active={active}
+          item="Blog"
+          href="/blog"
+        />
         <ContactButton className="ml-4" href="#" />
       </motion.nav>
       <div className="md:hidden absolute right-4">
@@ -81,8 +96,18 @@ export const DigiMedicNavigation = () => {
       {isMobileMenuOpen && (
         <div className="absolute top-full left-0 w-full bg-white/90 backdrop-blur-md shadow-lg md:hidden mt-2">
           <nav className="flex flex-col p-4 space-y-4">
-            <MenuItemComponent setActive={setActive} active={active} item="Domů" href="/" />
-            <MenuItemComponent setActive={setActive} active={active} item="Blog" href="/blog" />
+            <MenuItemComponent
+              setActive={setActive}
+              active={active}
+              item="Domů"
+              href="/"
+            />
+            <MenuItemComponent
+              setActive={setActive}
+              active={active}
+              item="Blog"
+              href="/blog"
+            />
             <ContactButton className="w-full" href="#" />
           </nav>
         </div>

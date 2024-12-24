@@ -1,51 +1,56 @@
-'use client';
+"use client"
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Laptop, Brain, Shield } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { ContactButton } from 'components/ContactButton';
+import React, { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Laptop, Brain, Shield } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { ContactButton } from "components/ContactButton"
 
 interface FAQ {
-  title: string;
-  description: string;
-  Icon: React.ComponentType<{ className?: string }>;
+  title: string
+  description: string
+  Icon: React.ComponentType<{ className?: string }>
 }
 
 const faqsList: FAQ[] = [
   {
     title: "Naše vize",
-    description: "Naší vizí je zdravotnictví, kde každý pacient má přístup k personalizované a preventivní péči, kde data pomáhají včas předcházet nemocem a kde špičková zdravotní péče je dostupná všem bez ohledu na to, kde žijí.",
+    description:
+      "Naší vizí je zdravotnictví, kde každý pacient má přístup k personalizované a preventivní péči, kde data pomáhají včas předcházet nemocem a kde špičková zdravotní péče je dostupná všem bez ohledu na to, kde žijí.",
     Icon: Brain,
   },
   {
     title: "Naše poslání",
-    description: "Naším posláním je vytvářet inovativní digitální řešení, která zefektivňují procesy ve zdravotnictví, snižují administrativní zátěž a umožňují zdravotníkům věnovat více času péči o pacienty.",
+    description:
+      "Naším posláním je vytvářet inovativní digitální řešení, která zefektivňují procesy ve zdravotnictví, snižují administrativní zátěž a umožňují zdravotníkům věnovat více času péči o pacienty.",
     Icon: Shield,
   },
   {
     title: "Efektivní digitalizace",
-    description: "Snižujeme administrativní zátěž a optimalizujeme procesy ve zdravotnictví. Naše řešení pomáhají zdravotnickým zařízením soustředit se na to nejdůležitější - péči o pacienty.",
+    description:
+      "Snižujeme administrativní zátěž a optimalizujeme procesy ve zdravotnictví. Naše řešení pomáhají zdravotnickým zařízením soustředit se na to nejdůležitější - péči o pacienty.",
     Icon: Laptop,
   },
   {
     title: "Bezpečnost dat",
-    description: "Garantujeme nejvyšší standardy ochrany citlivých zdravotnických informací. Využíváme nejmodernější technologie a postupy pro zabezpečení vašich dat.",
+    description:
+      "Garantujeme nejvyšší standardy ochrany citlivých zdravotnických informací. Využíváme nejmodernější technologie a postupy pro zabezpečení vašich dat.",
     Icon: Shield,
   },
   {
     title: "Inovativní řešení",
-    description: "Přinášíme nejmodernější technologie pro zlepšení kvality zdravotní péče. Naše inovace pomáhají vytvářet efektivnější a dostupnější zdravotnictví pro všechny.",
+    description:
+      "Přinášíme nejmodernější technologie pro zlepšení kvality zdravotní péče. Naše inovace pomáhají vytvářet efektivnější a dostupnější zdravotnictví pro všechny.",
     Icon: Brain,
-  }
-];
+  },
+]
 
 export default function MissionVisionFAQs() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
+    setOpenIndex(openIndex === index ? null : index)
+  }
 
   return (
     <section className="relative bg-transparent py-14">
@@ -56,7 +61,10 @@ export default function MissionVisionFAQs() {
               Připraveni na digitální transformaci?
             </h3>
             <p className="mt-3 text-astral font-raleway-regular responsive-text">
-              Zjistěte, jak DigiMedic může pomoci vaší organizaci zefektivnit procesy, zlepšit péči o pacienty a připravit se na budoucnost zdravotnictví. Nabízíme osobní konzultace šité na míru vašim potřebám.
+              Zjistěte, jak DigiMedic může pomoci vaší organizaci zefektivnit
+              procesy, zlepšit péči o pacienty a připravit se na budoucnost
+              zdravotnictví. Nabízíme osobní konzultace šité na míru vašim
+              potřebám.
             </p>
             <div className="h-[2px] mt-5 bg-fountain-blue w-16"></div>
             <ContactButton className="mt-6" href="#" />
@@ -66,7 +74,7 @@ export default function MissionVisionFAQs() {
         <div className="flex-1">
           <ul className="space-y-4">
             {faqsList.map((item, idx) => {
-              const isOpen = openIndex === idx;
+              const isOpen = openIndex === idx
               return (
                 <li
                   key={idx}
@@ -87,6 +95,7 @@ export default function MissionVisionFAQs() {
                           isOpen && "scale-110"
                         )}
                       />
+
                       <span className="text-lg sm:text-xl font-space-bold-regular text-blumine">
                         {item.title}
                       </span>
@@ -115,11 +124,11 @@ export default function MissionVisionFAQs() {
                     )}
                   </AnimatePresence>
                 </li>
-              );
+              )
             })}
           </ul>
         </div>
       </div>
     </section>
-  );
+  )
 }

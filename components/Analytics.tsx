@@ -1,6 +1,6 @@
-'use client';
+"use client"
 
-import Script from 'next/script';
+import Script from "next/script"
 
 export default function Analytics() {
   return (
@@ -10,5 +10,5 @@ export default function Analytics() {
       data-website-id="fdf06559-4cb9-46b4-b35b-758e035aa583"
       strategy="afterInteractive"
     />
-  );
+  )
 }

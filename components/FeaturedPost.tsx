@@ -1,12 +1,12 @@
 // components/FeaturedPost.tsx
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { GhostPost } from '@/types/blog';
-import { formatDate } from '@/lib/utils';
+import React from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { GhostPost } from "@/types/blog"
+import { formatDate } from "@/lib/utils"
 
 interface FeaturedPostProps {
-  post: GhostPost;
+  post: GhostPost
 }
 
 export function FeaturedPost({ post }: FeaturedPostProps) {
@@ -48,5 +48,5 @@ export function FeaturedPost({ post }: FeaturedPostProps) {
         </div>
       </div>
     </Link>
-  );
+  )
 }

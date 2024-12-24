@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Facebook, Github, Linkedin } from "lucide-react"
 import Balancer from "react-wrap-balancer"
 import { Button } from "./ui/button"
-import { NewsletterForm } from '@/components/NewsletterForm'
+import { NewsletterForm } from "@/components/NewsletterForm"
 
 export default function Footer() {
   return (
@@ -45,7 +45,9 @@ export default function Footer() {
 
           <div className="flex flex-col justify-between items-end">
             <div className="w-full md:w-auto">
-              <div className="text-blumine font-semibold mb-1 text-left mt-4">Odebírejte naše novinky</div>
+              <div className="text-blumine font-semibold mb-1 text-left mt-4">
+                Odebírejte naše novinky
+              </div>
               <NewsletterForm />
             </div>
             <div className="flex gap-2">
