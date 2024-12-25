@@ -104,6 +104,18 @@ export default function BlogPage() {
             </div>
           ) : (
             <>
+              {/* Zvýrazněný článek */}
+              {featuredPost && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="mb-16"
+                >
+                  <FeaturedPost post={featuredPost} />
+                </motion.div>
+              )}
+
               {/* Vyhledávání a filtry */}
               <motion.div
                 className="mb-12 flex flex-col md:flex-row items-center justify-between bg-polar p-6 rounded-lg shadow-md"
@@ -153,18 +165,6 @@ export default function BlogPage() {
                 </div>
               </motion.div>
 
-              {/* Zvýrazněný článek */}
-              {featuredPost && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="mb-16"
-                >
-                  <FeaturedPost post={featuredPost} />
-                </motion.div>
-              )}
-
               {/* Top články */}
               {topPosts.length > 0 && (
                 <motion.div
@@ -213,7 +213,7 @@ export default function BlogPage() {
                 className="mt-16 text-center"
               >
                 <p className="text-astral font-raleway">
-                  © {new Date().getFullYear()} DigiMedic. Všechna práva
+                  {new Date().getFullYear()} DigiMedic. Všechna práva
                   vyhrazena.
                 </p>
               </motion.footer>
