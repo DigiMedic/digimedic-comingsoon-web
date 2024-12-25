@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react';
+import React from "react"
 import {
   ActivityIcon,
   BarChartIcon,
@@ -28,7 +28,7 @@ import {
   VideoIcon,
   ZapIcon,
 } from "lucide-react"
-import Marquee from 'components/magicui/marquee';
+import Marquee from "components/magicui/marquee"
 
 const labels = [
   { icon: GlobeIcon, text: "Webové stránky pro lékaře" },

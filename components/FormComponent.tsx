@@ -1,31 +1,31 @@
-'use client';
+"use client"
 
-import React, { useState } from 'react';
-import Container from './Container';
-import { motion } from 'framer-motion';
+import React, { useState } from "react"
+import Container from "./Container"
+import { motion } from "framer-motion"
 
 export default function FormComponent() {
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [email, setEmail] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError(null);
+    e.preventDefault()
+    setIsSubmitting(true)
+    setError(null)
 
     try {
       // Zde by byla implementace odeslání emailu na backend
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulace API volání
-      setIsSuccess(true);
-      setEmail('');
+      await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulace API volání
+      setIsSuccess(true)
+      setEmail("")
     } catch (err) {
-      setError('Došlo k chybě při odesílání. Zkuste to prosím později.');
+      setError("Došlo k chybě při odesílání. Zkuste to prosím později.")
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <section className="bg-blumine py-16">
@@ -40,7 +40,8 @@ export default function FormComponent() {
             Zůstaňte v obraze
           </h2>
           <p className="text-lg text-powder-blue mb-8 font-space">
-            Přihlaste se k odběru novinek a buďte první, kdo se dozví o nových článcích
+            Přihlaste se k odběru novinek a buďte první, kdo se dozví o nových
+            článcích
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -53,18 +54,17 @@ export default function FormComponent() {
                 required
                 className="px-6 py-3 rounded-full bg-polar text-blumine placeholder-astral font-raleway flex-grow max-w-md"
               />
+
               <button
                 type="submit"
                 disabled={isSubmitting}
                 className="px-8 py-3 rounded-full bg-fountain-blue text-polar font-space hover:bg-blumine-dark transition-colors disabled:opacity-50"
               >
-                {isSubmitting ? 'Odesílám...' : 'Přihlásit k odběru'}
+                {isSubmitting ? "Odesílám..." : "Přihlásit k odběru"}
               </button>
             </div>
 
-            {error && (
-              <p className="text-red-400 font-space">{error}</p>
-            )}
+            {error && <p className="text-red-400 font-space">{error}</p>}
 
             {isSuccess && (
               <motion.p
@@ -79,5 +79,5 @@ export default function FormComponent() {
         </motion.div>
       </Container>
     </section>
-  );
+  )
 }

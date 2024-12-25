@@ -1,8 +1,8 @@
-import Head from 'next/head';
+import Head from "next/head"
 
 interface SEOProps {
-  title: string;
-  description: string;
+  title: string
+  description: string
 }
 
 export default function SEO({ title, description }: SEOProps) {
@@ -17,5 +17,5 @@ export default function SEO({ title, description }: SEOProps) {
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
     </Head>
-  );
+  )
 }

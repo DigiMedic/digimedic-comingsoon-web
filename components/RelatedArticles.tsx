@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import React from 'react';
-import Link from 'next/link';
-import { GhostPost } from '@/types/blog';
-import Image from 'next/image';
-import { formatDate } from '@/lib/utils';
+import React from "react"
+import Link from "next/link"
+import { GhostPost } from "@/types/blog"
+import Image from "next/image"
+import { formatDate } from "@/lib/utils"
 
 interface RelatedArticlesProps {
-  posts: GhostPost[];
+  posts: GhostPost[]
 }
 
 const RelatedArticles: React.FC<RelatedArticlesProps> = ({ posts }) => {
   if (!posts || posts.length === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -55,7 +55,7 @@ const RelatedArticles: React.FC<RelatedArticlesProps> = ({ posts }) => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default RelatedArticles;
+export default RelatedArticles

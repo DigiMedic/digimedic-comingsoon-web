@@ -1,28 +1,31 @@
-'use client';
+"use client"
 
-import React from 'react';
-import Image from 'next/image';
-import { GhostPost } from '@/types/blog';
-import { formatDate } from '@/lib/utils';
-import Container from './Container';
-import { PostCard } from './PostCard';
-import { generateArticleSchema, generateBreadcrumbSchema } from '@/lib/schema';
-import Script from 'next/script';
+import React from "react"
+import Image from "next/image"
+import { GhostPost } from "@/types/blog"
+import { formatDate } from "@/lib/utils"
+import Container from "./Container"
+import { PostCard } from "./PostCard"
+import { generateArticleSchema, generateBreadcrumbSchema } from "@/lib/schema"
+import Script from "next/script"
 
 interface FullArticleProps {
-  post: GhostPost;
-  relatedPosts: GhostPost[];
+  post: GhostPost
+  relatedPosts: GhostPost[]
 }
 
 export function FullArticle({ post, relatedPosts }: FullArticleProps) {
-  const firstTag = post.tags?.[0]?.name ?? null;
+  const firstTag = post.tags?.[0]?.name ?? null
 
-  const articleSchema = generateArticleSchema(post);
+  const articleSchema = generateArticleSchema(post)
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Domů', url: 'https://www.digimedic.cz' },
-    { name: 'Blog', url: 'https://www.digimedic.cz/blog' },
-    { name: post.title, url: `https://www.digimedic.cz/blog/posts/${post.slug}` },
-  ]);
+    { name: "Domů", url: "https://www.digimedic.cz" },
+    { name: "Blog", url: "https://www.digimedic.cz/blog" },
+    {
+      name: post.title,
+      url: `https://www.digimedic.cz/blog/posts/${post.slug}`,
+    },
+  ])
 
   return (
     <>
@@ -31,11 +34,13 @@ export function FullArticle({ post, relatedPosts }: FullArticleProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
+
       <Script
         id="breadcrumb-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
+
       <div className="bg-polar">
         <Container>
           <article className="max-w-4xl mx-auto py-16">
@@ -75,7 +80,7 @@ export function FullArticle({ post, relatedPosts }: FullArticleProps) {
             {/* Obsah článku */}
             <div
               className="prose prose-lg max-w-none"
-              dangerouslySetInnerHTML={{ __html: post.html || '' }}
+              dangerouslySetInnerHTML={{ __html: post.html || "" }}
             />
           </article>
 
@@ -95,5 +100,5 @@ export function FullArticle({ post, relatedPosts }: FullArticleProps) {
         </Container>
       </div>
     </>
-  );
+  )
 }

@@ -1,15 +1,18 @@
-"use client";
+"use client"
 
 import React, { useState } from "react"
-import { ContactModal } from 'components/ContactModal'
+import { ContactModal } from "components/ContactModal"
 import { createPortal } from "react-dom"
 
 interface ContactButtonProps {
-  className?: string;
-  href: string;
+  className?: string
+  href: string
 }
 
-export const ContactButton: React.FC<ContactButtonProps> = ({ className = "", href = "#" }) => {
+export const ContactButton: React.FC<ContactButtonProps> = ({
+  className = "",
+  href = "#",
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const openModal = (e: React.MouseEvent) => {
@@ -42,10 +45,14 @@ export const ContactButton: React.FC<ContactButtonProps> = ({ className = "", hr
           </svg>
         </span>
       </a>
-      {isModalOpen && createPortal(
-        <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />,
-        document.body
-      )}
+      {isModalOpen &&
+        createPortal(
+          <ContactModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          />,
+          document.body
+        )}
     </>
   )
 }

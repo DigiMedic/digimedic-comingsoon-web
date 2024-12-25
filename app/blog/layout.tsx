@@ -19,6 +19,7 @@ export default function BlogLayout({
           "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)]"
         )}
       />
+
       <div className="relative z-10">{children}</div>
     </div>
   )

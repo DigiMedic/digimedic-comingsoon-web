@@ -42,31 +42,27 @@ export function convertGhostPostToBlogPost(post: GhostPost): BlogPost {
 
 export async function getPosts(): Promise<GhostPost[]> {
   if (!validateConfig()) {
+    console.error('Ghost API není správně nakonfigurováno');
     return [];
   }
 
   try {
-    const url = new URL('/ghost-api/content/posts/', 'http://localhost:3000');
+    const url = new URL('/ghost/api/content/posts/', GHOST_URL!);
     url.searchParams.append('key', GHOST_KEY!);
     url.searchParams.append('include', ghostConfig.defaultParams.include);
-    url.searchParams.append('limit', ghostConfig.defaultParams.limit);
-
-    const response = await fetch(url.toString(), {
-      next: { revalidate: ghostConfig.revalidateInterval },
-    });
-
+    
+    console.log('Fetching posts from:', url.toString());
+    
+    const response = await fetch(url.toString());
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Ghost API response not OK:', response.status, errorText);
-      return [];
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-
-    const data = await response.json() as GhostAPIResponse;
+    
+    const data: GhostAPIResponse = await response.json();
     return data.posts || [];
-
   } catch (error) {
-    console.error('Chyba při načítání příspěvků:', error);
-    return [];
+    console.error('Chyba při načítání příspěvků z Ghost API:', error);
+    throw error;
   }
 }
 
@@ -76,14 +72,13 @@ export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
   }
 
   try {
-    const url = new URL(`/ghost-api/content/posts/slug/${slug}`, 'http://localhost:3000');
+    const url = new URL(`/ghost/api/content/posts/slug/${slug}`, GHOST_URL!);
     url.searchParams.append('key', GHOST_KEY!);
     url.searchParams.append('include', ghostConfig.defaultParams.include);
 
-    const response = await fetch(url.toString(), {
-      next: { revalidate: ghostConfig.revalidateInterval },
-    });
+    console.log('Fetching post by slug from:', url.toString());
 
+    const response = await fetch(url.toString());
     if (!response.ok) {
       const errorText = await response.text();
       console.error('Ghost API response not OK:', response.status, errorText);

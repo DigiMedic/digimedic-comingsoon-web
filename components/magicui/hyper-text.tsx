@@ -1,22 +1,22 @@
-"use client";
+"use client"
 
-import { useEffect, useRef } from "react";
-import { cn } from "@/lib/utils";
+import { useEffect, useRef } from "react"
+import { cn } from "@/lib/utils"
 
 interface HyperTextProps {
-  text: string;
-  className?: string;
+  text: string
+  className?: string
 }
 
 export default function HyperText({ text, className }: HyperTextProps) {
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const elementRef = useRef<HTMLSpanElement>(null);
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const elementRef = useRef<HTMLSpanElement>(null)
 
   const animate = () => {
-    let iteration = 0;
+    let iteration = 0
 
-    clearInterval(intervalRef.current!);
+    clearInterval(intervalRef.current!)
 
     intervalRef.current = setInterval(() => {
       if (elementRef.current) {
@@ -24,29 +24,29 @@ export default function HyperText({ text, className }: HyperTextProps) {
           .split("")
           .map((letter, index) => {
             if (index < iteration) {
-              return text[index];
+              return text[index]
             }
 
-            return letters[Math.floor(Math.random() * 26)];
+            return letters[Math.floor(Math.random() * 26)]
           })
-          .join("");
+          .join("")
 
         if (iteration >= text.length) {
-          clearInterval(intervalRef.current!);
+          clearInterval(intervalRef.current!)
         }
 
-        iteration += 1 / 3;
+        iteration += 1 / 3
       }
-    }, 30);
-  };
+    }, 30)
+  }
 
   useEffect(() => {
     return () => {
       if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+        clearInterval(intervalRef.current)
       }
-    };
-  }, []);
+    }
+  }, [])
 
   return (
     <span
@@ -56,5 +56,5 @@ export default function HyperText({ text, className }: HyperTextProps) {
     >
       {text}
     </span>
-  );
+  )
 }

@@ -1,20 +1,20 @@
-"use client";
+"use client"
 
-import { cn } from 'lib/utils';
-import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
-import { useState } from "react";
+import { cn } from "lib/utils"
+import { AnimatePresence, motion } from "framer-motion"
+import Link from "next/link"
+import { useState } from "react"
 
 export const AnimatedCard = ({
   children,
   link,
   className,
 }: {
-  children: React.ReactNode;
-  link: string;
-  className?: string;
+  children: React.ReactNode
+  link: string
+  className?: string
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState(false)
 
   return (
     <Link
@@ -48,5 +48,5 @@ export const AnimatedCard = ({
         <div className="relative z-50">{children}</div>
       </div>
     </Link>
-  );
-};
+  )
+}

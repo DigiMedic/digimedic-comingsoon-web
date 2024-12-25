@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
@@ -8,16 +8,12 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       </header>
 
       <main className="flex-grow px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          {children}
-        </div>
+        <div className="max-w-7xl mx-auto">{children}</div>
       </main>
 
-      <footer className="py-8 sm:py-12 md:py-16">
-        {/* Footer content */}
-      </footer>
+      <footer className="py-8 sm:py-12 md:py-16">{/* Footer content */}</footer>
     </div>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout
