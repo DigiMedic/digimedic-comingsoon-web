@@ -49,53 +49,34 @@ export async function getPosts(): Promise<GhostPost[]> {
     return [];
   }
 
+  const url = `${GHOST_URL}/ghost/api/content/posts/?key=${GHOST_KEY}&include=tags,authors&limit=all`;
+  console.log('Fetching posts from:', url);
+
   try {
-    const url = new URL('/ghost/api/content/posts/', GHOST_URL!);
-    url.searchParams.append('key', GHOST_KEY!);
-    url.searchParams.append('include', ghostConfig.defaultParams.include);
-    url.searchParams.append('limit', ghostConfig.defaultParams.limit);
-    
-    console.log('Fetching posts from:', url.toString());
-    
-    const response = await fetch(url.toString(), {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Origin': process.env.NEXT_PUBLIC_APP_URL || 'https://digimedic.vercel.app',
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300'
-      },
+    const response = await fetch(url, {
       next: {
-        revalidate: 60,
-        tags: ['ghost-posts']
+        revalidate: 60 // revalidace cache každou minutu
+      },
+      headers: {
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300'
       }
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Ghost API response not OK:', {
+      console.error('Ghost API response error:', {
         status: response.status,
-        statusText: response.statusText,
-        error: errorText,
-        headers: Object.fromEntries(response.headers.entries())
+        statusText: response.statusText
       });
-      throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
+      const text = await response.text();
+      console.error('Response text:', text);
+      throw new Error(`Ghost API responded with ${response.status}: ${response.statusText}`);
     }
 
-    const data = await response.json();
-    
-    if (!data || !data.posts) {
-      console.error('Invalid response from Ghost API:', data);
-      throw new Error('Invalid response from Ghost API');
-    }
-
+    const data = await response.json() as GhostAPIResponse;
     console.log(`Successfully fetched ${data.posts.length} posts`);
     return data.posts;
-    
   } catch (error) {
-    console.error('Error fetching posts:', {
-      error: error instanceof Error ? error.message : 'Unknown error',
-      stack: error instanceof Error ? error.stack : undefined
-    });
+    console.error('Error fetching posts:', error);
     throw error;
   }
 }
