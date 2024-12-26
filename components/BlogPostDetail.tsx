@@ -19,18 +19,18 @@ export default function BlogPostDetail({ post }: BlogPostDetailProps) {
   // Funkce pro získání URL obrázku
   const getImageUrl = (url: string | null | undefined) => {
     if (!url) return null;
-    
+
     try {
       // Pokud URL začíná na http://, použijeme ji přímo
       if (url.startsWith('http://')) {
         return url;
       }
-      
+
       // Pokud URL začíná na https://, převedeme ji na http://
       if (url.startsWith('https://')) {
         return url.replace('https://', 'http://');
       }
-      
+
       // Jinak přidáme základní URL Ghost serveru
       return `http://194.164.72.131:2368${url}`;
     } catch (e) {
