@@ -16,6 +16,31 @@ export default function BlogPostDetail({ post }: BlogPostDetailProps) {
     }).format(date)
   }
 
+  // Funkce pro získání URL obrázku
+  const getImageUrl = (url: string | null | undefined) => {
+    if (!url) return null;
+    
+    try {
+      // Pokud URL začíná na http://, použijeme ji přímo
+      if (url.startsWith('http://')) {
+        return url;
+      }
+      
+      // Pokud URL začíná na https://, převedeme ji na http://
+      if (url.startsWith('https://')) {
+        return url.replace('https://', 'http://');
+      }
+      
+      // Jinak přidáme základní URL Ghost serveru
+      return `http://194.164.72.131:2368${url}`;
+    } catch (e) {
+      console.error('Chyba při zpracování URL obrázku:', e);
+      return null;
+    }
+  }
+
+  const imageUrl = getImageUrl(post.imageUrl);
+
   return (
     <Container className="py-16">
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,43 +57,24 @@ export default function BlogPostDetail({ post }: BlogPostDetailProps) {
           </div>
         </header>
 
-        {post.imageUrl && (
-          <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] mb-8 sm:mb-12 rounded-lg sm:rounded-2xl overflow-hidden">
+        {imageUrl && (
+          <div className="mb-8 sm:mb-12 relative aspect-[16/9] rounded-lg overflow-hidden">
             <Image
-              src={post.imageUrl}
+              src={imageUrl}
               alt={post.title}
               fill
               className="object-cover"
+              sizes="(max-width: 1536px) 100vw, 1536px"
               priority
+              unoptimized={true}
             />
           </div>
         )}
 
         <div
-          className="prose prose-lg max-w-none
-            prose-headings:font-raleway prose-headings:text-blumine prose-headings:font-bold
-            prose-h1:text-4xl prose-h1:mb-8
-            prose-h2:text-3xl prose-h2:mb-6
-            prose-h3:text-2xl prose-h3:mb-4
-            prose-p:font-raleway prose-p:text-astral prose-p:leading-relaxed prose-p:mb-6
-            prose-a:text-fountain-blue prose-a:no-underline hover:prose-a:text-blumine hover:prose-a:transition-colors
-            prose-strong:text-blumine prose-strong:font-bold
-            prose-ul:text-astral prose-ol:text-astral
-            prose-li:font-raleway
-            prose-blockquote:text-astral prose-blockquote:border-l-4 prose-blockquote:border-blumine prose-blockquote:pl-6 prose-blockquote:italic
-            prose-hr:border-powder-blue
-            prose-img:rounded-xl prose-img:shadow-lg
-            prose-code:font-space prose-code:text-blumine prose-code:bg-powder-blue/20 prose-code:px-2 prose-code:py-0.5 prose-code:rounded
-            prose-pre:bg-blumine prose-pre:text-powder-blue"
+          className="prose prose-lg max-w-none prose-headings:font-raleway prose-headings:text-blumine prose-p:text-astral/90 prose-a:text-fountain-blue prose-a:no-underline hover:prose-a:underline prose-strong:text-blumine prose-img:rounded-lg"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
-
-        <footer className="mt-16 pt-8 border-t border-powder-blue">
-          <div className="flex justify-between items-center font-space text-astral">
-            <div>Publikováno: {formatDate(post.publishedAt)}</div>
-            <div>Doba čtení: {post.reading_time} min</div>
-          </div>
-        </footer>
       </article>
     </Container>
   )
