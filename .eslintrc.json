@@ -12,19 +12,24 @@
   ],
   "parser": "@typescript-eslint/parser",
   "rules": {
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "tailwindcss/classnames-order": "warn",
+    "tailwindcss/enforces-shorthand": "warn",
+    "tailwindcss/migration-from-tailwind-2": "warn",
+    "@next/next/no-img-element": "warn",
+    "tailwindcss/no-unnecessary-arbitrary-value": "warn",
     "@next/next/no-html-link-for-pages": "off",
     "react/jsx-key": "warn",
-    "tailwindcss/classnames-order": "warn",
     "tailwindcss/no-custom-classname": "off",
-    "@typescript-eslint/no-unused-vars": ["error", {
-      "argsIgnorePattern": "^_"
-    }],
-    "@typescript-eslint/no-explicit-any": "warn",
-    "@next/next/no-img-element": "warn",
-    "@typescript-eslint/ban-ts-comment": "off",
-    "tailwindcss/enforces-shorthand": "warn",
-    "tailwindcss/migration-from-tailwind-2": "warn"
+    "@typescript-eslint/ban-ts-comment": "off"
   },
+  "ignorePatterns": [
+    "node_modules/",
+    ".next/",
+    "out/",
+    "public/"
+  ],
   "settings": {
     "tailwindcss": {
       "callees": ["cn"],
@@ -37,7 +42,15 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx"],
-      "parser": "@typescript-eslint/parser"
+      "parser": "@typescript-eslint/parser",
+      "rules": {
+        "@typescript-eslint/no-unused-vars": "error",
+        "@typescript-eslint/no-explicit-any": "warn",
+        "tailwindcss/classnames-order": "warn",
+        "tailwindcss/enforces-shorthand": "warn",
+        "tailwindcss/migration-from-tailwind-2": "warn",
+        "@next/next/no-img-element": "warn"
+      }
     }
   ]
 }
