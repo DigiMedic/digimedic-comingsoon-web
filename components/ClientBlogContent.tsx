@@ -14,6 +14,12 @@ export function ClientBlogContent({ initialPosts }: { initialPosts: GhostPost[] 
   const [searchTerm, setSearchTerm] = React.useState("")
   const [selectedTag, setSelectedTag] = React.useState("")
 
+  // Logování pro debug
+  React.useEffect(() => {
+    console.log("Initial posts received:", initialPosts?.length || 0)
+    console.log("First post title:", initialPosts?.[0]?.title)
+  }, [initialPosts])
+
   const tags = React.useMemo(
     () =>
       Array.from(
@@ -37,6 +43,20 @@ export function ClientBlogContent({ initialPosts }: { initialPosts: GhostPost[] 
 
   const featuredPost = filteredPosts[0]
   const remainingPosts = filteredPosts.slice(1)
+
+  // Pokud nemáme žádné články, zobrazíme chybovou hlášku
+  if (!posts || posts.length === 0) {
+    return (
+      <div className="text-center py-10">
+        <h2 className="text-2xl font-bold text-red-600 mb-4">
+          Nepodařilo se načíst články
+        </h2>
+        <p className="text-gray-600">
+          Zkuste to prosím později nebo kontaktujte podporu.
+        </p>
+      </div>
+    )
+  }
 
   return (
     <Suspense fallback={<div>Načítání...</div>}>
