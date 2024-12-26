@@ -16,9 +16,24 @@ export function middleware(request: NextRequest) {
   // Přidání CORS hlaviček
   const response = NextResponse.next()
   
-  response.headers.set('Access-Control-Allow-Origin', '*')
+  // Povolíme přístup z Ghost CMS a sslip.io
+  const allowedOrigins = [
+    'http://194.164.72.131:2368',
+    'https://ghost-dso8k808400okgkc80wss8s0.194.164.72.131.sslip.io',
+    'http://localhost:2368',
+    'http://localhost:3000'
+  ]
+  
+  const origin = request.headers.get('origin')
+  if (origin && allowedOrigins.includes(origin)) {
+    response.headers.set('Access-Control-Allow-Origin', origin)
+  } else {
+    response.headers.set('Access-Control-Allow-Origin', '*')
+  }
+  
   response.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-  response.headers.set('Access-Control-Allow-Headers', 'Content-Type')
+  response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+  response.headers.set('Access-Control-Allow-Credentials', 'true')
   
   // Cache-Control pro statický obsah
   if (request.nextUrl.pathname.startsWith('/_next/')) {
