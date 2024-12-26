@@ -18,6 +18,26 @@ function validateConfig() {
   return true;
 }
 
+// Funkce pro získání bezpečné URL
+function getSecureGhostUrl() {
+  if (!GHOST_URL) return null;
+  
+  // Pokud URL již používá HTTPS, použijeme ji
+  if (GHOST_URL.startsWith('https://')) {
+    return GHOST_URL;
+  }
+
+  // Pokud máme IP adresu, použijeme sslip.io
+  const ipMatch = GHOST_URL.match(/\d+\.\d+\.\d+\.\d+/);
+  if (ipMatch) {
+    const ip = ipMatch[0];
+    return `https://ghost-${ip.replace(/\./g, '-')}.sslip.io`;
+  }
+
+  // Jinak vrátíme původní URL s HTTPS
+  return GHOST_URL.replace('http://', 'https://');
+}
+
 export function convertGhostPostToBlogPost(post: GhostPost): BlogPost {
   const safeDate = (dateStr: string | null): Date => {
     if (!dateStr) return new Date();
@@ -42,14 +62,16 @@ export function convertGhostPostToBlogPost(post: GhostPost): BlogPost {
 
 export async function getPosts(): Promise<GhostPost[]> {
   if (!validateConfig()) {
-    console.error('Ghost API není správně nakonfigurováno', {
-      GHOST_URL: process.env.NEXT_PUBLIC_GHOST_URL,
-      GHOST_KEY_EXISTS: !!process.env.NEXT_PUBLIC_GHOST_KEY
-    });
     return [];
   }
 
-  const url = `${GHOST_URL}/ghost/api/content/posts/?key=${GHOST_KEY}&include=tags,authors&limit=all`;
+  const secureUrl = getSecureGhostUrl();
+  if (!secureUrl) {
+    console.error('Nepodařilo se vytvořit bezpečnou URL pro Ghost API');
+    return [];
+  }
+
+  const url = `${secureUrl}/ghost/api/content/posts/?key=${GHOST_KEY}&include=tags,authors&limit=all`;
   console.log('Fetching posts from:', url);
 
   try {
@@ -58,6 +80,8 @@ export async function getPosts(): Promise<GhostPost[]> {
         revalidate: 60 // revalidace cache každou minutu
       },
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300'
       }
     });
@@ -69,7 +93,7 @@ export async function getPosts(): Promise<GhostPost[]> {
       });
       const text = await response.text();
       console.error('Response text:', text);
-      throw new Error(`Ghost API responded with ${response.status}: ${response.statusText}`);
+      return [];
     }
 
     const data = await response.json() as GhostAPIResponse;
@@ -77,7 +101,7 @@ export async function getPosts(): Promise<GhostPost[]> {
     return data.posts;
   } catch (error) {
     console.error('Error fetching posts:', error);
-    throw error;
+    return [];
   }
 }
 
@@ -87,7 +111,13 @@ export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
   }
 
   try {
-    const url = new URL(`/ghost/api/content/posts/slug/${slug}`, GHOST_URL!);
+    const secureUrl = getSecureGhostUrl();
+    if (!secureUrl) {
+      console.error('Nepodařilo se vytvořit bezpečnou URL pro Ghost API');
+      return null;
+    }
+
+    const url = new URL(`/ghost/api/content/posts/slug/${slug}`, secureUrl);
     url.searchParams.append('key', GHOST_KEY!);
     url.searchParams.append('include', ghostConfig.defaultParams.include);
 
