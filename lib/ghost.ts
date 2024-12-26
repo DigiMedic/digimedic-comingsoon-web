@@ -11,13 +11,8 @@ function getSecureGhostUrl() {
     return null;
   }
   
-  console.log('Ghost URL:', url);
+  console.log('Původní Ghost URL:', url);
   
-  // Pokud URL již používá HTTPS, použijeme ji
-  if (url.startsWith('https://')) {
-    return url;
-  }
-
   // V development módu povolíme HTTP
   if (process.env.NODE_ENV === 'development' && ghostConfig.security.allowInsecure) {
     console.log('Používám HTTP v development módu');
@@ -28,14 +23,21 @@ function getSecureGhostUrl() {
   const ipMatch = url.match(/\d+\.\d+\.\d+\.\d+/);
   if (ipMatch) {
     const ip = ipMatch[0];
-    const secureUrl = `https://ghost-${ip.replace(/\./g, '-')}.sslip.io`;
+    const port = url.includes(':') ? ':' + url.split(':')[2].split('/')[0] : '';
+    const secureUrl = `https://ghost-${ip.replace(/\./g, '-')}${port}.sslip.io`;
     console.log('Používám sslip.io URL:', secureUrl);
     return secureUrl;
   }
 
+  // Pokud URL již používá HTTPS, použijeme ji
+  if (url.startsWith('https://')) {
+    console.log('URL již používá HTTPS');
+    return url;
+  }
+
   // Jinak vrátíme původní URL s HTTPS
   const secureUrl = url.replace('http://', 'https://');
-  console.log('Používám HTTPS URL:', secureUrl);
+  console.log('Převádím na HTTPS URL:', secureUrl);
   return secureUrl;
 }
 
@@ -63,6 +65,8 @@ export function convertGhostPostToBlogPost(post: GhostPost): BlogPost {
 
 export async function getPosts(): Promise<GhostPost[]> {
   console.log('Načítám příspěvky...');
+  console.log('NODE_ENV:', process.env.NODE_ENV);
+  console.log('NEXT_PUBLIC_GHOST_URL:', process.env.NEXT_PUBLIC_GHOST_URL);
   
   const secureUrl = getSecureGhostUrl();
   if (!secureUrl) {
@@ -96,8 +100,12 @@ export async function getPosts(): Promise<GhostPost[]> {
       console.error('Ghost API response error:', {
         status: response.status,
         statusText: response.statusText,
-        url: response.url
+        url: response.url,
       });
+
+      const text = await response.text();
+      console.error('Response text:', text);
+      
       return [];
     }
 
@@ -149,6 +157,10 @@ export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
         statusText: response.statusText,
         url: response.url
       });
+
+      const text = await response.text();
+      console.error('Response text:', text);
+
       return null;
     }
 

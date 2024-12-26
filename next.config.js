@@ -11,18 +11,20 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: [
-      'ghost.digimedic.dev',
-      'localhost',
-      'ghost-dso8k808400okgkc80wss8s0.194.164.72.131.sslip.io'
-    ],
     remotePatterns: [
       {
         protocol: 'https',
         hostname: '**.sslip.io',
-        pathname: '/content/images/**',
+        pathname: '/**',
       },
+      {
+        protocol: 'http',
+        hostname: '194.164.72.131',
+        port: '2368',
+        pathname: '/**',
+      }
     ],
+    unoptimized: true,
   },
 };
 

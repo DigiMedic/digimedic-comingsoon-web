@@ -4,7 +4,7 @@ export const ghostConfig = {
     limit: 'all',
   },
   api: {
-    url: process.env.NEXT_PUBLIC_GHOST_URL || 'https://ghost.digimedic.dev',
+    url: process.env.NEXT_PUBLIC_GHOST_URL || 'http://194.164.72.131:2368',
     key: process.env.NEXT_PUBLIC_GHOST_KEY || '',
     version: 'v5.0',
   },
