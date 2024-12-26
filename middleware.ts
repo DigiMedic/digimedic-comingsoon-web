@@ -2,6 +2,17 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
+
+  // Přesměrování velkých písmen na malá
+  const lowercasePath = pathname.toLowerCase()
+  if (pathname !== lowercasePath) {
+    return NextResponse.redirect(
+      new URL(lowercasePath, request.url),
+      { status: 301 }
+    )
+  }
+
   // Přidání CORS hlaviček
   const response = NextResponse.next()
   

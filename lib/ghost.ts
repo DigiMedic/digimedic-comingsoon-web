@@ -2,40 +2,41 @@ import { GhostAPIResponse } from './ghost.types';
 import { ghostConfig } from '../config/ghost.config';
 import { BlogPost, GhostPost } from '@/types/blog';
 
-// Kontrola prostředí a konfigurace
-const GHOST_URL = process.env.NEXT_PUBLIC_GHOST_URL;
-const GHOST_KEY = process.env.NEXT_PUBLIC_GHOST_KEY;
-
-// Funkce pro kontrolu konfigurace
-function validateConfig() {
-  if (!GHOST_URL || !GHOST_KEY) {
-    console.error('Chybí Ghost API konfigurace:', {
-      GHOST_URL: !!GHOST_URL,
-      GHOST_KEY: !!GHOST_KEY,
-    });
-    return false;
-  }
-  return true;
-}
-
 // Funkce pro získání bezpečné URL
 function getSecureGhostUrl() {
-  if (!GHOST_URL) return null;
+  const url = process.env.NEXT_PUBLIC_GHOST_URL || ghostConfig.api.url;
+  
+  if (!url) {
+    console.error('Ghost URL není nastavena');
+    return null;
+  }
+  
+  console.log('Ghost URL:', url);
   
   // Pokud URL již používá HTTPS, použijeme ji
-  if (GHOST_URL.startsWith('https://')) {
-    return GHOST_URL;
+  if (url.startsWith('https://')) {
+    return url;
+  }
+
+  // V development módu povolíme HTTP
+  if (process.env.NODE_ENV === 'development' && ghostConfig.security.allowInsecure) {
+    console.log('Používám HTTP v development módu');
+    return url;
   }
 
   // Pokud máme IP adresu, použijeme sslip.io
-  const ipMatch = GHOST_URL.match(/\d+\.\d+\.\d+\.\d+/);
+  const ipMatch = url.match(/\d+\.\d+\.\d+\.\d+/);
   if (ipMatch) {
     const ip = ipMatch[0];
-    return `https://ghost-${ip.replace(/\./g, '-')}.sslip.io`;
+    const secureUrl = `https://ghost-${ip.replace(/\./g, '-')}.sslip.io`;
+    console.log('Používám sslip.io URL:', secureUrl);
+    return secureUrl;
   }
 
   // Jinak vrátíme původní URL s HTTPS
-  return GHOST_URL.replace('http://', 'https://');
+  const secureUrl = url.replace('http://', 'https://');
+  console.log('Používám HTTPS URL:', secureUrl);
+  return secureUrl;
 }
 
 export function convertGhostPostToBlogPost(post: GhostPost): BlogPost {
@@ -61,80 +62,105 @@ export function convertGhostPostToBlogPost(post: GhostPost): BlogPost {
 }
 
 export async function getPosts(): Promise<GhostPost[]> {
-  if (!validateConfig()) {
-    return [];
-  }
-
+  console.log('Načítám příspěvky...');
+  
   const secureUrl = getSecureGhostUrl();
   if (!secureUrl) {
-    console.error('Nepodařilo se vytvořit bezpečnou URL pro Ghost API');
+    console.error('Nepodařilo se získat Ghost API URL');
     return [];
   }
 
-  const url = `${secureUrl}/ghost/api/content/posts/?key=${GHOST_KEY}&include=tags,authors&limit=all`;
-  console.log('Fetching posts from:', url);
+  const key = process.env.NEXT_PUBLIC_GHOST_KEY || ghostConfig.api.key;
+  if (!key) {
+    console.error('Chybí Ghost API key');
+    return [];
+  }
 
+  const url = `${secureUrl}${ghostConfig.endpoints.posts}/?key=${key}&include=${ghostConfig.defaultParams.include}&limit=${ghostConfig.defaultParams.limit}`;
+  
   try {
+    console.log('Odesílám požadavek na:', url);
+    
     const response = await fetch(url, {
       next: {
-        revalidate: 60 // revalidace cache každou minutu
+        revalidate: ghostConfig.caching.revalidate
       },
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300'
+        'Cache-Control': `public, s-maxage=${ghostConfig.caching.revalidate}, stale-while-revalidate=${ghostConfig.caching.staleWhileRevalidate}`
       }
     });
 
     if (!response.ok) {
       console.error('Ghost API response error:', {
         status: response.status,
-        statusText: response.statusText
+        statusText: response.statusText,
+        url: response.url
       });
-      const text = await response.text();
-      console.error('Response text:', text);
       return [];
     }
 
     const data = await response.json() as GhostAPIResponse;
-    console.log(`Successfully fetched ${data.posts.length} posts`);
+    console.log(`Úspěšně načteno ${data.posts.length} příspěvků`);
     return data.posts;
   } catch (error) {
-    console.error('Error fetching posts:', error);
+    console.error('Chyba při načítání příspěvků:', error);
     return [];
   }
 }
 
 export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
-  if (!validateConfig()) {
+  console.log('Načítám příspěvek se slugem:', slug);
+  
+  const secureUrl = getSecureGhostUrl();
+  if (!secureUrl) {
+    console.error('Nepodařilo se získat Ghost API URL');
+    return null;
+  }
+
+  const key = process.env.NEXT_PUBLIC_GHOST_KEY || ghostConfig.api.key;
+  if (!key) {
+    console.error('Chybí Ghost API key');
     return null;
   }
 
   try {
-    const secureUrl = getSecureGhostUrl();
-    if (!secureUrl) {
-      console.error('Nepodařilo se vytvořit bezpečnou URL pro Ghost API');
-      return null;
-    }
-
-    const url = new URL(`/ghost/api/content/posts/slug/${slug}`, secureUrl);
-    url.searchParams.append('key', GHOST_KEY!);
+    const url = new URL(`${ghostConfig.endpoints.posts}/slug/${slug}`, secureUrl);
+    url.searchParams.append('key', key);
     url.searchParams.append('include', ghostConfig.defaultParams.include);
 
-    console.log('Fetching post by slug from:', url.toString());
+    console.log('Odesílám požadavek na:', url.toString());
 
-    const response = await fetch(url.toString());
+    const response = await fetch(url.toString(), {
+      next: {
+        revalidate: ghostConfig.caching.revalidate
+      },
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Cache-Control': `public, s-maxage=${ghostConfig.caching.revalidate}, stale-while-revalidate=${ghostConfig.caching.staleWhileRevalidate}`
+      }
+    });
+
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Ghost API response not OK:', response.status, errorText);
+      console.error('Ghost API response error:', {
+        status: response.status,
+        statusText: response.statusText,
+        url: response.url
+      });
       return null;
     }
 
     const data = await response.json() as GhostAPIResponse;
-    return data.posts?.[0] || null;
-
+    if (data.posts[0]) {
+      console.log('Příspěvek úspěšně načten');
+    } else {
+      console.log('Příspěvek nebyl nalezen');
+    }
+    return data.posts[0] || null;
   } catch (error) {
-    console.error('Chyba při načítání článku:', error);
+    console.error('Chyba při načítání příspěvku:', error);
     return null;
   }
 }
