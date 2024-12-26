@@ -9,11 +9,10 @@ import { FeaturedPost } from "@/components/FeaturedPost"
 import { Suspense } from "react"
 
 export function ClientBlogContent({ initialPosts }: { initialPosts: GhostPost[] }) {
-  const [posts, setPosts] = React.useState<GhostPost[]>(initialPosts)
+  const [posts] = React.useState<GhostPost[]>(initialPosts)
   const [filteredPosts, setFilteredPosts] = React.useState<GhostPost[]>(initialPosts)
   const [searchTerm, setSearchTerm] = React.useState("")
   const [selectedTag, setSelectedTag] = React.useState("")
-  const [error, setError] = React.useState<Error | null>(null)
 
   const tags = React.useMemo(
     () =>
@@ -36,15 +35,6 @@ export function ClientBlogContent({ initialPosts }: { initialPosts: GhostPost[] 
     setFilteredPosts(filtered)
   }, [searchTerm, selectedTag, posts])
 
-  if (error) {
-    return (
-      <div className="text-center py-10">
-        <h2 className="text-2xl font-bold text-red-600 mb-4">Došlo k chybě při načítání článků</h2>
-        <p className="text-gray-600">{error.message}</p>
-      </div>
-    )
-  }
-
   const featuredPost = filteredPosts[0]
   const remainingPosts = filteredPosts.slice(1)
 
@@ -55,7 +45,7 @@ export function ClientBlogContent({ initialPosts }: { initialPosts: GhostPost[] 
 
         <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
           <div className="relative w-full md:w-96">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-gray-500" />
             <input
               type="text"
               placeholder="Hledat články..."
@@ -77,7 +67,7 @@ export function ClientBlogContent({ initialPosts }: { initialPosts: GhostPost[] 
                     : "bg-gray-100 text-gray-900 hover:bg-gray-200"
                 )}
               >
-                <Tag className="mr-1.5 h-4 w-4" />
+                <Tag className="mr-1.5 size-4" />
                 {tag}
               </button>
             ))}
