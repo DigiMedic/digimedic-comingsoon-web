@@ -19,24 +19,34 @@ function getSecureGhostUrl() {
     return url;
   }
 
-  // Pokud máme IP adresu, použijeme sslip.io
-  const ipMatch = url.match(/\d+\.\d+\.\d+\.\d+/);
-  if (ipMatch) {
-    const ip = ipMatch[0];
-    const port = url.includes(':') ? ':' + url.split(':')[2].split('/')[0] : '';
-    const secureUrl = `https://ghost-${ip.replace(/\./g, '-')}${port}.sslip.io`;
-    console.log('Používám sslip.io URL:', secureUrl);
-    return secureUrl;
-  }
-
   // Pokud URL již používá HTTPS, použijeme ji
   if (url.startsWith('https://')) {
     console.log('URL již používá HTTPS');
     return url;
   }
 
+  // Pokud máme IP adresu, použijeme sslip.io
+  const ipMatch = url.match(/\d+\.\d+\.\d+\.\d+/);
+  if (ipMatch) {
+    const ip = ipMatch[0];
+    let port = '';
+    
+    try {
+      const urlObj = new URL(url);
+      if (urlObj.port) {
+        port = `:${urlObj.port}`;
+      }
+    } catch (e) {
+      console.warn('Nepodařilo se zpracovat port z URL:', e);
+    }
+    
+    const secureUrl = `https://ghost-${ip.replace(/\./g, '-')}${port}.sslip.io`;
+    console.log('Používám sslip.io URL:', secureUrl);
+    return secureUrl;
+  }
+
   // Jinak vrátíme původní URL s HTTPS
-  const secureUrl = url.replace('http://', 'https://');
+  const secureUrl = url.replace(/^http:\/\//, 'https://');
   console.log('Převádím na HTTPS URL:', secureUrl);
   return secureUrl;
 }
