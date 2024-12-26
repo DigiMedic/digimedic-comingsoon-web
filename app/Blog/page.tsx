@@ -8,7 +8,16 @@ import { ClientBlogContent } from "@/components/ClientBlogContent"
 async function getInitialPosts() {
   try {
     console.log("Fetching posts on server...")
+    console.log("Ghost URL:", process.env.NEXT_PUBLIC_GHOST_URL)
+    console.log("Ghost Key exists:", !!process.env.NEXT_PUBLIC_GHOST_KEY)
+    
     const posts = await getPosts()
+    
+    if (!posts || posts.length === 0) {
+      console.warn("No posts were fetched from Ghost API")
+      return []
+    }
+    
     console.log(`Successfully fetched ${posts.length} posts on server`)
     return posts
   } catch (error) {
@@ -17,8 +26,29 @@ async function getInitialPosts() {
   }
 }
 
+export const revalidate = 60 // revalidace stránky každou minutu
+
 export default async function BlogPage() {
   const initialPosts = await getInitialPosts()
+
+  if (!initialPosts || initialPosts.length === 0) {
+    return (
+      <Container>
+        <SEO
+          title="Blog | DigiMedic"
+          description="Nejnovější články a novinky ze světa digitálního zdravotnictví"
+        />
+        <div className="text-center py-10">
+          <h2 className="text-2xl font-bold text-red-600 mb-4">
+            Nepodařilo se načíst články
+          </h2>
+          <p className="text-gray-600">
+            Zkuste to prosím později nebo kontaktujte podporu.
+          </p>
+        </div>
+      </Container>
+    )
+  }
 
   return (
     <ErrorBoundary>
