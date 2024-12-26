@@ -1,55 +1,48 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextResponse } from "next/server"
+import type { NextRequest } from "next/server"
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
+  // Povolíme všechny požadavky na Ghost API a externí formuláře
+  const ghostApiUrl = process.env.NEXT_PUBLIC_GHOST_URL || 'http://194.164.72.131:2368'
+  
+  // Vytvoříme response headers
+  const headers = new Headers({
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  })
 
-  // Přesměrování velkých písmen na malá
-  const lowercasePath = pathname.toLowerCase()
-  if (pathname !== lowercasePath) {
-    return NextResponse.redirect(
-      new URL(lowercasePath, request.url),
-      { status: 301 }
-    )
+  // Pokud je to OPTIONS požadavek, vrátíme pouze headers
+  if (request.method === 'OPTIONS') {
+    return NextResponse.json({}, { headers })
   }
 
-  // Přidání CORS hlaviček
+  // Pro ostatní požadavky přidáme headers a pokračujeme
   const response = NextResponse.next()
   
-  // Povolíme přístup z Ghost CMS a sslip.io
-  const allowedOrigins = [
-    'http://194.164.72.131:2368',
-    'https://ghost-dso8k808400okgkc80wss8s0.194.164.72.131.sslip.io',
-    'http://localhost:2368',
-    'http://localhost:3000'
-  ]
-  
-  const origin = request.headers.get('origin')
-  if (origin && allowedOrigins.includes(origin)) {
-    response.headers.set('Access-Control-Allow-Origin', origin)
-  } else {
-    response.headers.set('Access-Control-Allow-Origin', '*')
-  }
-  
-  response.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+  // Přidáme CORS headers
+  response.headers.set('Access-Control-Allow-Origin', '*')
+  response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
   response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-  response.headers.set('Access-Control-Allow-Credentials', 'true')
   
-  // Cache-Control pro statický obsah
-  if (request.nextUrl.pathname.startsWith('/_next/')) {
-    response.headers.set('Cache-Control', 'public, max-age=31536000, immutable')
-  }
-  
-  // Cache-Control pro API routes
-  if (request.nextUrl.pathname.startsWith('/api/')) {
-    response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300')
-  }
+  // Povolíme mixed content a externí formuláře
+  response.headers.set('Content-Security-Policy', `
+    default-src 'self';
+    img-src 'self' ${ghostApiUrl} data: blob: http: https:;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://opnform.com;
+    style-src 'self' 'unsafe-inline';
+    font-src 'self' data:;
+    frame-src 'self' https://opnform.com;
+    connect-src 'self' ${ghostApiUrl} https://opnform.com;
+    form-action 'self' https://opnform.com;
+  `.replace(/\s+/g, ' ').trim())
 
   return response
 }
 
+// Nastavíme, na které cesty se má middleware aplikovat
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 }
