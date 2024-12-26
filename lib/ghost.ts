@@ -53,6 +53,7 @@ export async function getPosts(): Promise<GhostPost[]> {
     const url = new URL('/ghost/api/content/posts/', GHOST_URL!);
     url.searchParams.append('key', GHOST_KEY!);
     url.searchParams.append('include', ghostConfig.defaultParams.include);
+    url.searchParams.append('limit', ghostConfig.defaultParams.limit);
     
     console.log('Fetching posts from:', url.toString());
     
@@ -60,10 +61,12 @@ export async function getPosts(): Promise<GhostPost[]> {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Origin': process.env.NEXT_PUBLIC_APP_URL || 'https://digimedic.vercel.app'
+        'Origin': process.env.NEXT_PUBLIC_APP_URL || 'https://digimedic.vercel.app',
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300'
       },
       next: {
-        revalidate: 60 // revalidate každou minutu
+        revalidate: 60,
+        tags: ['ghost-posts']
       }
     });
 
@@ -75,24 +78,25 @@ export async function getPosts(): Promise<GhostPost[]> {
         error: errorText,
         headers: Object.fromEntries(response.headers.entries())
       });
-      return [];
+      throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
     }
+
+    const data = await response.json();
     
-    const data: GhostAPIResponse = await response.json();
-    
-    if (!data.posts || data.posts.length === 0) {
-      console.warn('No posts returned from Ghost API');
-    } else {
-      console.log(`Successfully fetched ${data.posts.length} posts`);
+    if (!data || !data.posts) {
+      console.error('Invalid response from Ghost API:', data);
+      throw new Error('Invalid response from Ghost API');
     }
+
+    console.log(`Successfully fetched ${data.posts.length} posts`);
+    return data.posts;
     
-    return data.posts || [];
   } catch (error) {
-    console.error('Chyba při načítání příspěvků z Ghost API:', {
+    console.error('Error fetching posts:', {
       error: error instanceof Error ? error.message : 'Unknown error',
       stack: error instanceof Error ? error.stack : undefined
     });
-    return [];
+    throw error;
   }
 }
 
