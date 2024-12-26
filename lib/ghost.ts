@@ -42,7 +42,10 @@ export function convertGhostPostToBlogPost(post: GhostPost): BlogPost {
 
 export async function getPosts(): Promise<GhostPost[]> {
   if (!validateConfig()) {
-    console.error('Ghost API není správně nakonfigurováno');
+    console.error('Ghost API není správně nakonfigurováno', {
+      GHOST_URL: process.env.NEXT_PUBLIC_GHOST_URL,
+      GHOST_KEY_EXISTS: !!process.env.NEXT_PUBLIC_GHOST_KEY
+    });
     return [];
   }
 
@@ -53,16 +56,43 @@ export async function getPosts(): Promise<GhostPost[]> {
     
     console.log('Fetching posts from:', url.toString());
     
-    const response = await fetch(url.toString());
+    const response = await fetch(url.toString(), {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Origin': process.env.NEXT_PUBLIC_APP_URL || 'https://digimedic.vercel.app'
+      },
+      next: {
+        revalidate: 60 // revalidate každou minutu
+      }
+    });
+
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorText = await response.text();
+      console.error('Ghost API response not OK:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: errorText,
+        headers: Object.fromEntries(response.headers.entries())
+      });
+      return [];
     }
     
     const data: GhostAPIResponse = await response.json();
+    
+    if (!data.posts || data.posts.length === 0) {
+      console.warn('No posts returned from Ghost API');
+    } else {
+      console.log(`Successfully fetched ${data.posts.length} posts`);
+    }
+    
     return data.posts || [];
   } catch (error) {
-    console.error('Chyba při načítání příspěvků z Ghost API:', error);
-    throw error;
+    console.error('Chyba při načítání příspěvků z Ghost API:', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
+    });
+    return [];
   }
 }
 
