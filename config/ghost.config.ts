@@ -14,11 +14,11 @@ export const ghostConfig = {
     authors: '/ghost/api/content/authors',
   },
   caching: {
-    revalidate: 60, // revalidace cache každou minutu
-    staleWhileRevalidate: 300, // povolí použití staré cache po dobu 5 minut během revalidace
+    revalidate: 60,
+    staleWhileRevalidate: 300,
   },
   security: {
-    enforceHttps: true, // vždy používat HTTPS
-    allowInsecure: process.env.NODE_ENV === 'development', // povolit HTTP pouze v development módu
+    enforceHttps: false, // Vypneme vynucení HTTPS
+    allowInsecure: true, // Povolíme HTTP
   }
 }

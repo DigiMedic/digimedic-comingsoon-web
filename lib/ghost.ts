@@ -12,10 +12,16 @@ function getSecureGhostUrl() {
   }
   
   console.log('Původní Ghost URL:', url);
+
+  // Pokud je vypnuté vynucení HTTPS, vrátíme původní URL
+  if (!ghostConfig.security.enforceHttps) {
+    console.log('HTTPS není vynuceno, používám původní URL');
+    return url;
+  }
   
-  // V development módu povolíme HTTP
-  if (process.env.NODE_ENV === 'development' && ghostConfig.security.allowInsecure) {
-    console.log('Používám HTTP v development módu');
+  // V development módu nebo při povoleném HTTP
+  if ((process.env.NODE_ENV === 'development' || ghostConfig.security.allowInsecure) && url.startsWith('http://')) {
+    console.log('Používám HTTP URL');
     return url;
   }
 
@@ -25,7 +31,7 @@ function getSecureGhostUrl() {
     return url;
   }
 
-  // Pokud máme IP adresu, použijeme sslip.io
+  // Pokud máme IP adresu
   const ipMatch = url.match(/\d+\.\d+\.\d+\.\d+/);
   if (ipMatch) {
     const ip = ipMatch[0];
@@ -40,8 +46,10 @@ function getSecureGhostUrl() {
       console.warn('Nepodařilo se zpracovat port z URL:', e);
     }
     
-    const secureUrl = `https://ghost-${ip.replace(/\./g, '-')}${port}.sslip.io`;
-    console.log('Používám sslip.io URL:', secureUrl);
+    // Pokud je vypnuté vynucení HTTPS, použijeme HTTP
+    const protocol = ghostConfig.security.enforceHttps ? 'https' : 'http';
+    const secureUrl = `${protocol}://${ip}${port}`;
+    console.log('Používám IP URL:', secureUrl);
     return secureUrl;
   }
 
