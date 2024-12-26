@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
 export function middleware(request: NextRequest) {
-  // Povolíme všechny požadavky na Ghost API a externí formuláře
+  // Povolíme všechny požadavky na Ghost API a externí zdroje
   const ghostApiUrl = process.env.NEXT_PUBLIC_GHOST_URL || 'http://194.164.72.131:2368'
   
   // Vytvoříme response headers
@@ -25,15 +25,15 @@ export function middleware(request: NextRequest) {
   response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
   response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization')
   
-  // Povolíme mixed content a externí formuláře
+  // Povolíme mixed content a externí zdroje
   response.headers.set('Content-Security-Policy', `
     default-src 'self';
     img-src 'self' ${ghostApiUrl} data: blob: http: https:;
-    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://opnform.com;
-    style-src 'self' 'unsafe-inline';
-    font-src 'self' data:;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://opnform.com https://fonts.googleapis.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' data: https://fonts.gstatic.com;
     frame-src 'self' https://opnform.com;
-    connect-src 'self' ${ghostApiUrl} https://opnform.com;
+    connect-src 'self' ${ghostApiUrl} https://opnform.com https://fonts.googleapis.com https://fonts.gstatic.com;
     form-action 'self' https://opnform.com;
   `.replace(/\s+/g, ' ').trim())
 
